@@ -1,0 +1,130 @@
+// Colors section
+$emphasis: #e91e63;
+$colorPrimary: #ff7068;
+$colorSecondary: #2b2e4a;
+$background: #f2f2f2;
+$textPrimary: #1f2937;
+$textSecondary: #374151;
+$textTertiary: #6b7280;
+
+// Resposive section
+@mixin mobile {
+  @media only screen and (min-width: 200px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: 1024px) {
+    @content;
+  }
+}
+
+// Styles
+
+.hero {
+  display: flex;
+  margin-top: 60px;
+  @include desktop {
+    background-image: url("../public/seccion_principal_1.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    // background-size: contain;
+    background-size: 60% 100%;
+  }
+}
+
+.hero__textSide {
+  text-align: center;
+  @include tablet {
+    text-align: justify;
+  }
+  @include desktop {
+    text-align: left;
+    width: 48%;
+  }
+}
+
+.hero__h1 {
+  color: $textPrimary;
+  font-family: "Raleway";
+  font-size: 64px;
+  font-weight: 950;
+  margin-bottom: 30px;
+}
+
+.hero__h2 {
+  color: $emphasis;
+  font-family: "Raleway";
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 15px;
+  @include mobile {
+    font-size: 40px;
+    font-weight: bold;
+  }
+}
+
+
+.hero__p {
+  font-family: "Nunito";
+  font-size: 20px;
+  margin-bottom: 30px;
+  @include mobile {
+    font-size: 22px;
+  }
+}
+
+.hero__image {
+  @include desktop {
+    display: none;
+  }
+  width: 600px;
+}
+
+.hero__textSide__textImageContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  @include tablet {
+    gap: 0px;
+    flex-direction: column-reverse;
+  }
+}
+
+.hero__searchCard {
+  @include tablet {
+    position: relative;
+    top: -40px;
+  }
+  @include desktop {
+    position: static;
+  }
+}
+
+.thirdSection__h3 {
+  color: $colorPrimary;
+  font-family: "Raleway";
+  font-size:70px;
+  line-height: 1;
+  margin-bottom: 15px;
+
+}
+
+.thirdSection_flex{
+@include tablet {
+  position: relative;
+  top: 20px;
+}
+@include desktop {
+  position: static;
+}
+}
