@@ -1,4 +1,6 @@
 import SearchCard from "@/components/SearchCard";
+import ReviewCard from "@/components/ReviewCard";
+import { reviewsData } from "@/data/reviewsData";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,6 +27,56 @@ export default function Home() {
           </div>
           <div className="hero__searchCard">
             <SearchCard />
+          </div>
+        </div>
+      </section>
+      <section className="bg-[#F2F2F2] my-[40px] max-w-[1536px] mx-auto">
+        <h1 className="z-10 text-center mb-[24px] text-[32px] lg:mb-[40px] lg:text-[40px] font-semibold text-[#2B2E4A] font-[Raleway]">
+          Te compartimos algunas reseñas de nuestros usuarios
+        </h1>
+        <div className="flex flex-col lg:flex-row justify-between w-full gap-[20px] lg:gap-[100px] xl:gap-[140px] z-10 lg:relative">
+          <Image
+            src={"/images/seccion_reseñas.png"}
+            alt="reviews_image"
+            height={2000}
+            width={2000}
+            className="lg:px-[16px] object-cover w-full max-w-[1260px] mb-[16px] sm:mb-[28px] lg:absolute lg:m-auto top-0 bottom-0 start-0 end-0 z-0 max-h-full"
+          ></Image>
+          <div className="flex flex-col gap-[16px] sm:gap-[28px] lg:gap-[40px] w-full lg:w-6/12">
+            {reviewsData
+              .filter(
+                (item, index) => index === 0 || index === 1 || index === 2
+              )
+              .map((item, index) => {
+                return (
+                  <ReviewCard
+                    key={index}
+                    authorImage={item.authorImage}
+                    authorName={item.authorName}
+                    reviewDate={item.reviewDate}
+                    value={item.value}
+                    review={item.review}
+                  />
+                );
+              })}
+          </div>
+          <div className="hidden lg:flex flex-col gap-[16px] sm:gap-[28px] lg:gap-[40px] lg:w-6/12">
+            {reviewsData
+              .filter(
+                (item, index) => index === 3 || index === 4 || index === 5
+              )
+              .map((item, index) => {
+                return (
+                  <ReviewCard
+                    key={index}
+                    authorImage={item.authorImage}
+                    authorName={item.authorName}
+                    reviewDate={item.reviewDate}
+                    value={item.value}
+                    review={item.review}
+                  />
+                );
+              })}
           </div>
         </div>
       </section>
