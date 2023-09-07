@@ -1,0 +1,116 @@
+.hero {
+  display: flex;
+  margin-top: 60px;
+}
+@media only screen and (min-width: 1024px) {
+  .hero {
+    background-image: url("../public/images/seccion_principal_1.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 60% 100%;
+  }
+}
+
+.hero__textSide {
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  .hero__textSide {
+    text-align: justify;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .hero__textSide {
+    text-align: left;
+    width: 48%;
+  }
+}
+
+.hero__h1 {
+  color: #1f2937;
+  font-family: "Raleway";
+  font-size: 64px;
+  font-weight: 950;
+  margin-bottom: 30px;
+}
+
+.hero__h2 {
+  color: #e91e63;
+  font-family: "Raleway";
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+@media only screen and (min-width: 200px) {
+  .hero__h2 {
+    font-size: 40px;
+    font-weight: bold;
+  }
+}
+
+.hero__p {
+  font-family: "Nunito";
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+@media only screen and (min-width: 200px) {
+  .hero__p {
+    font-size: 22px;
+  }
+}
+
+.hero__image {
+  height: auto;
+  width: 600px;
+}
+@media only screen and (min-width: 1024px) {
+  .hero__image {
+    display: none;
+  }
+}
+
+.hero__textSide__textImageContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .hero__textSide__textImageContainer {
+    gap: 0px;
+    flex-direction: column-reverse;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .hero__searchCard {
+    position: relative;
+    top: -40px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .hero__searchCard {
+    position: static;
+  }
+}
+
+.thirdSection__h3 {
+  color: #ff7068;
+  font-family: "Raleway";
+  font-size: 70px;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+@media only screen and (min-width: 768px) {
+  .thirdSection_flex {
+    position: relative;
+    top: 20px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .thirdSection_flex {
+    position: static;
+  }
+} /*# sourceMappingURL=index.css.map */
