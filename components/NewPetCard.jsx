@@ -5,7 +5,7 @@ export default function NewPetCard() {
     <main className="px-5 py-5 bg-white rounded-[15px] w-full h-full flex flex-col justify-between">
       <div className="flex justify-around mb-5">
         <Image
-          src={"/newPet.png"}
+          src={"/images/newPet.png"}
           width={150}
           height={150}
           alt="New Pet Image"

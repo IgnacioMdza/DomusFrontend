@@ -66,10 +66,10 @@ export default function BookingCard2({ usertype, data }) {
     <card
       className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-full bg-white`}
     >
-      <div
+      {/* <div
         id="uselessDiv"
         className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000]"
-      ></div>
+      ></div> */}
       <Image
         loader={imageLoader}
         alt="Profile Picture"

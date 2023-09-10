@@ -20,7 +20,7 @@ export default function ClientProfile() {
   const id = router.query.id;
   // Hacer el fetch aquí
 
-  const user_type = "host";
+  const user_type = "client";
   let bookingBg = "";
   user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
 
@@ -33,19 +33,20 @@ export default function ClientProfile() {
   }, []);
 
   useEffect(() => {
-    setHeightClass(`max-h-[${height}px]`);
+    setHeightClass(`max-h-[${height - 198}px]`);
   }, [height]);
 
+  const finalHeight = heightClass;
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl flex flex-col gap-10 text-[#2B2E4A]">
       <section
         id="top"
-        className="items-start border-4 border-red-600 mt-[100px] flex flex-col lg:flex-row gap-10"
+        className="items-start  mt-[100px] flex flex-col lg:flex-row gap-10"
       >
         <div
           id="sibling"
           ref={elementRef}
-          className="border-4 border-blue-700 basis-2/3 flex flex-col gap-5"
+          className="basis-2/3 flex flex-col gap-5"
         >
           <div id="general" className="flex flex-col md:flex-row gap-5">
             <div className="text-center flex flex-col gap-3 items-center">
@@ -116,7 +117,7 @@ export default function ClientProfile() {
             <option value="finished">Terminada</option>
           </select>
           <div
-            className={`flex flex-col gap-3 pr-3 overflow-y-scroll ${heightClass}`}
+            className={`flex flex-col gap-3 pr-3 ${finalHeight} max-h-[807px] overflow-y-scroll`}
           >
             {bookingsData.map((item, index) => {
               return (
