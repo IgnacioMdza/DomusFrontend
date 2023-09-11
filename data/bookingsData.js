@@ -3,8 +3,8 @@ export const bookingsData = [
     client: "Nombre de Cliente 1",
     host: "Nombre de Host 1",
     status: "Terminada",
-    start_date: "13/Junio/2023",
-    finish_date: "23/Junio/2023",
+    start_date: "10/Junio/2023",
+    finish_date: "15/Junio/2023",
     cost: 150.1,
   },
   {
