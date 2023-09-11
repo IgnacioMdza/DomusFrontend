@@ -1,5 +1,7 @@
 import SearchCard from "@/components/SearchCard";
 import ReviewCard from "@/components/ReviewCard";
+import component from "/public/images/seccion_beneficios_1.png";
+import check from "/public/icons/check.png";
 import { reviewsData } from "@/data/reviewsData";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,6 +29,65 @@ export default function Home() {
           </div>
           <div className="hero__searchCard">
             <SearchCard />
+          </div>
+        </div>
+      </section>
+      <section
+        id="quienes_somos"
+        className="mt-14 md:mt-4 lg:mt-20 max-w-[1536px] mx-auto"
+      >
+        <h2 className="hero__h2 text-center pb-3">¿Quiénes somos?</h2>
+        <p className="hero__p text-center">
+          Domus es una plataforma mexicana que nació como una oportunidad para
+          cubrir la necesidad de conectar a dueños de mascotas que no pueden
+          hacerse cargo de ellas por unos días con personas que tienen
+          disponibilidad, empatía y compromiso para cuidar de nuestros amigos de
+          cuatro patas.
+        </p>
+        <div className="bg-[#2B2E4A] px-6 md:px-16 text-center rounded-2xl">
+          <h3 className="text-[32px] text-white pt-6 text-center mb-8 font-[Raleway] font-bold">
+            Beneficios de nuestro servicio para una mejor experiencia
+          </h3>
+          <div className="flex gap-10 flex-col lg:flex-row items-center justify-center pb-8">
+            <div className="w-[280px] md:w-[600px] lg:w-[50%]">
+              <Image
+                src={component}
+                alt="Quienes Somos Image"
+                className="w-screen"
+              ></Image>
+            </div>
+            <div className="flex flex-col items-center lg:w-[50%] justify-between">
+              <p className=" mb-10 text-white text-center text-[20px]">
+                En <strong>DOMUS</strong> nos esforzamos para que el transcurso
+                del cuidado de tu mascota sea seguro, es por eso que decidimos
+                implementar los siguientes puntos claves:
+              </p>
+
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-10 text-white text-[20px] items-center">
+                  <Image src={check} alt="" className="w-5 h-5"></Image>{" "}
+                  <p>Cuidadores certificados</p>
+                </div>
+                <div className="flex gap-10 text-white text-[20px] items-center">
+                  <Image src={check} alt="" className="w-5 h-5"></Image>{" "}
+                  <p>Registros de fotografías</p>
+                </div>
+                <div className="flex gap-10 text-white text-[20px] items-center">
+                  <Image src={check} alt="" className="w-5 h-5"></Image>{" "}
+                  <p>Bitácora de cuidados</p>
+                </div>
+                <div className="flex gap-10 text-white text-[20px] items-center">
+                  <Image src={check} alt="" className="w-5 h-5"></Image>{" "}
+                  <p>Servicios personalizados</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="py-2.5 mt-4 mb-10 lg:mb-0 text-white text-[20px] font-bold bg-[#FF7068] rounded-full text-center w-full hover:shadow-none lg:hover:scale-105"
+              >
+                Encuentra a tu cuidador
+              </button>
+            </div>
           </div>
         </div>
       </section>
