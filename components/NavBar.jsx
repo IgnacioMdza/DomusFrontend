@@ -11,7 +11,9 @@ export default function NavBar() {
     <nav className="bg-white border-gray-200 w-full z-20 shadow-xl font-[Nunito]text-[20px] fixed top-0 left-0 right-0">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center gap-4">
-          <Image src={logo} alt="Domus Logo" className="p-2 w-28"></Image>
+          <Link href={"/"}>
+            <Image src={logo} alt="Domus Logo" className="p-2 w-28"></Image>
+          </Link>
           <div className="hidden md:block">
             <Link href="/">Home </Link>
             <Link href="#">Nosotros </Link>
@@ -32,7 +34,7 @@ export default function NavBar() {
               </li>
               <li>
                 <Link
-                  href="/accounts/signip"
+                  href="/accounts/signin"
                   className="text-dark block py-2 px-5 border rounded-full md:bg-transparent  border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white"
                 >
                   Ingresar

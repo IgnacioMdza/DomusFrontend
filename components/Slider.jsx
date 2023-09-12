@@ -38,6 +38,7 @@ export default function Slider() {
           <Image
             loader={imageLoader}
             alt="slider picture"
+            priority={true}
             src={"nature-1.jpg"}
             width={300}
             height={300}

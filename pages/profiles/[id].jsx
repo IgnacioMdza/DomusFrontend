@@ -20,7 +20,7 @@ export default function ClientProfile() {
   const id = router.query.id;
   // Hacer el fetch aquí
 
-  const user_type = "client";
+  const user_type = id;
   let bookingBg = "";
   user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
 
@@ -30,11 +30,15 @@ export default function ClientProfile() {
 
   useEffect(() => {
     setHeight(elementRef.current.offsetHeight);
-    if (height - 198 > 0) {
-      bookingsDiv.current.classList.value += `min-h-[${
-        height - 198
-      }px] max-h-[${height - 198}px]`;
+    if (height - 143 > 0) {
+      console.log(height);
+      bookingsDiv.current.classList.value += ` min-h-[${
+        height - 143
+      }px] max-h-[${height - 143}px]`;
     }
+    console.log(height);
+    console.log(elementRef.current.offsetHeight);
+    console.log(bookingsDiv.current.classList.value);
   }, [height]);
 
   return (
@@ -48,7 +52,7 @@ export default function ClientProfile() {
           ref={elementRef}
           className="basis-2/3 flex flex-col gap-5"
         >
-          <div id="general" className="flex flex-col md:flex-row gap-5">
+          <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
             <div className="text-center flex flex-col gap-3 items-center">
               <Image
                 loader={imageLoader}
@@ -67,11 +71,11 @@ export default function ClientProfile() {
             <div id="description" className="w-full">
               <div className="relative text-center md:text-left">
                 <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
-                  Josefina Trujillo id: {id}
+                  Josefina Trujillo
                 </p>
-                <p>{`Left height is: ${height}px and Right height should be ${
+                {/* <p>{`Left height is: ${height}px and Right height should be ${
                   height - 198
-                }px`}</p>
+                }px`}</p> */}
                 <Link className="absolute right-0 bottom-0" href={"/"}>
                   <i className="fa fa-edit text-[25px]"></i>
                 </Link>
@@ -121,8 +125,6 @@ export default function ClientProfile() {
           <div
             ref={bookingsDiv}
             className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
-            // max-h-[807px]
-            // max-h-[504px]
           >
             {bookingsData.map((item, index) => {
               return (

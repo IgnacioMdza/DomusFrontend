@@ -70,7 +70,7 @@ export default function BookingCard2({ usertype, data }) {
     >
       {/* <div
         id="uselessDiv"
-        className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000] hover:bg-[#55576e] hover:bg-[#ff8c86] hover:bg-[#ed4a82]"
+        className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000] hover:bg-[#55576e] hover:bg-[#ff8c86] hover:bg-[#ed4a82] max-h-[819px] max-h-[872px]"
       ></div> */}
       <Image
         loader={imageLoader}
@@ -97,11 +97,12 @@ export default function BookingCard2({ usertype, data }) {
           <p className={`text-[${statusColor}] text-[16px] font-bold`}>
             {statusText}
           </p>
-          <button
-            className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
+          <Link
+            className={`${bitacoraButtonDisplay} text-[14px] font-semibold flex justify-center items-center text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
+            href={"/bookingblog"}
           >
             Bitácora
-          </button>
+          </Link>
           <button
             className={`${paymentButtonDisplay} text-[14px] font-semibold text-white bg-[#E91E63] rounded-[5px] h-[35px] w-[100px] hover:bg-[#ed4a82]`}
           >

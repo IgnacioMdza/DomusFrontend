@@ -90,12 +90,14 @@ export default function Home() {
                   <p>Servicios personalizados</p>
                 </div>
               </div>
-              <button
-                type="button"
-                className="py-2.5 mt-4 mb-10 lg:mb-0 text-white text-[20px] font-bold bg-[#FF7068] rounded-full text-center w-full hover:shadow-none lg:hover:scale-105"
-              >
-                Encuentra a tu cuidador
-              </button>
+              <Link className="w-full" href={"/search"}>
+                <button
+                  type="button"
+                  className="py-2.5 mt-4 mb-10 lg:mb-0 text-white text-[20px] font-bold bg-[#FF7068] rounded-full text-center w-full hover:shadow-none lg:hover:scale-105"
+                >
+                  Encuentra a tu cuidador
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -168,7 +170,7 @@ export default function Home() {
               ¡Registra tu alojamiento!
             </p>
             <Link
-              href="/"
+              href="/accounts/signup"
               className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105"
             >
               REGISTRARSE COMO ANFITRIÓN
@@ -186,7 +188,7 @@ export default function Home() {
               ¡Registra a tu mascota!
             </p>
             <Link
-              href="/"
+              href="/accounts/signup"
               className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105"
             >
               REGISTRARSE COMO CLIENTE
