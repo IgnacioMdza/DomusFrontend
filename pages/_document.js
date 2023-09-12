@@ -21,6 +21,7 @@ export default function Document() {
       </Head>
       <body className="bg-[#f2f2f2]">
         <Main />
+        <div id="portal"/>
         <NextScript />
       </body>
     </Html>
