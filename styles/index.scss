@@ -32,7 +32,7 @@ $textTertiary: #6b7280;
   display: flex;
   margin-top: 60px;
   @include desktop {
-    background-image: url("../public/seccion_principal_1.png");
+    background-image: url("../public/images/seccion_principal_1.png");
     background-position: right top;
     background-repeat: no-repeat;
     // background-size: contain;
@@ -70,7 +70,6 @@ $textTertiary: #6b7280;
     font-weight: bold;
   }
 }
-
 
 .hero__p {
   font-family: "Nunito";
@@ -113,18 +112,17 @@ $textTertiary: #6b7280;
 .thirdSection__h3 {
   color: $colorPrimary;
   font-family: "Raleway";
-  font-size:70px;
+  font-size: 70px;
   line-height: 1;
   margin-bottom: 15px;
-
 }
 
-.thirdSection_flex{
-@include tablet {
-  position: relative;
-  top: 20px;
-}
-@include desktop {
-  position: static;
-}
+.thirdSection_flex {
+  @include tablet {
+    position: relative;
+    top: 20px;
+  }
+  @include desktop {
+    position: static;
+  }
 }
