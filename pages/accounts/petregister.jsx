@@ -4,10 +4,12 @@ export default function PetRegister() {
   return (
     <div className="mt-32 mb-24">
       <div className="bg-[#2B2E4A] py-4 text-center">
-        <h1 className="text-white text-3xl font-semibold">Agregar Mascota</h1>
+        <h1 className="text-white text-3xl font-semibold font-[Raleway]">
+          Agregar Mascota
+        </h1>
       </div>
       <div className="lg:flex lg:justify-center">
-        <div className="border-[2px] py-7 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl lg:items-center">
+        <div className="border-[2px] py-7 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl lg:items-center bg-white drop-shadow-xl  font-[Nunito] font-medium">
           <div className="lg:flex lg:items-start md:items-center lg:w-full">
             <div className="flex justify-center items-center pt-10 lg:px-10 ">
               <Image
@@ -30,7 +32,7 @@ export default function PetRegister() {
                     type="radio"
                     value=""
                     name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                    className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
                   />
                 </div>
 
@@ -42,12 +44,12 @@ export default function PetRegister() {
                     type="radio"
                     value=""
                     name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                    className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
                   />
                 </div>
               </div>
-              <div className="sm:flex sm:justify-center sm:gap-36 lg:flex lg:justify-start lg:gap-14">
-                <div className="pb-4">
+              <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14">
+                <div className="pb-4 sm:w-full">
                   <label
                     forlabel="name"
                     className="block mb-2 text-lg font-medium"
@@ -91,12 +93,12 @@ export default function PetRegister() {
                     <input
                       type="text"
                       name="name"
-                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
                       placeholder="Ingresa el Nombre"
                     />
                   </div>
                 </div>
-                <div className="pb-4">
+                <div className="pb-4 sm:w-full">
                   <label
                     forlabel="lastName"
                     className="block mb-2 text-lg font-medium"
@@ -108,15 +110,15 @@ export default function PetRegister() {
                     <input
                       type="text"
                       name="lastName"
-                      className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]"
+                      className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
                       placeholder="Ingresa la Raza"
                     />
                   </div>
                 </div>
               </div>
               <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14">
-                <div className="flex justify-around item-center sm:gap-80">
-                  <div>
+                <div className="flex item-center sm:gap-10 w-full gap-8">
+                  <div className="w-full">
                     <label
                       forlabel="lastName"
                       className="block mb-2 text-lg font-medium"
@@ -125,7 +127,7 @@ export default function PetRegister() {
                     </label>
                     <select
                       id="countries"
-                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]"
+                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
                     >
                       <option>Chico (2 kilos)</option>
                       <option value="">Mediano(5 kilos)</option>
@@ -133,7 +135,7 @@ export default function PetRegister() {
                       <option value="">Grande (8 kilos)</option>
                     </select>
                   </div>
-                  <div>
+                  <div className="w-full">
                     <label
                       forlabel="lastName"
                       className="block mb-2 text-lg font-medium"
@@ -142,7 +144,7 @@ export default function PetRegister() {
                     </label>
                     <select
                       id="countries"
-                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]"
+                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
                     >
                       <option>Macho</option>
                       <option value="">Hembra</option>
@@ -162,7 +164,7 @@ export default function PetRegister() {
                 <textarea
                   id="message"
                   rows="6"
-                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A] bg-gray-100"
+                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A] bg-[#F2F2F2]"
                   placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales? "
                 ></textarea>
               </div>
