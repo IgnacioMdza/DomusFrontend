@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/public/icons/huella.png";
+import user from "/public/icons/avatar.jpg";
 import { Transition } from "@headlessui/react";
 import { useState } from "react";
 
@@ -32,13 +33,34 @@ export default function NavBar() {
               </li>
               <li>
                 <Link
-                  href="/accounts/signip"
+                  href="/accounts/signin"
                   className="text-dark block py-2 px-5 border rounded-full md:bg-transparent  border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white"
                 >
                   Ingresar
                 </Link>
               </li>
             </ul>
+            {/* <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
+              <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
+                <Link
+                  href="/cuentas/register"
+                  className="text-dark "
+                  aria-current="page"
+                >
+                  perfil
+                </Link>
+                <Image
+                  src={user}
+                  alt="Domus Logo"
+                  className="w-10 h-10 rounded-full"
+                ></Image>
+              </li>
+              <li className=" ml-0">
+                <Link href="/cuentas/login" className="text-dark text-center">
+                  Cerrar Sesión
+                </Link>
+              </li>
+            </ul> */}
           </div>
         </div>
         <button
@@ -132,6 +154,27 @@ export default function NavBar() {
                 </Link>
               </li>
             </ul>
+            {/* <ul className="font-medium flex flex-col py-4 md:p-0 mt-4 border md:flex-row md:space-x-8 md:mt-0 md:border-0 justify-center items-center ">
+              <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
+                <Link
+                  href="/cuentas/register"
+                  className="text-dark "
+                  aria-current="page"
+                >
+                  perfil
+                </Link>
+                <Image
+                  src={user}
+                  alt="Domus Logo"
+                  className="w-10 h-10 rounded-full"
+                ></Image>
+              </li>
+              <li className=" ml-0">
+                <Link href="/cuentas/login" className="text-dark text-center">
+                  Cerrar Sesión
+                </Link>
+              </li>
+            </ul> */}
           </div>
         </div>
       </Transition>
