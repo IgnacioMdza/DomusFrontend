@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Login() {
   return (
     <div className="w-full border my-3 m-auto mt-36 mx-3 px-3 rounded-md sm:w-3/6 sm:m-auto sm:mt-36 sm:mb-20 lg:mt-28 lg:mb-10 md:px-0 lg:flex lg:justify-center">
-      <div className="lg:flex lg:border-[2px] lg:w-full">
+      <div className="lg:flex lg:border-[2px] lg:w-full bg-white drop-shadow-xl">
         <div className="lg:bg-[#2F2E43] lg:flex lg:items-center px-5">
           <div className="px-2">
             <div className="flex justify-center ">
@@ -16,7 +16,7 @@ export default function Login() {
               ></Image>
             </div>
             <div className="pb-10">
-              <h1 className="text-4xl font-bold text-center border-y-2 border-[#D90062] text-[#FF6868] py-2 mt-8 lg:text-white ">
+              <h1 className="text-4xl font-bold text-center border-y-2 border-[#D90062] text-[#FF6868] py-2 mt-8 lg:text-white font-[Raleway]">
                 Bienvenido a <span className=" lg:text-[#FF6868]">DOMUS</span>
               </h1>
             </div>
@@ -24,11 +24,14 @@ export default function Login() {
         </div>
         <div className="lg:pb-6 w-full">
           <div className="lg:bg-[#FF6868] lg:rounded-sm lg:text-center lg:text-white lg:py-2 lg:lg:mb-20 ">
-            <h1 className="lg:font-normal lg:text-3xl lg:mt-0 lg:pt-0 invisible lg:visible ">
+            <h1 className="lg:font-normal lg:text-3xl lg:mt-0 lg:pt-0 invisible lg:visible font-[Raleway] font-bold">
               Login
             </h1>
           </div>
-          <form action="" className="px-1 lg:px-10 lg:pb-10">
+          <form
+            action=""
+            className="px-1 lg:px-10 lg:pb-10 font-[Nunito] font-medium "
+          >
             <div className="pb-4">
               <label
                 forlabel="email"
@@ -52,7 +55,7 @@ export default function Login() {
                 <input
                   type="email"
                   id="email"
-                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                   placeholder="Ingresa tu Email"
                 />
               </div>
@@ -78,7 +81,7 @@ export default function Login() {
                 <input
                   type="password"
                   id="email-address-icon"
-                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                   placeholder="Ingresa tu Contraseña"
                 />
               </div>
@@ -97,7 +100,7 @@ export default function Login() {
             <p>
               ¿Ya tienes cuenta?&nbsp;
               <Link
-                href={"/cuentas/register"}
+                href={"/accounts/signup"}
                 className="font-bold text-[#FF6868] underline decoration-1"
               >
                 Registrate
