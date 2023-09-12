@@ -223,7 +223,7 @@ export default function Register() {
             type="button"
             className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:bg-[#FF6868] focus:ring-4 focus:outline-none focus:ring-[#FF6868] rounded-full text-center dark:bg-[#FF6868] dark:hover:bg-[#FF6868] dark:focus:ring-bg-[#FF6868]"
           >
-            Ingresar
+            Registrarse
           </button>
         </div>
       </form>
@@ -231,7 +231,7 @@ export default function Register() {
         <p>
           ¿Ya tienes cuenta?&nbsp;
           <Link
-            href={"/"}
+            href={"/accounts/signin"}
             className="font-bold text-[#FF6868] underline decoration-1"
           >
             Ingresar
