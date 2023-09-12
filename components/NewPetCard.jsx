@@ -17,7 +17,7 @@ export default function NewPetCard() {
           <p>✩✩✩✩✩</p>
         </div>
       </div>
-      <button className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white">
+      <button className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white hover:scale-[102%]">
         Agregar Ahora
       </button>
     </main>

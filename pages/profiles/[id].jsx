@@ -120,7 +120,7 @@ export default function ClientProfile() {
           </select>
           <div
             ref={bookingsDiv}
-            className={`flex flex-col gap-3 pr-3 overflow-y-scroll `}
+            className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
             // max-h-[807px]
             // max-h-[504px]
           >
