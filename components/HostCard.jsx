@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { useState } from "react"
+import Modal from "./Modal"
+import BookingForModal from "./BookingForModal"
 
 export default function HostCard({hostProfileImage, hostName, nightPrice, city, state, raiting, reviewsQuantity, aboutHost}){
+    const [showModal, setShowModal] = useState(false)
     return(
         <>
             <div className='bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[12px] xl:p-[16px] rounded-[10px] gap-[20px] max-w-[1024px]'>
@@ -24,6 +27,9 @@ export default function HostCard({hostProfileImage, hostName, nightPrice, city, 
                         <Link href='/' className='py-[12px] w-[120px] bg-[#2B2E4A] rounded-[5px] text-[#F2F2F2] text-center font-[Nunito] hover:shadow-lg'>Visitar perfil</Link>
                         <button className='py-[12px] w-[120px] bg-[#FF7068] rounded-[5px] text-[#F2F2F2] text-center font-[Nunito] hover:shadow-lg' onClick={() => setShowModal(true)}>Reservar</button>
                     </div>
+                    <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+                            <BookingForModal key={hostName} hostName={hostName} onClose={() => setShowModal(false)}/>
+                    </Modal>
                 </div>
             </div>
         </>
