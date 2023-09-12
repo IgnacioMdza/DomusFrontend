@@ -4,11 +4,12 @@ export default function ReviewCard({
     reviewDate,
     value,
     review,
+    anfitrionName
 }) {
     return (
         <div
             href="/"
-            className="transition w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center"
+            className="w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-105 lg:hover:bg-opacity-[85%]"
         >
             <img className="rounded-full w-[104px] h-[104px]" src={authorImage} />
             <div className="flex flex-col w-full items-center justify-between sm:justify-normal gap-[24px]">
@@ -18,6 +19,7 @@ export default function ReviewCard({
                             {authorName}
                         </p>
                         <p className="text-[16px] font-light font-[Nunito]">{reviewDate}</p>
+                        <p className="text-[16px] text-[#FF7068] font-[Nunito]">Anfitrion: {anfitrionName}</p>
                     </div>
                     <div>
                         <p className="text-[20px] font-light font-[Nunito]">{value}</p>
