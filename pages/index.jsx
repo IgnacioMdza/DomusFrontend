@@ -9,25 +9,32 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px]">
-      <section id="hero" className="hero max-w-[1536px] mx-auto xl:h-[800px]">
-        <div className="hero__textSide">
-          <h1 className="hero__h1">DOMUS</h1>
-          <h2 className="hero__h2">El alojamiento ideal para tus mascotas</h2>
-          <div className="hero__textSide__textImageContainer">
+      <section
+        id="hero"
+        className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[60px] max-w-[1536px] mx-auto xl:h-[800px]"
+      >
+        <div className="text-center md:text-justify lg:text-left lg:w-[48%]">
+          <h1 className="text-[#1f2937] font-[Raleway] text-[64px] font-semibold mb-[30px]">
+            DOMUS
+          </h1>
+          <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-bold md:text-[48px] mb-[15px] leading-none">
+            El alojamiento ideal para tus mascotas
+          </h2>
+          <div className="flex flex-col gap-[15px] md:gap-0 w-full md:flex-col-reverse items-center">
             <Image
               src={"/images/seccion_principal_1.png"}
               alt="hero_image"
-              className="hero__image"
+              className="w-[600px] lg:hidden"
               height={600}
               width={600}
             ></Image>
-            <p className="hero__p">
+            <p className="text-[22px] mb-[30px]">
               ¿Sales de viaje y necesitas que alguien cuide de tu mascota por
               unos días? No te preocupes, alguno de nuestros anfitriones estará
               encantado de hacerlo.
             </p>
           </div>
-          <div className="hero__searchCard">
+          <div className="md:relative top-[-40px] lg:static">
             <SearchCard />
           </div>
         </div>
@@ -36,8 +43,10 @@ export default function Home() {
         id="quienes_somos"
         className="mt-14 md:mt-4 lg:mt-20 max-w-[1536px] mx-auto"
       >
-        <h2 className="hero__h2 text-center pb-3">¿Quiénes somos?</h2>
-        <p className="hero__p text-center">
+        <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-bold md:text-[48px] mb-[15px] leading-none text-center pb-3">
+          ¿Quiénes somos?
+        </h2>
+        <p className="text-[22px] mb-[30px] text-center">
           Domus es una plataforma mexicana que nació como una oportunidad para
           cubrir la necesidad de conectar a dueños de mascotas que no pueden
           hacerse cargo de ellas por unos días con personas que tienen
