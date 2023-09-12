@@ -1,7 +1,11 @@
+import Slider from "./Slider";
+
 export default function HomeSection() {
   return (
     <div>
-      <h1 className="w-full border-4 border-red-600 text-center">Images</h1>
+      <div className=" mb-10">
+        <Slider />
+      </div>
       <div className="flex gap-5 text-[20px] p-5 bg-white rounded-[10px] font-bold">
         <div className="flex flex-col gap-7 basis-1/3">
           <p>

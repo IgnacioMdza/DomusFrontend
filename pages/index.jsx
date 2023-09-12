@@ -11,13 +11,13 @@ export default function Home() {
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px]">
       <section
         id="hero"
-        className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[60px] max-w-[1536px] mx-auto xl:h-[800px]"
+        className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
       >
         <div className="text-center md:text-justify lg:text-left lg:w-[48%]">
-          <h1 className="text-[#1f2937] font-[Raleway] text-[64px] font-semibold mb-[30px]">
+          <h1 className="text-[#1f2937] font-[Raleway] text-[64px] font-semibold mb-[30px] mt-14">
             DOMUS
           </h1>
-          <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-bold md:text-[48px] mb-[15px] leading-none">
+          <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-medium md:text-[48px] mb-[15px] leading-none">
             El alojamiento ideal para tus mascotas
           </h2>
           <div className="flex flex-col gap-[15px] md:gap-0 w-full md:flex-col-reverse items-center">
@@ -43,7 +43,7 @@ export default function Home() {
         id="quienes_somos"
         className="mt-14 md:mt-4 lg:mt-20 max-w-[1536px] mx-auto"
       >
-        <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-bold md:text-[48px] mb-[15px] leading-none text-center pb-3">
+        <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-medium md:text-[48px] mb-[15px] leading-none text-center pb-3">
           ¿Quiénes somos?
         </h2>
         <p className="text-[22px] mb-[30px] text-center">
