@@ -4,12 +4,12 @@ export default function HomeRegister() {
   return (
     <div className="mt-32 mb-24">
       <div className="bg-[#FF6868] py-4 text-center">
-        <h1 className="text-white text-3xl font-semibold">
+        <h1 className="text-white text-3xl font-semibold  font-[Raleway]">
           Agregar Alojamiento
         </h1>
       </div>
       <div className="lg:flex lg:justify-center">
-        <div className="border-[2px] py-4 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl">
+        <div className="border-[2px] py-4 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl bg-white drop-shadow-xl  font-[Nunito] font-medium">
           <div className="border-b-4 border-[#FF6868]">
             <h2 className="text-2xl py-2 ">Características del Alojamiento</h2>
           </div>
@@ -147,7 +147,7 @@ export default function HomeRegister() {
                           type="radio"
                           value=""
                           name="default-radio"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                          className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
                         />
                       </div>
 
@@ -212,7 +212,7 @@ export default function HomeRegister() {
                     </label>
                     <select
                       id="countries"
-                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                     >
                       <option>1</option>
                       <option value="">2</option>
@@ -251,7 +251,7 @@ export default function HomeRegister() {
                           <input
                             type="time"
                             name="date"
-                            className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
                           />
                         </div>
@@ -283,7 +283,7 @@ export default function HomeRegister() {
                           <input
                             type="time"
                             name="date"
-                            className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
                           />
                         </div>
@@ -308,7 +308,7 @@ export default function HomeRegister() {
                     <textarea
                       id="message"
                       rows="6"
-                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-gray-100"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales?"
                     ></textarea>
                   </div>
@@ -323,7 +323,7 @@ export default function HomeRegister() {
                     <textarea
                       id="message"
                       rows="6"
-                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-gray-100"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Describe las particularidades que hacen de tu alojamiento un lugar ideal para las mascotas (jardin, etc...)"
                     ></textarea>
                   </div>
@@ -338,7 +338,7 @@ export default function HomeRegister() {
                     <textarea
                       id="message"
                       rows="6"
-                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-gray-100"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Describe las limitaciones que tendrán las mascotas hospedadas en tu alojamiento."
                     ></textarea>
                   </div>
@@ -371,7 +371,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             name="street"
-                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                             placeholder="Ingresa la Calle"
                           />
                         </div>
@@ -389,7 +389,7 @@ export default function HomeRegister() {
                             <input
                               type="text"
                               name="exterior"
-                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                               placeholder="Número Exterior"
                             />
                           </div>
@@ -406,7 +406,7 @@ export default function HomeRegister() {
                             <input
                               type="text"
                               name="interior"
-                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                               placeholder="Número Interior"
                             />
                           </div>
@@ -425,7 +425,7 @@ export default function HomeRegister() {
                         <input
                           type="text"
                           name="cologne"
-                          className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Colonia"
                         />
                       </div>
@@ -440,7 +440,7 @@ export default function HomeRegister() {
                         </label>
                         <select
                           id="countries"
-                          className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                         >
                           <option>Guerrero</option>
                           <option value="">otros</option>
@@ -476,7 +476,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             name="street"
-                            className=" rounded-lg w-50 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-50 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Código Postal"
                           />
                         </div>
@@ -493,7 +493,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             name="street"
-                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                             placeholder="Código Postal"
                           />
                         </div>
@@ -509,7 +509,7 @@ export default function HomeRegister() {
                       <textarea
                         id="message"
                         rows="6"
-                        className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-gray-100"
+                        className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder="Ejemplo. -¿Color de la casa? -¿Color de la puerta / portón? -¿Algún negocio cercano?"
                       ></textarea>
                     </div>
@@ -608,7 +608,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             name="card"
-                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Nombre del Titular"
                           />
                         </div>
@@ -625,7 +625,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             name="card"
-                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa el Número de Cuenta"
                           />
                         </div>
@@ -641,7 +641,7 @@ export default function HomeRegister() {
                         </label>
                         <select
                           id="countries"
-                          className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                         >
                           <option>BANAMEX</option>
                           <option value="">BBVA BANCOMER</option>
@@ -661,7 +661,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             name="card"
-                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Nombre del Titular"
                           />
                         </div>
