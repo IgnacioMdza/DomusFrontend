@@ -2,14 +2,16 @@ export default function CompleteRegister() {
   return (
     <div className="mt-32 mb-24">
       <div className="bg-[#FF6868] py-4 text-center">
-        <h1 className="text-white text-3xl font-semibold">
+        <h1 className="text-white text-3xl font-semibold  font-[Raleway]">
           Completar Registro
         </h1>
       </div>
       <div className="lg:flex lg:justify-center">
-        <div className="border-[2px] py-4 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl">
+        <div className="border-[2px] py-4 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl bg-white drop-shadow-xl pb-8">
           <div className="border-b-4 border-[#FF6868]">
-            <h2 className="text-2xl py-2 ">Información General</h2>
+            <h2 className="text-2xl py-2 font-[Nunito] font-medium ">
+              Información General
+            </h2>
           </div>
           <div className="lg:flex lg:items-start md:items-center lg:w-full">
             <div className="flex justify-center items-center pt-10 lg:px-10 ">
@@ -57,7 +59,10 @@ export default function CompleteRegister() {
                 />
               </svg>
             </div>
-            <form action="" className="px-2 pt-3  md:m-auto m-auto">
+            <form
+              action=""
+              className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
+            >
               <div className="sm:flex sm:justify-center sm:gap-36 lg:flex lg:justify-start lg:gap-14">
                 <div className="pb-4">
                   <label
@@ -98,7 +103,7 @@ export default function CompleteRegister() {
                     <input
                       type="text"
                       name="name"
-                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Ingresa tu Nombre"
                     />
                   </div>
@@ -115,14 +120,14 @@ export default function CompleteRegister() {
                     <input
                       type="text"
                       name="lastName"
-                      className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                      className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Ingresa tu Apellido"
                     />
                   </div>
                 </div>
               </div>
-              <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14">
-                <div className="pb-4">
+              <div className="sm:flex sm:justify-center sm:gap-4 lg:flex lg:justify-start lg:gap-14 ">
+                <div className="pb-4 w-full">
                   <label
                     forlabel="name"
                     className="block mb-2 text-lg font-medium"
@@ -143,62 +148,61 @@ export default function CompleteRegister() {
                     <input
                       type="text"
                       name="name"
-                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="xxx-xx-xxx-xx"
                     />
                   </div>
                 </div>
-                <div className="flex justify-around item-center sm:gap-4">
-                  <div className="pb-4">
-                    <label
-                      forlabel="date"
-                      className="block mb-2 text-lg font-medium"
-                    >
-                      Fecha de Nacimiento:
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
-                          />
-                        </svg>
-                      </div>
-                      <input
-                        type="date"
-                        name="date"
-                        className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
-                        placeholder="Ingresa tu Nombre"
-                      />
+                <div className="pb-4 w-full">
+                  <label
+                    forlabel="date"
+                    className="block mb-2 text-lg font-medium"
+                  >
+                    Fecha de Nacimiento:
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+                        />
+                      </svg>
                     </div>
-                  </div>
-                  <div>
-                    <label
-                      forlabel="lastName"
-                      className="block mb-2 text-lg font-medium"
-                    >
-                      Sexo:
-                    </label>
-                    <select
-                      id="countries"
-                      className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
-                    >
-                      <option>Hombre</option>
-                      <option value="">Mujer</option>
-
-                      <option value="">otro</option>
-                    </select>
+                    <input
+                      type="date"
+                      name="date"
+                      className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                      placeholder="Ingresa tu Nombre"
+                    />
                   </div>
                 </div>
+                <div className="w-full sm:w-full">
+                  <label
+                    forlabel="lastName"
+                    className="block mb-2 text-lg font-medium"
+                  >
+                    Sexo:
+                  </label>
+                  <select
+                    id="countries"
+                    className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                  >
+                    <option>Hombre</option>
+                    <option value="">Mujer</option>
+
+                    <option value="">otro</option>
+                  </select>
+                </div>
+                {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
               </div>
               <div className="pt-4">
                 <label
@@ -210,7 +214,7 @@ export default function CompleteRegister() {
                 <textarea
                   id="message"
                   rows="6"
-                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-gray-100"
+                  className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                   placeholder="300 - 400 caracteres. -¿De dónde eres? -¿Qué te gusta hacer? -¿A qué te dedicas? -¿Qué significan tus mascotas para ti?"
                 ></textarea>
               </div>
@@ -226,8 +230,8 @@ export default function CompleteRegister() {
                   relacionado a las mascotas y no sea posible lograrlo.
                 </p>
                 <div>
-                  <div className="sm:flex sm:justify-center sm:gap-36  mt-5 lg:flex lg:justify-start lg:gap-14">
-                    <div className="pb-4">
+                  <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
+                    <div className="pb-4  sm:w-full">
                       <label
                         forlabel="name"
                         className="block mb-2 text-lg font-medium"
@@ -266,12 +270,12 @@ export default function CompleteRegister() {
                         <input
                           type="text"
                           name="name"
-                          className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Nombre"
                         />
                       </div>
                     </div>
-                    <div className="pb-4">
+                    <div className="pb-4  sm:w-full">
                       <label
                         forlabel="lastName"
                         className="block mb-2 text-lg font-medium"
@@ -283,14 +287,14 @@ export default function CompleteRegister() {
                         <input
                           type="text"
                           name="lastName"
-                          className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Apellido"
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="sm:flex sm:justify-center sm:gap-64 lg:flex lg:justify-start lg:gap-14">
-                    <div className="pb-4">
+                  <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14 ">
+                    <div className="pb-4 sm:w-full">
                       <label
                         forlabel="name"
                         className="block mb-2 text-lg font-medium"
@@ -311,12 +315,12 @@ export default function CompleteRegister() {
                         <input
                           type="text"
                           name="name"
-                          className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="xxx-xx-xxx-xx"
                         />
                       </div>
                     </div>
-                    <div>
+                    <div className=" w-full">
                       <label
                         forlabel="lastName"
                         className="block mb-2 text-lg font-medium"
@@ -325,7 +329,7 @@ export default function CompleteRegister() {
                       </label>
                       <select
                         id="countries"
-                        className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                        className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       >
                         <option>Primo</option>
                         <option value="">Hermano</option>
