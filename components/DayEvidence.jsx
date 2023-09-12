@@ -36,7 +36,7 @@ export default function DayEvidence({ day, date }) {
   }
   return (
     <card>
-      <div className="bg-white rounded-[10px]">
+      <div className="bg-white rounded-[10px] mb-8">
         <button
           className="bg-[#2B2E4A] rounded-[10px] w-full py-3 px-6 flex items-center justify-between mb-10"
           onClick={DropDown}
