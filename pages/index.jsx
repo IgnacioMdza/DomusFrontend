@@ -128,6 +128,7 @@ export default function Home() {
                     reviewDate={item.reviewDate}
                     value={item.value}
                     review={item.review}
+                    anfitrionName={item.anfitrionName}
                   />
                 );
               })}
@@ -146,6 +147,7 @@ export default function Home() {
                     reviewDate={item.reviewDate}
                     value={item.value}
                     review={item.review}
+                    anfitrionName={item.anfitrionName}
                   />
                 );
               })}
