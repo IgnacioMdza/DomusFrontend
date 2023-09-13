@@ -30,11 +30,15 @@ export default function ClientProfile() {
 
   useEffect(() => {
     setHeight(elementRef.current.offsetHeight);
-    if (height - 198 > 0) {
-      bookingsDiv.current.classList.value += `min-h-[${
-        height - 198
-      }px] max-h-[${height - 198}px]`;
+    if (height - 143 > 0) {
+      console.log(height);
+      bookingsDiv.current.classList.value += ` min-h-[${
+        height - 143
+      }px] max-h-[${height - 143}px]`;
     }
+    console.log(height);
+    console.log(elementRef.current.offsetHeight);
+    console.log(bookingsDiv.current.classList.value);
   }, [height]);
 
   return (
@@ -48,7 +52,7 @@ export default function ClientProfile() {
           ref={elementRef}
           className="basis-2/3 flex flex-col gap-5"
         >
-          <div id="general" className="flex flex-col md:flex-row gap-5">
+          <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
             <div className="text-center flex flex-col gap-3 items-center">
               <Image
                 loader={imageLoader}
@@ -121,8 +125,6 @@ export default function ClientProfile() {
           <div
             ref={bookingsDiv}
             className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
-            // max-h-[807px]
-            // max-h-[504px]
           >
             {bookingsData.map((item, index) => {
               return (

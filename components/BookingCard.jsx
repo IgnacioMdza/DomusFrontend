@@ -70,7 +70,7 @@ export default function BookingCard2({ usertype, data }) {
     >
       {/* <div
         id="uselessDiv"
-        className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000] hover:bg-[#55576e] hover:bg-[#ff8c86] hover:bg-[#ed4a82]"
+        className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000] hover:bg-[#55576e] hover:bg-[#ff8c86] hover:bg-[#ed4a82] max-h-[819px] max-h-[872px]"
       ></div> */}
       <Image
         loader={imageLoader}
