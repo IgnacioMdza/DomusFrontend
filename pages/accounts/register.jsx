@@ -1,4 +1,22 @@
+import { useForm } from "react-hook-form";
+import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
+
 export default function CompleteRegister() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const password = useRef({});
+  password.current = watch("password", "");
+  const onSubmit = (e) => {
+    console.log(e);
+  };
+
   return (
     <div className="mt-32 mb-24">
       <div className="bg-[#FF6868] py-4 text-center">
@@ -60,7 +78,7 @@ export default function CompleteRegister() {
               </svg>
             </div>
             <form
-              action=""
+              onSubmit={handleSubmit(onSubmit)}
               className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
             >
               <div className="sm:flex sm:justify-center sm:gap-36 lg:flex lg:justify-start lg:gap-14">
@@ -102,11 +120,19 @@ export default function CompleteRegister() {
                     </div>
                     <input
                       type="text"
-                      name="name"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Ingresa tu Nombre"
+                      {...register("name", {
+                        required: {
+                          value: true,
+                          message: "El campo Nombre es requerido",
+                        },
+                      })}
                     />
                   </div>
+                  {errors.name && (
+                    <span className="text-red-500">{errors.name.message}</span>
+                  )}
                 </div>
                 <div className="pb-4">
                   <label
@@ -119,11 +145,21 @@ export default function CompleteRegister() {
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                     <input
                       type="text"
-                      name="lastName"
                       className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Ingresa tu Apellido"
+                      {...register("lastname", {
+                        required: {
+                          value: true,
+                          message: "El campo Apellido es requerido",
+                        },
+                      })}
                     />
                   </div>
+                  {errors.lastname && (
+                    <span className="text-red-500">
+                      {errors.lastname.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="sm:flex sm:justify-center sm:gap-4 lg:flex lg:justify-start lg:gap-14 ">
@@ -147,11 +183,29 @@ export default function CompleteRegister() {
                     </div>
                     <input
                       type="text"
-                      name="name"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="xxx-xx-xxx-xx"
+                      {...register("cellphone", {
+                        required: {
+                          value: true,
+                          message: "El campo Celular es requerido",
+                        },
+                        minLength: {
+                          value: 10,
+                          message: "Mínimo 10 caracteres",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "Máximo 10 caracteres",
+                        },
+                      })}
                     />
                   </div>
+                  {errors.cellphone && (
+                    <span className="text-red-500">
+                      {errors.cellphone.message}
+                    </span>
+                  )}
                 </div>
                 <div className="pb-4 w-full">
                   <label
@@ -179,11 +233,26 @@ export default function CompleteRegister() {
                     </div>
                     <input
                       type="date"
-                      name="date"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Ingresa tu Nombre"
+                      {...register("date", {
+                        required: {
+                          value: true,
+                          message: "El campo Fecha es requerido",
+                        },
+                        validate: (value) => {
+                          const birthDate = new Date(value);
+                          const currentDate = new Date();
+                          const age =
+                            currentDate.getFullYear() - birthDate.getFullYear();
+                          return age >= 18 || "Debes de ser mayor de edad";
+                        },
+                      })}
                     />
                   </div>
+                  {errors.date && (
+                    <span className="text-red-500">{errors.date.message}</span>
+                  )}
                 </div>
                 <div className="w-full sm:w-full">
                   <label
@@ -195,13 +264,23 @@ export default function CompleteRegister() {
                   <select
                     id="countries"
                     className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                    {...register("select", {
+                      required: {
+                        value: true,
+                        message: "Selecciona un campo",
+                      },
+                    })}
                   >
-                    <option>Hombre</option>
-                    <option value="">Mujer</option>
+                    <option value="hombre">Hombre</option>
+                    <option value="mujer">Mujer</option>
 
-                    <option value="">otro</option>
+                    <option value="otro">otro</option>
                   </select>
                 </div>
+                {errors.select && (
+                  <span className="text-red-500">{errors.select.message}</span>
+                )}
+
                 {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
               </div>
               <div className="pt-4">
@@ -216,8 +295,25 @@ export default function CompleteRegister() {
                   rows="6"
                   className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                   placeholder="300 - 400 caracteres. -¿De dónde eres? -¿Qué te gusta hacer? -¿A qué te dedicas? -¿Qué significan tus mascotas para ti?"
+                  {...register("textabout", {
+                    required: {
+                      value: true,
+                      message: "El campo es requerido",
+                    },
+                    minLength: {
+                      value: 300,
+                      message: "Mínimo 300 caracteres",
+                    },
+                    maxLength: {
+                      value: 400,
+                      message: "Máximo 500 caracteres",
+                    },
+                  })}
                 ></textarea>
               </div>
+              {errors.textabout && (
+                <span className="text-red-500">{errors.textabout.message}</span>
+              )}
               <div>
                 <div className="border-b-4 border-[#FF6868] pt-4 pb-2">
                   <h2 className="text-3xl pb-2">Contacto de Emergencia</h2>
@@ -272,8 +368,19 @@ export default function CompleteRegister() {
                           name="name"
                           className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Nombre"
+                          {...register("contactname", {
+                            required: {
+                              value: true,
+                              message: "El campo Nombre es requerido",
+                            },
+                          })}
                         />
                       </div>
+                      {errors.contactname && (
+                        <span className="text-red-500">
+                          {errors.contactname.message}
+                        </span>
+                      )}
                     </div>
                     <div className="pb-4  sm:w-full">
                       <label
@@ -289,8 +396,19 @@ export default function CompleteRegister() {
                           name="lastName"
                           className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Apellido"
+                          {...register("contactlastname", {
+                            required: {
+                              value: true,
+                              message: "El campo Apellido es requerido",
+                            },
+                          })}
                         />
                       </div>
+                      {errors.contactlastname && (
+                        <span className="text-red-500">
+                          {errors.contactlastname.message}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14 ">
@@ -317,8 +435,27 @@ export default function CompleteRegister() {
                           name="name"
                           className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="xxx-xx-xxx-xx"
+                          {...register("contactcellphone", {
+                            required: {
+                              value: true,
+                              message: "El campo Celular es requerido",
+                            },
+                            minLength: {
+                              value: 10,
+                              message: "Mínimo 10 caracteres",
+                            },
+                            maxLength: {
+                              value: 10,
+                              message: "Máximo 10 caracteres",
+                            },
+                          })}
                         />
                       </div>
+                      {errors.contactcellphone && (
+                        <span className="text-red-500">
+                          {errors.contactcellphone.message}
+                        </span>
+                      )}
                     </div>
                     <div className=" w-full">
                       <label
@@ -330,15 +467,26 @@ export default function CompleteRegister() {
                       <select
                         id="countries"
                         className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                        {...register("contactselect", {
+                          required: {
+                            value: true,
+                            message: "Selecciona un campo",
+                          },
+                        })}
                       >
                         <option>Primo</option>
-                        <option value="">Hermano</option>
-                        <option value="">Tio</option>
-                        <option value="">Mamá</option>
-                        <option value="">Papa</option>
-                        <option value="">otro</option>
+                        <option value="hermano">Hermano</option>
+                        <option value="tio">Tío</option>
+                        <option value="mama">Mamá</option>
+                        <option value="papa">Papá</option>
+                        <option value="otro">otro</option>
                       </select>
                     </div>
+                    {errors.contactselect && (
+                      <span className="text-red-500">
+                        {errors.contactselect.message}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -350,7 +498,7 @@ export default function CompleteRegister() {
                   Cancelar
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] focus:ring-4 focus:outline-none focus:ring-[#FF6868] rounded-full text-center"
                 >
                   Ingresar
