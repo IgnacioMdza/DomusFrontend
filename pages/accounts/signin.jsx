@@ -1,11 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { useForm } from "react-hook-form";
+
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (e) => {
+    console.log(e);
+  };
   return (
-    <main className="min-h-[calc(100vh-90px)]">
-      <div className="w-full border my-3 m-auto mt-36 mx-3 px-3 rounded-md sm:w-3/6 sm:m-auto sm:mt-36 sm:mb-20 lg:mt-28 lg:mb-10 md:px-0 lg:flex lg:justify-center">
-        <div className="lg:flex lg:border-[2px] lg:w-full bg-white drop-shadow-xl">
+    <main className="min-h-[calc(100vh-90px)] flex">
+      <div className="w-full m-auto mt-36 rounded-md sm:max-w-xl sm:mt-36 sm:mb-20 lg:max-w-3xl  lg:mt-28 lg:mb-10 md:px-0 lg:flex lg:items-center lg:justify-center">
+        <div className="lg:flex lg:border-[2px] lg:w-full bg-white drop-shadow-xl px-5 py-7 lg:px-0 lg:py-0">
           <div className="lg:bg-[#2F2E43] lg:flex lg:items-center px-5">
             <div className="px-2">
               <div className="flex justify-center ">
@@ -30,7 +41,7 @@ export default function Login() {
               </h1>
             </div>
             <form
-              action=""
+              onSubmit={handleSubmit(onSubmit)}
               className="px-1 lg:px-10 lg:pb-10 font-[Nunito] font-medium "
             >
               <div className="pb-4">
@@ -55,11 +66,23 @@ export default function Login() {
                   </div>
                   <input
                     type="email"
-                    id="email"
                     className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                     placeholder="Ingresa tu Email"
+                    {...register("email", {
+                      required: {
+                        value: true,
+                        message: "El campo email es requerido",
+                      },
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: "El formato email no es correcto",
+                      },
+                    })}
                   />
                 </div>
+                {errors.email && (
+                  <span className="text-red-500">{errors.email.message}</span>
+                )}
               </div>
               <div>
                 <label
@@ -84,12 +107,28 @@ export default function Login() {
                     id="email-address-icon"
                     className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                     placeholder="Ingresa tu Contraseña"
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: `El campo password es requerido`,
+                      },
+                      minLength: {
+                        value: 6,
+                        message:
+                          "La contraseña debe tener al menos 6 caracteres",
+                      },
+                    })}
                   />
                 </div>
+                {errors.password && (
+                  <span className="text-red-500 ">
+                    {errors.password.message}
+                  </span>
+                )}
               </div>
               <div className="pt-5 text-center">
                 <button
-                  type="button"
+                  type="submit"
                   className="px-6 py-3.5 w-full text-base font-medium text-white bg-[#FF6868] hover:scale-[102%] rounded-lg text-center"
                 >
                   Ingresar
