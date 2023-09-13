@@ -19,7 +19,7 @@ export default function Reviews() {
         <BookingBlogNavMenu />
         <BookingBlogDropdownMenu />
       </section>
-      <main className="mt-[30px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl">
+      <main className="mt-[30px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl min-h-[calc(100vh-256px)]">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
           <WriteReview />
           <BookingBlogReviewCard />

@@ -82,7 +82,7 @@ export default function BookingCard2({ usertype, data }) {
       />
       <div className="text-left w-full">
         <div className="flex justify-between">
-          <Link href={""}>
+          <Link href={"/profiles/client"}>
             <p className="hover:underline text-[24px] font-[Raleway] font-semibold inline-block">
               {nameText}
             </p>
@@ -97,11 +97,13 @@ export default function BookingCard2({ usertype, data }) {
           <p className={`text-[${statusColor}] text-[16px] font-bold`}>
             {statusText}
           </p>
-          <button
-            className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
-          >
-            Bitácora
-          </button>
+          <Link href={"/bookingblog"}>
+            <button
+              className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
+            >
+              Bitácora
+            </button>
+          </Link>
           <button
             className={`${paymentButtonDisplay} text-[14px] font-semibold text-white bg-[#E91E63] rounded-[5px] h-[35px] w-[100px] hover:bg-[#ed4a82]`}
           >

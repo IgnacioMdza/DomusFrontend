@@ -20,7 +20,7 @@ export default function ClientProfile() {
   const id = router.query.id;
   // Hacer el fetch aquí
 
-  const user_type = "client";
+  const user_type = id;
   let bookingBg = "";
   user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
 
@@ -67,11 +67,11 @@ export default function ClientProfile() {
             <div id="description" className="w-full">
               <div className="relative text-center md:text-left">
                 <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
-                  Josefina Trujillo id: {id}
+                  Josefina Trujillo
                 </p>
-                <p>{`Left height is: ${height}px and Right height should be ${
+                {/* <p>{`Left height is: ${height}px and Right height should be ${
                   height - 198
-                }px`}</p>
+                }px`}</p> */}
                 <Link className="absolute right-0 bottom-0" href={"/"}>
                   <i className="fa fa-edit text-[25px]"></i>
                 </Link>

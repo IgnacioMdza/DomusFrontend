@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import logo from "/public/icons/huella.png";
 import facebook from "/public/icons/facebook-logo.png";
 import instagram from "/public/icons/instagram-logo.png";
@@ -54,11 +55,13 @@ export default function Footer() {
           <div className="border-b-4 w-[80%] border-gray-100 md:hidden"></div>
 
           <div className="flex flex-col items-center gap-3">
-            <Image
-              src={logo}
-              alt="Domus Logo"
-              className="bg-slate-900 w-40"
-            ></Image>
+            <Link href={"/"}>
+              <Image
+                src={logo}
+                alt="Domus Logo"
+                className="bg-slate-900 w-40"
+              ></Image>
+            </Link>
           </div>
         </div>
       </footer>

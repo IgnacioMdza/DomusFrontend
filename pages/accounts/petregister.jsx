@@ -172,13 +172,13 @@ export default function PetRegister() {
               <div className="pt-6 sm:flex sm:justify-around items-center gap-4">
                 <button
                   type="button"
-                  className="px-6 py-3 w-full border-[2px] border-[#2B2E4A] rounded-full md:font-semibold mb-3 sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0"
+                  className="px-6 py-3 w-full border-[2px] border-[#2B2E4A] rounded-full md:font-semibold mb-3 sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0 hover:scale-[102%]"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
-                  className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#2B2E4A] hover:bg-[#2B2E4A] focus:ring-4 focus:outline-none focus:ring-[#2B2E4A] rounded-full text-center dark:bg-[#2B2E4A] dark:hover:bg-[#2B2E4A] dark:focus:ring-bg-[#FF6868]"
+                  className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#2B2E4A] hover:scale-[102%] focus:ring-4 focus:outline-none focus:ring-[#2B2E4A] rounded-full text-center"
                 >
                   Guardar
                 </button>
