@@ -9,7 +9,7 @@ export default function WriteReview() {
       </p>
       <p className="text-[25px] mb-2">⭐️⭐️⭐️⭐️⭐️</p>
       <textarea
-        className="bg-[#f2f2f2] p-2 mb-7 text-[14px] rounded-[12px]"
+        className="bg-[#f2f2f2] px-4 py-2 mb-3 text-[14px] rounded-[12px] resize-none"
         placeholder={placeholder}
         name=""
         id=""
