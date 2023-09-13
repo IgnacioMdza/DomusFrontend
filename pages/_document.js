@@ -19,8 +19,9 @@ export default function Document() {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
       </Head>
-      <body>
+      <body className="bg-[#f2f2f2]">
         <Main />
+        <div id="portal"/>
         <NextScript />
       </body>
     </Html>

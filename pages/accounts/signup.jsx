@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Register() {
   return (
-    <div className="mt-36 m-auto lg:w-3/6 border-[1px] mx-4 mb-10 sm:m-auto sm:w-3/6 sm:mb-10 sm:mt-32">
+    <div className="mt-36 m-auto lg:w-3/6 border-[1px] mx-4 mb-10 sm:m-auto sm:w-3/6 sm:mb-10 sm:mt-32 bg-white drop-shadow-xl">
       <div className="bg-[#FF6868] text-center text-white rounded-sm py-3 mb-10">
         <div className="flex justify-center">
           <svg
@@ -50,12 +50,17 @@ export default function Register() {
             />
           </svg>
         </div>
-        <h1 className="text-4xl font-semibold lg:text-5xl">
+        <h1 className="text-4xl lg:text-4xl font-[Raleway] font-bold">
           Registrate en{" "}
-          <span className=" font-bold text-5xl lg:text-6xl">Domus.com.mx</span>{" "}
+          <span className=" font-bold text-5xl sm:text-4xl lg:text-6xl">
+            Domus.com.mx
+          </span>{" "}
         </h1>
       </div>
-      <form action="" className="px-2 sm:px-4 lg:px-10 lg:pb-10">
+      <form
+        action=""
+        className="px-2 sm:px-4 lg:px-10 lg:pb-10 font-[Nunito] font-medium "
+      >
         <div className="pb-4">
           <label forlabel="NickName" className="block mb-2 text-lg font-medium">
             NickName:
@@ -91,7 +96,7 @@ export default function Register() {
             </div>
             <input
               type="text"
-              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu NickName"
             />
           </div>
@@ -116,22 +121,22 @@ export default function Register() {
             <input
               type="email"
               name="email"
-              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu Email"
             />
           </div>
         </div>
         <div className="pb-4">
           <label forlabel="code" className="block mb-2 text-lg font-medium">
-            Codigo de Verificación:
+            Código de Verificación:
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
             <input
               type="text"
               name="code"
-              className=" rounded-lg w-full  p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
-              placeholder="Ingresa el Codigo de Verificación"
+              className=" rounded-lg w-full  p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+              placeholder="Ingresa el Código de Verificación"
             />
           </div>
         </div>
@@ -153,7 +158,7 @@ export default function Register() {
             <input
               type="password"
               name="password"
-              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu Contraseña"
             />
           </div>
@@ -179,7 +184,7 @@ export default function Register() {
             <input
               type="password"
               name="repitPassword"
-              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+              className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu Contraseña"
             />
           </div>
@@ -207,7 +212,7 @@ export default function Register() {
                 type="radio"
                 value=""
                 name="default-radio"
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                className="w-4 h-4"
               />
             </div>
           </div>
@@ -216,9 +221,9 @@ export default function Register() {
         <div className="pt-5 text-center">
           <button
             type="button"
-            className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:bg-[#FF6868] focus:ring-4 focus:outline-none focus:ring-[#FF6868] rounded-full text-center dark:bg-[#FF6868] dark:hover:bg-[#FF6868] dark:focus:ring-bg-[#FF6868]"
+            className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] focus:ring-4 focus:outline-none focus:ring-[#FF6868] rounded-full text-center dark:bg-[#FF6868] dark:hover:bg-[#FF6868] dark:focus:ring-bg-[#FF6868]"
           >
-            Ingresar
+            Registrarse
           </button>
         </div>
       </form>
@@ -226,7 +231,7 @@ export default function Register() {
         <p>
           ¿Ya tienes cuenta?&nbsp;
           <Link
-            href={"/"}
+            href={"/accounts/signin"}
             className="font-bold text-[#FF6868] underline decoration-1"
           >
             Ingresar

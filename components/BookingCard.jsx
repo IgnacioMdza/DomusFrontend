@@ -11,12 +11,14 @@ export default function BookingCard2({ usertype, data }) {
   let statusText = data.status;
   let borderStyle = "";
   let bitacoraButtonColor = "#FF7068";
+  let bitacoraButtonHover = "#ff8c86";
   let bitacoraButtonDisplay = "block";
   let paymentButtonDisplay = "hidden";
   let pendingButtonsDisplay = "hidden";
 
   switch (usertype) {
     case "host":
+      bitacoraButtonHover = "#55576e";
       bitacoraButtonColor = "#2B2E4A";
       nameText = data.client;
       break;
@@ -61,14 +63,14 @@ export default function BookingCard2({ usertype, data }) {
       statusColor = "#FF0000";
       break;
   }
-  let colorPrueba = "#31BB00";
+
   return (
     <card
-      className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-full bg-white`}
+      className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-[95%] m-auto bg-white hover:scale-[102%] hover:shadow-xl`}
     >
       {/* <div
         id="uselessDiv"
-        className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000]"
+        className="text-[#31BB00] text-[#00B2FF] text-[#E91E63] text-[#FF9900] text-[#FF0000] hover:bg-[#55576e] hover:bg-[#ff8c86] hover:bg-[#ed4a82] max-h-[819px] max-h-[872px]"
       ></div> */}
       <Image
         loader={imageLoader}
@@ -80,8 +82,8 @@ export default function BookingCard2({ usertype, data }) {
       />
       <div className="text-left w-full">
         <div className="flex justify-between">
-          <Link href={""}>
-            <p className="text-[24px] font-[Raleway] font-semibold inline-block">
+          <Link href={"/profiles/client"}>
+            <p className="hover:underline text-[24px] font-[Raleway] font-semibold inline-block">
               {nameText}
             </p>
           </Link>
@@ -95,22 +97,24 @@ export default function BookingCard2({ usertype, data }) {
           <p className={`text-[${statusColor}] text-[16px] font-bold`}>
             {statusText}
           </p>
+          <Link href={"/bookingblog"}>
+            <button
+              className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
+            >
+              Bitácora
+            </button>
+          </Link>
           <button
-            className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px]`}
-          >
-            Bitácora
-          </button>
-          <button
-            className={`${paymentButtonDisplay} text-[14px] font-semibold text-white bg-[#E91E63] rounded-[5px] h-[35px] w-[100px]`}
+            className={`${paymentButtonDisplay} text-[14px] font-semibold text-white bg-[#E91E63] rounded-[5px] h-[35px] w-[100px] hover:bg-[#ed4a82]`}
           >
             Ir al pago
           </button>
         </div>
         <div className={`${pendingButtonsDisplay} flex justify-around`}>
-          <button className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px]">
+          <button className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]">
             Rechazar
           </button>
-          <button className="bg-[#E91E63] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px]">
+          <button className="bg-[#E91E63] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#ed4a82]">
             Aceptar
           </button>
         </div>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SearchCard() {
   return (
     <div className="flex flex-col gap-4 bg-white rounded-[15px] p-[20px] text-center text-[20px] text-[#1f2937] font-[Nunito] bg-opacity-60 backdrop-blur shadow-xl">
@@ -69,9 +71,15 @@ export default function SearchCard() {
           name="checkout"
         />
       </div>
-      <button className="bg-[#2b2e4a] text-[#F2F2F2] rounded-[60px] w-10/12 h-[57px] font-bold hover:scale-105 mx-auto">
-        BUSCAR
-      </button>
+      <Link
+        href={
+          "http://localhost:3000/search?city=Guadalajara&state=Jalisco&animalType=Perro"
+        }
+      >
+        <button className="bg-[#2b2e4a] text-[#F2F2F2] rounded-[60px] w-10/12 h-[57px] font-bold hover:scale-105 mx-auto">
+          BUSCAR
+        </button>
+      </Link>
     </div>
   );
 }

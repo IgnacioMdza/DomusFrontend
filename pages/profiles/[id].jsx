@@ -20,23 +20,27 @@ export default function ClientProfile() {
   const id = router.query.id;
   // Hacer el fetch aquí
 
-  const user_type = "client";
+  const user_type = id;
   let bookingBg = "";
   user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
 
   const [height, setHeight] = useState(0);
-  const [heightClass, setHeightClass] = useState("");
-  const elementRef = useRef(null);
+  const elementRef = useRef();
+  const bookingsDiv = useRef();
 
   useEffect(() => {
     setHeight(elementRef.current.offsetHeight);
-  }, []);
-
-  useEffect(() => {
-    setHeightClass(`max-h-[${height - 198}px]`);
+    if (height - 143 > 0) {
+      console.log(height);
+      bookingsDiv.current.classList.value += ` min-h-[${
+        height - 143
+      }px] max-h-[${height - 143}px]`;
+    }
+    console.log(height);
+    console.log(elementRef.current.offsetHeight);
+    console.log(bookingsDiv.current.classList.value);
   }, [height]);
 
-  const finalHeight = heightClass;
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl flex flex-col gap-10 text-[#2B2E4A]">
       <section
@@ -48,7 +52,7 @@ export default function ClientProfile() {
           ref={elementRef}
           className="basis-2/3 flex flex-col gap-5"
         >
-          <div id="general" className="flex flex-col md:flex-row gap-5">
+          <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
             <div className="text-center flex flex-col gap-3 items-center">
               <Image
                 loader={imageLoader}
@@ -67,9 +71,11 @@ export default function ClientProfile() {
             <div id="description" className="w-full">
               <div className="relative text-center md:text-left">
                 <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
-                  Josefina Trujillo id: {id}
+                  Josefina Trujillo
                 </p>
-                <p>{`height is: ${height} and class is ${heightClass}`}</p>
+                {/* <p>{`Left height is: ${height}px and Right height should be ${
+                  height - 198
+                }px`}</p> */}
                 <Link className="absolute right-0 bottom-0" href={"/"}>
                   <i className="fa fa-edit text-[25px]"></i>
                 </Link>
@@ -117,7 +123,8 @@ export default function ClientProfile() {
             <option value="finished">Terminada</option>
           </select>
           <div
-            className={`flex flex-col gap-3 pr-3 ${finalHeight} max-h-[807px] overflow-y-scroll`}
+            ref={bookingsDiv}
+            className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
           >
             {bookingsData.map((item, index) => {
               return (

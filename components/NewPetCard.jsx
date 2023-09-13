@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function NewPetCard() {
   return (
@@ -17,9 +18,11 @@ export default function NewPetCard() {
           <p>✩✩✩✩✩</p>
         </div>
       </div>
-      <button className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white">
-        Agregar Ahora
-      </button>
+      <Link href={"/accounts/petregister"}>
+        <button className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white hover:scale-[102%]">
+          Agregar Ahora
+        </button>
+      </Link>
     </main>
   );
 }
