@@ -1,7 +1,22 @@
+import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 
 export default function Register() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const password = useRef({});
+  password.current = watch("password", "");
+  const onSubmit = (e) => {
+    console.log(e);
+  };
+
   return (
     <div className="mt-36 m-auto lg:w-3/6 border-[1px] mx-4 mb-10 sm:m-auto sm:w-3/6 sm:mb-10 sm:mt-32 bg-white drop-shadow-xl">
       <div className="bg-[#FF6868] text-center text-white rounded-sm py-3 mb-10">
@@ -58,8 +73,8 @@ export default function Register() {
         </h1>
       </div>
       <form
-        action=""
-        className="px-2 sm:px-4 lg:px-10 lg:pb-10 font-[Nunito] font-medium "
+        onSubmit={handleSubmit(onSubmit)}
+        className="px-2 sm:px-4 lg:px-10 lg:pb-10 font-[Nunito] font-medium"
       >
         <div className="pb-4">
           <label forlabel="NickName" className="block mb-2 text-lg font-medium">
@@ -98,8 +113,21 @@ export default function Register() {
               type="text"
               className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu NickName"
+              {...register("nickname", {
+                required: {
+                  value: true,
+                  message: "El campo NickName es requerido",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "Máximo 10 caracteres",
+                },
+              })}
             />
           </div>
+          {errors.nickname && (
+            <span className="text-red-500">{errors.nickname.message}</span>
+          )}
         </div>
         <div className="pb-4">
           <label forlabel="email" className="block mb-2 text-lg font-medium">
@@ -120,11 +148,23 @@ export default function Register() {
             </div>
             <input
               type="email"
-              name="email"
               className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu Email"
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "El campo es requerido",
+                },
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: "El formato no es correcto",
+                },
+              })}
             />
           </div>
+          {errors.email && (
+            <span className="text-red-500">{errors.email.message}</span>
+          )}
         </div>
         <div className="pb-4">
           <label forlabel="code" className="block mb-2 text-lg font-medium">
@@ -134,11 +174,19 @@ export default function Register() {
             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
             <input
               type="text"
-              name="code"
               className=" rounded-lg w-full  p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa el Código de Verificación"
+              {...register("code", {
+                required: {
+                  value: true,
+                  message: "El campo es requerido",
+                },
+              })}
             />
           </div>
+          {errors.code && (
+            <span className="text-red-500">{errors.code.message}</span>
+          )}
         </div>
         <div>
           <label forlabel="password" className="block mb-2 text-lg font-medium">
@@ -157,11 +205,23 @@ export default function Register() {
             </div>
             <input
               type="password"
-              name="password"
               className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu Contraseña"
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: `El campo password requerido`,
+                },
+                minLength: {
+                  value: 6,
+                  message: "La contraseña debe tener al menos 6 caracteres",
+                },
+              })}
             />
           </div>
+          {errors.password && (
+            <span className="text-red-500">{errors.password.message}</span>
+          )}
         </div>
         <div className="pt-4">
           <label
@@ -183,11 +243,19 @@ export default function Register() {
             </div>
             <input
               type="password"
-              name="repitPassword"
               className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
               placeholder="Ingresa tu Contraseña"
+              {...register("password_repeat", {
+                validate: (value) =>
+                  value === password.current || "La contraseña no coincide",
+              })}
             />
           </div>
+          {errors.password_repeat && (
+            <span className="text-red-500">
+              {errors.password_repeat.message}
+            </span>
+          )}
         </div>
         <div className=" my-5 text-lg font-medium">
           <h4>Registrarse como:</h4>
@@ -201,6 +269,12 @@ export default function Register() {
                 value=""
                 name="default-radio"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                {...register("radio", {
+                  required: {
+                    value: true,
+                    message: "Selecciona un perfil",
+                  },
+                })}
               />
             </div>
 
@@ -210,18 +284,26 @@ export default function Register() {
               </label>
               <input
                 type="radio"
-                value=""
                 name="default-radio"
                 className="w-4 h-4"
+                {...register("radio", {
+                  required: {
+                    value: true,
+                    message: "Selecciona un perfil",
+                  },
+                })}
               />
             </div>
           </div>
+          {errors.radio && (
+            <p className="text-red-500 text-center">{errors.radio.message}</p>
+          )}
         </div>
 
         <div className="pt-5 text-center">
           <button
-            type="button"
-            className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] focus:ring-4 focus:outline-none focus:ring-[#FF6868] rounded-full text-center dark:bg-[#FF6868] dark:hover:bg-[#FF6868] dark:focus:ring-bg-[#FF6868]"
+            type="submit"
+            className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center"
           >
             Registrarse
           </button>
