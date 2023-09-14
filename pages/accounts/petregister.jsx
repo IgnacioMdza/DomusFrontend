@@ -1,6 +1,16 @@
 import Image from "next/image";
-
+import { useForm } from "react-hook-form";
 export default function PetRegister() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (e) => {
+    console.log(e);
+  };
+
   return (
     <div className="mt-32 mb-24">
       <div className="bg-[#2B2E4A] py-4 text-center">
@@ -19,7 +29,10 @@ export default function PetRegister() {
                 alt="Perfil de la Mascota"
               />
             </div>
-            <form action="" className="px-2 pt-3  md:m-auto m-auto">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="px-2 pt-3  md:m-auto m-auto text-blue-500"
+            >
               <div className="border-b-4 border-[#2B2E4A]">
                 <h2 className="text-2xl py-2 ">Datos de tu mascota</h2>
               </div>
@@ -33,9 +46,14 @@ export default function PetRegister() {
                     value=""
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
+                    {...register("radiopet", {
+                      required: {
+                        value: true,
+                        message: "Selecciona un perfil",
+                      },
+                    })}
                   />
                 </div>
-
                 <div className="flex items-center">
                   <label htmlFor="default-radio-1" className="mr-2 ">
                     Gato
@@ -45,8 +63,19 @@ export default function PetRegister() {
                     value=""
                     name="default-radio"
                     className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
+                    {...register("radiopet", {
+                      required: {
+                        value: true,
+                        message: "Selecciona un perfil",
+                      },
+                    })}
                   />
                 </div>
+                {errors.radiopet && (
+                  <span className="text-red-500">
+                    {errors.radiopet.message}
+                  </span>
+                )}
               </div>
               <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14">
                 <div className="pb-4 sm:w-full">
@@ -95,8 +124,19 @@ export default function PetRegister() {
                       name="name"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
                       placeholder="Ingresa el Nombre"
+                      {...register("namepet", {
+                        required: {
+                          value: true,
+                          message: "El campo Nombre es requerido",
+                        },
+                      })}
                     />
                   </div>
+                  {errors.namepet && (
+                    <span className="text-red-500">
+                      {errors.namepet.message}
+                    </span>
+                  )}
                 </div>
                 <div className="pb-4 sm:w-full">
                   <label
@@ -112,8 +152,17 @@ export default function PetRegister() {
                       name="lastName"
                       className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
                       placeholder="Ingresa la Raza"
+                      {...register("race", {
+                        required: {
+                          value: true,
+                          message: "El campo Raza es requerido",
+                        },
+                      })}
                     />
                   </div>
+                  {errors.race && (
+                    <span className="text-red-500">{errors.race.message}</span>
+                  )}
                 </div>
               </div>
               <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14">
@@ -128,13 +177,24 @@ export default function PetRegister() {
                     <select
                       id="countries"
                       className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
+                      {...register("selectsize", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                      })}
                     >
                       <option>Chico (2 kilos)</option>
-                      <option value="">Mediano(5 kilos)</option>
+                      <option value="mediano">Mediano(5 kilos)</option>
 
-                      <option value="">Grande (8 kilos)</option>
+                      <option value="grande">Grande (8 kilos)</option>
                     </select>
                   </div>
+                  {errors.selectsize && (
+                    <span className="text-red-500">
+                      {errors.selectsize.message}
+                    </span>
+                  )}
                   <div className="w-full">
                     <label
                       forlabel="lastName"
@@ -145,6 +205,12 @@ export default function PetRegister() {
                     <select
                       id="countries"
                       className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
+                      {...register("selectsex", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                      })}
                     >
                       <option>Macho</option>
                       <option value="">Hembra</option>
@@ -152,6 +218,11 @@ export default function PetRegister() {
                       <option value="">otro</option>
                     </select>
                   </div>
+                  {errors.selectsex && (
+                    <span className="text-red-500">
+                      {errors.selectsex.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="pt-4">
@@ -166,7 +237,26 @@ export default function PetRegister() {
                   rows="6"
                   className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A] bg-[#F2F2F2]"
                   placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales? "
+                  {...register("textaboutpet", {
+                    required: {
+                      value: true,
+                      message: "El campo es requerido",
+                    },
+                    minLength: {
+                      value: 100,
+                      message: "Mínimo 100 caracteres",
+                    },
+                    maxLength: {
+                      value: 200,
+                      message: "Máximo 200 caracteres",
+                    },
+                  })}
                 ></textarea>
+                {errors.textaboutpet && (
+                  <span className="text-red-500">
+                    {errors.textaboutpet.message}
+                  </span>
+                )}
               </div>
 
               <div className="pt-6 sm:flex sm:justify-around items-center gap-4">
@@ -177,7 +267,7 @@ export default function PetRegister() {
                   Cancelar
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#2B2E4A] hover:scale-[102%] focus:ring-4 focus:outline-none focus:ring-[#2B2E4A] rounded-full text-center"
                 >
                   Guardar
