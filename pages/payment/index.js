@@ -30,12 +30,14 @@ export default function App() {
   };
 
   return (
-    <div className="App">
-      {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      )}
-    </div>
+    <main className="h-[calc(100vh-90px)] mt-[90px] bg-[#FF7068]">
+      <section className='max-w-[1024px] mx-auto p-[24px] flex place-content-center items-center h-full'>
+        {clientSecret && (
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        )}
+      </section>
+    </main>
   );
 }

@@ -74,18 +74,25 @@ export default function CheckoutForm() {
 
   const paymentElementOptions = {
     layout: "tabs",
+    fields  : {
+        billingDetails : {
+          address : {
+              country : 'never'
+          }
+        }
+    }
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form id="payment-form" onSubmit={handleSubmit} className='w-3/5 bg-[#F2F2F2] p-[24px] rounded-xl shadow-xl'>
       <LinkAuthenticationElement
         id="link-authentication-element"
         onChange={(e) => setEmail(e.target.value)}
       />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button disabled={isLoading || !stripe || !elements} id="submit" className='bg-[#2B2E4A] font-bold border-[2px] border-[#2B2E4A] text-white p-[12px] w-full mt-[24px] rounded-full hover:scale-[101%] transition hover:bg-white hover:text-[#2B2E4A] hover:shadow-lg mb-1'>
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? <div className="spinner" id="spinner"></div> : "Pagar"}
         </span>
       </button>
       {message && <div id="payment-message">{message}</div>}
