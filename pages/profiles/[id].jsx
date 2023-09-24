@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState, useRef } from "react";
 
 import ReviewCard from "@/components/ReviewCard";
 import BookingCard from "@/components/BookingCard";
@@ -24,34 +23,14 @@ export default function ClientProfile() {
   let bookingBg = "";
   user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
 
-  const [height, setHeight] = useState(0);
-  const elementRef = useRef();
-  const bookingsDiv = useRef();
-
-  useEffect(() => {
-    setHeight(elementRef.current.offsetHeight);
-    if (height - 143 > 0) {
-      console.log(height);
-      bookingsDiv.current.classList.value += ` min-h-[${
-        height - 143
-      }px] max-h-[${height - 143}px]`;
-    }
-    console.log(height);
-    console.log(elementRef.current.offsetHeight);
-    console.log(bookingsDiv.current.classList.value);
-  }, [height]);
-
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl flex flex-col gap-10 text-[#2B2E4A]">
+      <div className="max-h-[991px]"></div>
       <section
         id="top"
         className="items-start  mt-[100px] flex flex-col lg:flex-row gap-10"
       >
-        <div
-          id="sibling"
-          ref={elementRef}
-          className="basis-2/3 flex flex-col gap-5"
-        >
+        <div className="basis-2/3 flex flex-col gap-5">
           <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
             <div className="text-center flex flex-col gap-3 items-center">
               <Image
@@ -73,9 +52,6 @@ export default function ClientProfile() {
                 <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
                   Josefina Trujillo
                 </p>
-                {/* <p>{`Left height is: ${height}px and Right height should be ${
-                  height - 198
-                }px`}</p> */}
                 <Link className="absolute right-0 bottom-0" href={"/"}>
                   <i className="fa fa-edit text-[25px]"></i>
                 </Link>
@@ -123,8 +99,7 @@ export default function ClientProfile() {
             <option value="finished">Terminada</option>
           </select>
           <div
-            ref={bookingsDiv}
-            className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
+            className={`flex flex-col gap-3 pt-1 max-h-[530px] overflow-y-scroll `}
           >
             {bookingsData.map((item, index) => {
               return (
