@@ -1,6 +1,17 @@
+import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 export default function HomeRegister() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (e) => {
+    console.log(e);
+  };
+
   return (
     <div className="mt-32 mb-24">
       <div className="bg-[#FF6868] py-4 text-center">
@@ -14,7 +25,10 @@ export default function HomeRegister() {
             <h2 className="text-2xl py-2 ">Características del Alojamiento</h2>
           </div>
           <div className=" md:items-center md:w-full">
-            <form action="" className="px-2 pt-3  md:m-auto m-auto">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="px-2 pt-3  md:m-auto m-auto "
+            >
               <div className="md:flex">
                 <div className="flex justify-center flex-col sm:flex-row items-center pt-10 lg:px-10 text-center gap-4 sm:gap-2 sm:items-start md:flex-col md:justify-start md:items-center md:gap-5">
                   <div className="flex flex-col justify-center items-center">
@@ -148,6 +162,12 @@ export default function HomeRegister() {
                           value=""
                           name="default-radio"
                           className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
+                          {...register("radiopet", {
+                            required: {
+                              value: true,
+                              message: "Selecciona una mascota",
+                            },
+                          })}
                         />
                       </div>
 
@@ -160,8 +180,19 @@ export default function HomeRegister() {
                           value=""
                           name="default-radio"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+                          {...register("radiopet", {
+                            required: {
+                              value: true,
+                              message: "Selecciona una mascota",
+                            },
+                          })}
                         />
                       </div>
+                      {errors.radiopet && (
+                        <span className="text-red-500">
+                          {errors.radiopet.message}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className=" my-5 text-lg font-medium">
@@ -172,10 +203,15 @@ export default function HomeRegister() {
                           Chico
                         </label>
                         <input
-                          id="default-checkbox"
                           type="checkbox"
                           value=""
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                          {...register("check", {
+                            required: {
+                              value: true,
+                              message: "Selecciona un tamaño",
+                            },
+                          })}
                         />
                       </div>
 
@@ -213,14 +249,25 @@ export default function HomeRegister() {
                     <select
                       id="countries"
                       className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
+                      {...register("selectcountries", {
+                        required: {
+                          value: true,
+                          message: "Selecciona una mascota",
+                        },
+                      })}
                     >
                       <option>1</option>
-                      <option value="">2</option>
-                      <option value="">3</option>
-                      <option value="">4</option>
-                      <option value="">5</option>
-                      <option value="">otro</option>
+                      <option value="dos">2</option>
+                      <option value="tres">3</option>
+                      <option value="cuatro">4</option>
+                      <option value="cinco">5</option>
+                      <option value="otro">otro</option>
                     </select>
+                    {errors.selectcountries && (
+                      <span className="text-red-500">
+                        {errors.selectcountries.message}
+                      </span>
+                    )}
                   </div>
                   <div className="sm:flex sm:justify-start sm:gap-10 lg:flex lg:justify-start lg:gap-14">
                     <div className="flex justify-around item-center sm:gap-4">
@@ -250,11 +297,21 @@ export default function HomeRegister() {
                           </div>
                           <input
                             type="time"
-                            name="date"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
+                            {...register("time", {
+                              required: {
+                                value: true,
+                                message: "Campo requerido",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.time && (
+                          <span className="text-red-500">
+                            {errors.time.message}
+                          </span>
+                        )}
                       </div>
                       <div className="pb-4">
                         <label
@@ -285,8 +342,19 @@ export default function HomeRegister() {
                             name="date"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
+                            {...register("time2", {
+                              required: {
+                                value: true,
+                                message: "Campo requerido",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.time2 && (
+                          <span className="text-red-500">
+                            {errors.time2.message}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -310,7 +378,26 @@ export default function HomeRegister() {
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales?"
+                      {...register("textpet", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                        minLength: {
+                          value: 100,
+                          message: "Mínimo 100 caracteres",
+                        },
+                        maxLength: {
+                          value: 200,
+                          message: "Máximo 200 caracteres",
+                        },
+                      })}
                     ></textarea>
+                    {errors.textpet && (
+                      <span className="text-red-500">
+                        {errors.textpet.message}
+                      </span>
+                    )}
                   </div>
                   <div className="pt-4">
                     <label
@@ -325,7 +412,26 @@ export default function HomeRegister() {
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Describe las particularidades que hacen de tu alojamiento un lugar ideal para las mascotas (jardin, etc...)"
+                      {...register("textplace", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                        minLength: {
+                          value: 100,
+                          message: "Mínimo 100 caracteres",
+                        },
+                        maxLength: {
+                          value: 200,
+                          message: "Máximo 200 caracteres",
+                        },
+                      })}
                     ></textarea>
+                    {errors.textplace && (
+                      <span className="text-red-500">
+                        {errors.textplace.message}
+                      </span>
+                    )}
                   </div>
                   <div className="pt-4">
                     <label
@@ -340,7 +446,26 @@ export default function HomeRegister() {
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Describe las limitaciones que tendrán las mascotas hospedadas en tu alojamiento."
+                      {...register("textrestrictions", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                        minLength: {
+                          value: 100,
+                          message: "Mínimo 100 caracteres",
+                        },
+                        maxLength: {
+                          value: 200,
+                          message: "Máximo 200 caracteres",
+                        },
+                      })}
                     ></textarea>
+                    {errors.textrestrictions && (
+                      <span className="text-red-500">
+                        {errors.textrestrictions.message}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -359,7 +484,7 @@ export default function HomeRegister() {
                   </div>
                   <div className="md:pt-5">
                     <div className="sm:flex  sm:items-center">
-                      <div className="pb-4 pt-4 sm:pt-0 sm:w-full sm:mr-4">
+                      <div className="pb-4 pt-4 sm:pt-0 sm:w-full sm:mr-4 sm:pb-0 lg:pb-0">
                         <label
                           forlabel="street"
                           className="block mb-2 text-lg font-medium"
@@ -373,11 +498,22 @@ export default function HomeRegister() {
                             name="street"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                             placeholder="Ingresa la Calle"
+                            {...register("street", {
+                              required: {
+                                value: true,
+                                message: "El campo es requerido",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.street && (
+                          <span className="text-red-500">
+                            {errors.street.message}
+                          </span>
+                        )}
                       </div>
                       <div className="flex gap-4">
-                        <div className="pb-4 sm:w-52">
+                        <div className="pb-4 sm:w-52 sm:pb-0 lg:pb-0 ">
                           <label
                             forlabel="exterior"
                             className="block mb-2 text-lg font-medium"
@@ -387,14 +523,25 @@ export default function HomeRegister() {
                           <div className="relative">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                             <input
-                              type="text"
+                              type="number"
                               name="exterior"
                               className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                               placeholder="Número Exterior"
+                              {...register("numext", {
+                                required: {
+                                  value: true,
+                                  message: "El campo es requerido",
+                                },
+                              })}
                             />
                           </div>
+                          {errors.numext && (
+                            <span className="text-red-500">
+                              {errors.numext.message}
+                            </span>
+                          )}
                         </div>
-                        <div className="pb-4 sm:w-52">
+                        <div className="pb-4 sm:w-52 sm:pb-0 lg:pb-0">
                           <label
                             forlabel="interior"
                             className="block mb-2 text-lg font-medium"
@@ -404,16 +551,27 @@ export default function HomeRegister() {
                           <div className="relative">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                             <input
-                              type="text"
+                              type="number"
                               name="interior"
-                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] [$>*::webkit-inner-spin-button"
                               placeholder="Número Interior"
+                              {...register("numint", {
+                                required: {
+                                  value: true,
+                                  message: "El campo es requerido",
+                                },
+                              })}
                             />
                           </div>
+                          {errors.numint && (
+                            <span className="text-red-500">
+                              {errors.numint.message}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
-                    <div className="pb-4">
+                    <div className="pb-4 sm:pb-0 lg:pb-0">
                       <label
                         forlabel="cologne"
                         className="block mb-2 text-lg font-medium"
@@ -427,8 +585,19 @@ export default function HomeRegister() {
                           name="cologne"
                           className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Colonia"
+                          {...register("cologne", {
+                            required: {
+                              value: true,
+                              message: "El campo es requerido",
+                            },
+                          })}
                         />
                       </div>
+                      {errors.cologne && (
+                        <span className="text-red-500">
+                          {errors.cologne.message}
+                        </span>
+                      )}
                     </div>
                     <div className="sm:flex sm:gap-10 ">
                       <div className="sm:w-full">
@@ -475,11 +644,21 @@ export default function HomeRegister() {
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
                             type="text"
-                            name="street"
                             className=" rounded-lg w-50 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Código Postal"
+                            {...register("postalcode", {
+                              required: {
+                                value: true,
+                                message: "El campo es requerido",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.postalcode && (
+                          <span className="text-red-500">
+                            {errors.postalcode.message}
+                          </span>
+                        )}
                       </div>
                       <div className="pb-4 sm:w-full">
                         <label
@@ -492,11 +671,20 @@ export default function HomeRegister() {
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
                             type="text"
-                            name="street"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            placeholder="Código Postal"
+                            {...register("streetandcorner", {
+                              required: {
+                                value: true,
+                                message: "El campo es requerido",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.streetandcorner && (
+                          <span className="text-red-500">
+                            {errors.streetandcorner.message}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="pt-4">
@@ -507,11 +695,29 @@ export default function HomeRegister() {
                         Referencias
                       </label>
                       <textarea
-                        id="message"
                         rows="6"
                         className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder="Ejemplo. -¿Color de la casa? -¿Color de la puerta / portón? -¿Algún negocio cercano?"
+                        {...register("reference", {
+                          required: {
+                            value: true,
+                            message: "El campo es requerido",
+                          },
+                          minLength: {
+                            value: 100,
+                            message: "Mínimo 100 caracteres",
+                          },
+                          maxLength: {
+                            value: 200,
+                            message: "Máximo 200 caracteres",
+                          },
+                        })}
                       ></textarea>
+                      {errors.streetandcorner && (
+                        <span className="text-red-500">
+                          {errors.streetandcorner.message}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -522,7 +728,7 @@ export default function HomeRegister() {
                   <h2 className="text-3xl pb-2">Información financiera</h2>
                 </div>
               </div>
-              <div className="md:flex">
+              <div className="lg:flex">
                 <div className="pt-4 md:pt-2">
                   <p className="text-lg lg:w-64 lg:mr-16">
                     Los costos por noche son los que tú recibirás netamente en
@@ -609,9 +815,20 @@ export default function HomeRegister() {
                             type="text"
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
-                            placeholder="Nombre del Titular"
+                            placeholder="Nombre completo del Titular"
+                            {...register("heandlinename", {
+                              required: {
+                                value: true,
+                                message: "El campo es requerido",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.heandlinename && (
+                          <span className="text-red-500">
+                            {errors.heandlinename.message}
+                          </span>
+                        )}
                       </div>
                       <div className="pb-4 sm:w-full">
                         <label
@@ -627,8 +844,27 @@ export default function HomeRegister() {
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa el Número de Cuenta"
+                            {...register("accountnumber", {
+                              required: {
+                                value: true,
+                                message: "El campo es requerido",
+                              },
+                              minLength: {
+                                value: 20,
+                                message: "Mínimo 20 caracteres",
+                              },
+                              maxLength: {
+                                value: 20,
+                                message: "Máximo 20 caracteres",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.accountnumber && (
+                          <span className="text-red-500">
+                            {errors.accountnumber.message}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="sm:flex sm:gap-10">
@@ -662,9 +898,28 @@ export default function HomeRegister() {
                             type="text"
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
-                            placeholder="Nombre del Titular"
+                            placeholder=" Ingresa tu clave interbancaria"
+                            {...register("accountkey", {
+                              required: {
+                                value: true,
+                                message: "El campo es requerido",
+                              },
+                              minLength: {
+                                value: 18,
+                                message: "Mínimo 18 caracteres",
+                              },
+                              maxLength: {
+                                value: 18,
+                                message: "Máximo 18 caracteres",
+                              },
+                            })}
                           />
                         </div>
+                        {errors.accountkey && (
+                          <span className="text-red-500">
+                            {errors.accountkey.message}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -673,13 +928,13 @@ export default function HomeRegister() {
               <div className="pt-6 sm:flex sm:justify-around items-center gap-4">
                 <button
                   type="button"
-                  className="px-6 py-3 w-full border-[2px] border-[#2B2E4A] rounded-full md:font-semibold mb-3 sm:mt-0 md:mb-0 lg:mb-0 sm:mb-0"
+                  className="px-6 py-3 w-full border-[2px] border-[#2B2E4A] rounded-full md:font-semibold mb-3 sm:mt-0 md:mb-0 lg:mb-0 sm:mb-0 hover:scale-[102%]"
                 >
                   Cancelar
                 </button>
                 <button
-                  type="button"
-                  className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:bg-[#FF6868] focus:ring-4 focus:outline-none focus:ring-[#FF6868] rounded-full text-center dark:bg-[#FF6868] dark:hover:bg-[#FF6868] dark:focus:ring-bg-[#FF6868]"
+                  type="submit"
+                  className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center"
                 >
                   Guardar
                 </button>
