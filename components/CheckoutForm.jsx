@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import {
   PaymentElement,
   LinkAuthenticationElement,
@@ -14,7 +15,7 @@ export default function CheckoutForm() {
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!stripe) {
       return;
     }
@@ -58,8 +59,15 @@ export default function CheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/bookingblog",
+        payment_method_data: {
+          billing_details: {
+            email: 'prueba@example.com',
+            address : {
+              country : 'MX'
+            },
+          }
+        },
       },
     });
 
@@ -76,19 +84,20 @@ export default function CheckoutForm() {
     layout: "tabs",
     fields  : {
         billingDetails : {
+          email: 'never',
           address : {
               country : 'never'
-          }
+          },
         }
     }
   };
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className='w-3/5 bg-[#F2F2F2] p-[24px] rounded-xl shadow-xl'>
-      <LinkAuthenticationElement
+      {/* <LinkAuthenticationElement
         id="link-authentication-element"
         onChange={(e) => setEmail(e.target.value)}
-      />
+      /> */}
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit" className='bg-[#2B2E4A] font-bold border-[2px] border-[#2B2E4A] text-white p-[12px] w-full mt-[24px] rounded-full hover:scale-[101%] transition hover:bg-white hover:text-[#2B2E4A] hover:shadow-lg mb-1'>
         <span id="button-text">

@@ -1,6 +1,7 @@
 import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import { useEffect } from "react";
 
 import CheckoutForm from "@/components/CheckoutForm";
 
@@ -9,13 +10,21 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 export default function App() {
   const [clientSecret, setClientSecret] = React.useState("");
+  const amount = 500
 
-  React.useEffect(() => {
+  useEffect(() => {
     
-    fetch("/api/create-payment-intent", {
+    fetch("http://localhost:8080/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      body: JSON.stringify({ 
+        amount, 
+        description: 'Pago personalizado',
+        billing_details: {
+          address: {
+            country: 'MX' // País del cliente
+          }
+        }}),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
