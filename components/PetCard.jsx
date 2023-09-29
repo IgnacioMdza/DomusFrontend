@@ -19,7 +19,7 @@ export default function PetCard({ data }) {
           height={110}
           className="object-cover rounded-full"
         /> */}
-        <img
+        {/*<img
           className="w-[110px] h-[110px] object-cover rounded-full"
           src={data.picture}
           alt="Pet Image"
@@ -47,11 +47,11 @@ export default function PetCard({ data }) {
           <p className="font-bold text-center">
             Tamaño: <span className="font-normal">{data.size}</span>
           </p>
-        </div>
+      </div>*/}
       </div>
-      <p className="text-[16px] text-center md:text-justify px-[4px]">
+      {/*<p className="text-[16px] text-center md:text-justify px-[4px]">
         {data.aboutMe}
-      </p>
+    </p>*/}
     </main>
   );
 }
