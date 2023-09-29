@@ -16,7 +16,7 @@ export default function HostCard({
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <div className="bg-white flex flex-col sm:flex-row items-center p-[16px] xl:p-[20px] rounded-[10px] gap-[20px] max-w-[1280px] border">
+      <div className="bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[16px] xl:p-[20px] rounded-[10px] gap-[20px] max-w-[1280px] border">
           <img
             src={hostProfileImage}
             alt="host_image"

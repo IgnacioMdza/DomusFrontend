@@ -33,7 +33,7 @@ export default function HostSearchCard() {
     }
 
     return (
-        <form className='bg-white rounded-xl flex flex-col p-[24px] gap-[20px]'>
+        <form className='bg-white rounded-xl flex flex-col p-[24px] gap-[20px] shadow-xl'>
             <h1 className='text-[24px] text-[#FF7068]'>¡Encuentra a un anfitrión!</h1>
             <div className='flex gap-[16px] w-full'>
                 <select id="estados" onChange={handleStateChange} value={state} className='rounded-md border border-gray-300 p-[14px] text-black w-1/2'>
