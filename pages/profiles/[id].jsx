@@ -10,6 +10,7 @@ import HomeSection from "@/components/HomeSection";
 
 import { reviewsData } from "@/data/reviewsData";
 import { bookingsData } from "@/data/bookingsData";
+import { petData } from "@/data/petsData";
 
 const imageLoader = ({ src, width, quality }) => {
   return `https://i.pinimg.com/${src}`;
@@ -17,41 +18,64 @@ const imageLoader = ({ src, width, quality }) => {
 
 export default function ClientProfile() {
   const router = useRouter();
-  const id = router.query.id;
-  // Hacer el fetch aquí
-
-  const user_type = id;
-  let bookingBg = "";
-  user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
-
-  const [height, setHeight] = useState(0);
-  const elementRef = useRef();
-  const bookingsDiv = useRef();
+  const [pageData, setPageData] = useState({});
+  const [bookingBg, setBookingBg] = useState("");
+  const editProfileBtn = useRef();
+  const editPetAccomBtn = useRef();
+  const bookingsAside = useRef();
+  const pageDisplay = useRef();
+  const client =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MTA3YWEwZjQxMjRlMWZhZmMwMWNiMSIsInVzZXJUeXBlIjoiY2xpZW50IiwidXNlckltYWdlIjoiaHR0cHM6Ly91aS1hdmF0YXJzLmNvbS9hcGkvP25hbWU9SlJfQ2xpZW50IiwidXNlck5pY2tOYW1lIjoiSlJfQ2xpZW50IiwiaWF0IjoxNjk1NjAxNjg3LCJleHAiOjE2OTU2MTk2ODd9.pcT_4FmVytcMIPnQpmriYuD8Fkdt8Yhs7xxvC1DoxqU";
+  const host =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MTA3YjQwNzM3NjQxMmI3NzIzMDRlNSIsInVzZXJUeXBlIjoiaG9zdCIsInVzZXJJbWFnZSI6Imh0dHBzOi8vdWktYXZhdGFycy5jb20vYXBpLz9uYW1lPUpSX0hvc3QiLCJ1c2VyTmlja05hbWUiOiJKUl9Ib3N0IiwiaWF0IjoxNjk1NjAwOTQ1LCJleHAiOjE2OTU2MTg5NDV9.m_cfAruA-2B9rt4r6kavj2meWKWbkjyHlnNsxN_XCig";
 
   useEffect(() => {
-    setHeight(elementRef.current.offsetHeight);
-    if (height - 143 > 0) {
-      console.log(height);
-      bookingsDiv.current.classList.value += ` min-h-[${
-        height - 143
-      }px] max-h-[${height - 143}px]`;
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("token", client);
+      const token = localStorage.getItem("token");
+      const tokenInfo = JSON.parse(atob(token.split(".")[1]));
+      const pathId = router.query.id;
+      const idMatch = pathId === tokenInfo.id;
+
+      setPageData({ tokenInfo, pathId, idMatch });
     }
-    console.log(height);
-    console.log(elementRef.current.offsetHeight);
-    console.log(bookingsDiv.current.classList.value);
-  }, [height]);
+  }, [router.query.id]);
+
+  // STYLING ACCORDING THE PAGE DATA
+  useEffect(() => {
+    if (pageData?.tokenInfo?.userType === "client") {
+      setBookingBg("#2B2E4A");
+    } else if (pageData?.tokenInfo?.userType === "host") {
+      setBookingBg("#FF7068");
+    }
+
+    if (pageData?.idMatch) {
+      editProfileBtn.current.className =
+        editProfileBtn.current.className.replace(" hidden", "");
+      editPetAccomBtn.current.className =
+        editPetAccomBtn.current.className.replace(" hidden", "");
+      bookingsAside.current.className = bookingsAside.current.className.replace(
+        " hidden",
+        ""
+      );
+      pageDisplay.current.className = pageDisplay.current.className.replace(
+        " max-w-screen-xl",
+        " max-w-screen-2xl"
+      );
+    }
+  }, [pageData.idMatch, pageData?.tokenInfo?.userType]);
 
   return (
-    <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl flex flex-col gap-10 text-[#2B2E4A]">
+    <main
+      ref={pageDisplay}
+      className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] max-w-screen-xl"
+    >
+      <div className="max-h-[991px] m-auto"></div>
       <section
         id="top"
-        className="items-start  mt-[100px] flex flex-col lg:flex-row gap-10"
+        className="items-start mt-[100px] flex flex-col lg:flex-row gap-10"
       >
-        <div
-          id="sibling"
-          ref={elementRef}
-          className="basis-2/3 flex flex-col gap-5"
-        >
+        <div className="flex flex-col gap-5">
           <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
             <div className="text-center flex flex-col gap-3 items-center">
               <Image
@@ -73,10 +97,11 @@ export default function ClientProfile() {
                 <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
                   Josefina Trujillo
                 </p>
-                {/* <p>{`Left height is: ${height}px and Right height should be ${
-                  height - 198
-                }px`}</p> */}
-                <Link className="absolute right-0 bottom-0" href={"/"}>
+                <Link
+                  ref={editProfileBtn}
+                  className="absolute right-0 bottom-0 hidden"
+                  href={"/"}
+                >
                   <i className="fa fa-edit text-[25px]"></i>
                 </Link>
               </div>
@@ -95,18 +120,29 @@ export default function ClientProfile() {
           <div>
             <div className="relative">
               <p className="font-bold text-[35px]">
-                {user_type === "client" ? "Mascotas" : "Alojamiento"}
+                {pageData?.tokenInfo?.userType === "client" ? "Mascotas" : null}
+                {pageData?.tokenInfo?.userType === "host"
+                  ? "Alojamiento"
+                  : null}
               </p>
-              <Link className="absolute right-0 bottom-0" href={"/"}>
+              <Link
+                ref={editPetAccomBtn}
+                className="absolute right-0 bottom-0 hidden"
+                href={"/"}
+              >
                 <i className="fa fa-edit text-[25px]"></i>
               </Link>
             </div>
             <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-            {user_type === "client" ? <PetsSection /> : <HomeSection />}
+            {pageData?.tokenInfo?.userType === "client" ? (
+              <PetsSection data={petData} idMatch={pageData.idMatch} />
+            ) : null}
+            {pageData?.tokenInfo?.userType === "host" ? <HomeSection /> : null}
           </div>
         </div>
         <div
-          className={`w-full basis-1/3 text-center px-5 bg-[${bookingBg}] lg:rounded-[10px] py-6`}
+          ref={bookingsAside}
+          className={`w-full lg:min-w-[450px] text-center px-5 bg-[${bookingBg}] lg:rounded-[10px] py-6 hidden`}
         >
           <p className="text-white text-[40px] font-[Raleway] mb-4">Reservas</p>
           <select
@@ -123,12 +159,15 @@ export default function ClientProfile() {
             <option value="finished">Terminada</option>
           </select>
           <div
-            ref={bookingsDiv}
-            className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
+            className={`flex flex-col gap-3 pt-1 max-h-[530px] overflow-y-scroll `}
           >
             {bookingsData.map((item, index) => {
               return (
-                <BookingCard key={index} usertype={user_type} data={item} />
+                <BookingCard
+                  key={index}
+                  usertype={pageData?.tokenInfo?.userType}
+                  data={item}
+                />
               );
             })}
           </div>
@@ -152,6 +191,7 @@ export default function ClientProfile() {
                     reviewDate={item.reviewDate}
                     value={item.value}
                     review={item.review}
+                    anfitrionName={item.anfitrionName}
                   />
                 );
               })}
@@ -170,6 +210,7 @@ export default function ClientProfile() {
                     reviewDate={item.reviewDate}
                     value={item.value}
                     review={item.review}
+                    anfitrionName={item.anfitrionName}
                   />
                 );
               })}
