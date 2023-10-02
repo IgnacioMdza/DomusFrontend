@@ -1,4 +1,5 @@
 import SearchCard from "@/components/SearchCard";
+import HostSearchCard from "@/components/HostSearchCard";
 import ReviewCard from "@/components/ReviewCard";
 import component from "/public/images/seccion_beneficios_1.png";
 import check from "/public/icons/check.png";
@@ -35,7 +36,7 @@ export default function Home() {
             </p>
           </div>
           <div className="md:relative top-[-40px] lg:static">
-            <SearchCard />
+            <HostSearchCard isLanding={true}/>
           </div>
         </div>
       </section>
