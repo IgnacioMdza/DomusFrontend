@@ -1,18 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-// Make env variable
-// const BASE_URL = process.env.BASE_URL;
-
 export default function Login() {
-  const token = window.localStorage.getItem("token");
-  if (token) {
-    const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    window.location.replace(`/profiles/${decodedToken.id}`);
-  }
+  const [user, setUser] = useState({});
 
+  const URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.replace(`/profiles/${user?.id}`);
+    }
+  }, [user]);
   const {
     register,
     handleSubmit,
@@ -20,8 +24,7 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    fetch(`http://localhost:8080/auth`, {
+    fetch(`${URL}/auth`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
@@ -29,15 +32,18 @@ export default function Login() {
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.success) {
-          window.localStorage.setItem("token", resp.token);
+          localStorage.setItem("token", resp.token);
           const decodedToken = JSON.parse(atob(resp.token.split(".")[1]));
-          window.location.replace(`/profiles/${decodedToken.id}`);
+          setUser(decodedToken);
+        } else {
+          toast.error("Invalid Data");
         }
       });
   };
 
   return (
     <main className="min-h-[calc(100vh-90px)] flex">
+      <ToastContainer />
       <div className="w-full m-auto mt-36 rounded-md sm:max-w-xl sm:mt-36 sm:mb-20 lg:max-w-3xl  lg:mt-28 lg:mb-10 md:px-0 lg:flex lg:items-center lg:justify-center">
         <div className="lg:flex lg:border-[2px] lg:w-full bg-white drop-shadow-xl px-5 py-7 lg:px-0 lg:py-0">
           <div className="lg:bg-[#2F2E43] lg:flex lg:items-center px-5">
