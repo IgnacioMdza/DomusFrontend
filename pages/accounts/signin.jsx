@@ -3,16 +3,39 @@ import Link from "next/link";
 
 import { useForm } from "react-hook-form";
 
+// Make env variable
+// const BASE_URL = process.env.BASE_URL;
+
 export default function Login() {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    const decodedToken = JSON.parse(atob(token.split(".")[1]));
+    window.location.replace(`/profiles/${decodedToken.id}`);
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const onSubmit = (data) => {
+    console.log(data);
+    fetch(`http://localhost:8080/auth`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.success) {
+          window.localStorage.setItem("token", resp.token);
+          const decodedToken = JSON.parse(atob(resp.token.split(".")[1]));
+          window.location.replace(`/profiles/${decodedToken.id}`);
+        }
+      });
   };
+
   return (
     <main className="min-h-[calc(100vh-90px)] flex">
       <div className="w-full m-auto mt-36 rounded-md sm:max-w-xl sm:mt-36 sm:mb-20 lg:max-w-3xl  lg:mt-28 lg:mb-10 md:px-0 lg:flex lg:items-center lg:justify-center">
