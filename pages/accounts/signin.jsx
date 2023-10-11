@@ -14,7 +14,9 @@ export default function Login() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      window.location.replace(`/profiles/${user?.id}`);
+      window.location.replace(
+        `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+      );
     }
   }, [user]);
   const {
