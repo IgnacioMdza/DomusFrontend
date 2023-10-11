@@ -78,7 +78,7 @@ export default function NavBar() {
           aria-expanded="false"
         >
           <span className="sr-only">Open main menu</span>
-          {isOpen ? (
+          {!isOpen ? (
             <svg
               className="block h-6 w-6"
               xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@ export default function NavBar() {
           )}
         </button>
       </div>
-      <Transition show={!isOpen}>
+      <Transition show={isOpen}>
         <div className="md:hidden z-50 border-0 navbar" id="mobile-menu">
           <div className="w-full " id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
