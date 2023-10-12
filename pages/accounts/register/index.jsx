@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 export default function CompleteRegister() {
-  const router = useRouter()
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [image, setImage] = useState(null);
   const {
@@ -23,42 +23,56 @@ export default function CompleteRegister() {
   //       setUser(response.data);
   //   })
   // }, [])
-  
+
   const onSubmit = (data) => {
     fetch(`https://localhost:8080/users/${userId}`, {
-      method: 'PATCH',
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-          picture: '',
-          name: data.name,
-          lastname: data.lastname,
-          phone: data.cellphone,
-          birthday: data.date,
-          sex: data.sex,
-          aboutMe: data.textAbout,
-          emergencyContact: {
-            name: data.contactName,
-            lastname: data.contactLastname,
-            phone: data.contactCellphone,
-            relationship: data.contactSelect
-          }
+        picture: "",
+        name: data.name,
+        lastname: data.lastname,
+        phone: data.cellphone,
+        birthday: data.date,
+        sex: data.sex,
+        aboutMe: data.textAbout,
+        emergencyContact: {
+          name: data.contactName,
+          lastname: data.contactLastname,
+          phone: data.contactCellphone,
+          relationship: data.contactSelect,
+        },
       }),
-      })
+    })
       .then((response) => response.json())
       .then((response) => {
-          console.log("response: ", response);
-          toast.success("Usuario actualizado con éxito", {autoClose: 2000,});
-          setTimeout(() => router.push(`/profiles/${userId}`), 2000); 
+        console.log("response: ", response);
+        toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
+        setTimeout(() => router.push(`/profiles/${userId}`), 2000);
       })
       .catch(() => {
-          alert("falló el fetch");
+        alert("falló el fetch");
       });
   };
 
   return (
     // user &&
     <div className="mt-[114px] mb-[24px]">
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {/* <div className="bg-[#FF6868] py-4 text-center">
         <h1 className="text-white text-[28px] font-medium font-[Raleway]">
           Completar Registro
@@ -71,43 +85,51 @@ export default function CompleteRegister() {
               Completar Registro
             </h1>
           </div>
-          <div className='p-[24px]'>
+          <div className="p-[24px]">
             <div className="border-b-[2px] border-[#FF6868]">
               <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
                 Información General
               </h2>
             </div>
             <div className="lg:flex lg:items-start md:items-center lg:w-full">
-
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
-              > 
-                <div className='w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]'>
-                    {image 
-                    ? <img src={image} alt="Selected" className='h-full w-full object-cover rounded-full'/> 
-                    : <div className='h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40'>
-                        <p className='text-center text-slate-400 font-light mt-[8px]'>Aún no has cargado una imagen</p>
-                      </div>}
+              >
+                <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
+                  {image ? (
+                    <img
+                      src={image}
+                      alt="Selected"
+                      className="h-full w-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <div className="h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40">
+                      <p className="text-center text-slate-400 font-light mt-[8px]">
+                        Aún no has cargado una imagen
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div className="pb-4 w-full">
                   <label
-                      forlabel="image"
-                      className="block mb-2 text-lg font-medium"
-                    >
-                      Subir imagen:
+                    forlabel="image"
+                    className="block mb-2 text-lg font-medium"
+                  >
+                    Subir imagen:
                   </label>
-                  <div className='flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg'>
+                  <div className="flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg">
                     <input
                       type="file"
                       accept=".png, .jpg, .jpeg"
-                      className='cursor-pointer p-[8px]'
+                      className="cursor-pointer p-[8px]"
                       {...register("image", {
                         required: {
                           value: true,
                           message: "Subir imagen es requerido",
                         },
-                        onChange: (e) => setImage(URL.createObjectURL(e.target.files[0])),
+                        onChange: (e) =>
+                          setImage(URL.createObjectURL(e.target.files[0])),
                       })}
                     />
                   </div>
@@ -210,7 +232,9 @@ export default function CompleteRegister() {
                       />
                     </div>
                     {errors.name && (
-                      <span className="text-red-500">{errors.name.message}</span>
+                      <span className="text-red-500">
+                        {errors.name.message}
+                      </span>
                     )}
                   </div>
                   <div className="pb-4 sm:w-1/2">
@@ -281,8 +305,8 @@ export default function CompleteRegister() {
                           },
                           pattern: {
                             value: /^[0-9]{1,10}$/,
-                            message: "Número inválido"
-                          }
+                            message: "Número inválido",
+                          },
                         })}
                       />
                     </div>
@@ -329,14 +353,17 @@ export default function CompleteRegister() {
                             const birthDate = new Date(value);
                             const currentDate = new Date();
                             const age =
-                              currentDate.getFullYear() - birthDate.getFullYear();
+                              currentDate.getFullYear() -
+                              birthDate.getFullYear();
                             return age >= 18 || "Debes de ser mayor de edad";
                           },
                         })}
                       />
                     </div>
                     {errors.date && (
-                      <span className="text-red-500">{errors.date.message}</span>
+                      <span className="text-red-500">
+                        {errors.date.message}
+                      </span>
                     )}
                   </div>
                   <div className="w-full sm:w-full">
@@ -362,7 +389,7 @@ export default function CompleteRegister() {
                       <option value="Otro">Otro</option>
                     </select>
                     {errors.sex && (
-                    <span className="text-red-500">{errors.sex.message}</span>
+                      <span className="text-red-500">{errors.sex.message}</span>
                     )}
                   </div>
                   {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
@@ -378,7 +405,7 @@ export default function CompleteRegister() {
                     id="message"
                     rows="6"
                     className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                    placeholder="Describe ¿De dónde eres? -¿Qué te gusta hacer? -¿A qué te dedicas? -¿Qué significan tus mascotas para ti? ... [300 a 400 caracteres]"
+                    placeholder={`Describe:\n- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n[300 a 400 caracteres]`}
                     {...register("textAbout", {
                       required: {
                         value: true,
@@ -396,18 +423,22 @@ export default function CompleteRegister() {
                   ></textarea>
                 </div>
                 {errors.textAbout && (
-                  <span className="text-red-500">{errors.textAbout.message}</span>
+                  <span className="text-red-500">
+                    {errors.textAbout.message}
+                  </span>
                 )}
                 <div>
                   <div className="border-b-[2px] border-[#FF6868] pt-4">
-                    <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">Contacto de Emergencia</h2>
+                    <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
+                      Contacto de Emergencia
+                    </h2>
                   </div>
                 </div>
                 <div className="lg:flex lg:items-center pt-4 gap-[36px]">
                   <p className="text-lg lg:w-64 text-justify font-light">
-                    La información de este contacto servirá únicamente para cuando
-                    tú anfitrión/cliente intente localizarte por algún asunto
-                    relacionado a las mascotas y no sea posible lograrlo.
+                    La información de este contacto servirá únicamente para
+                    cuando tu anfitrión/cliente intente localizarte por algún
+                    asunto relacionado a las mascotas y no sea posible lograrlo.
                   </p>
                   <div>
                     <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
@@ -535,8 +566,8 @@ export default function CompleteRegister() {
                               },
                               pattern: {
                                 value: /^[0-9]{1,10}$/,
-                                message: "Número inválido"
-                              }
+                                message: "Número inválido",
+                              },
                             })}
                           />
                         </div>
@@ -573,9 +604,9 @@ export default function CompleteRegister() {
                           <option value="Otro">Otro</option>
                         </select>
                         {errors.contactSelect && (
-                        <span className="text-red-500">
-                          {errors.contactSelect.message}
-                        </span>
+                          <span className="text-red-500">
+                            {errors.contactSelect.message}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -583,7 +614,7 @@ export default function CompleteRegister() {
                 </div>
                 <div className="pt-6 flex justify-between items-center gap-[32px]">
                   <Link
-                    href='/'
+                    href="/"
                     type="button"
                     className="px-6 py-3 text-center w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold  sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0 hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
                   >

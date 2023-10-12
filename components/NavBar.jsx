@@ -6,6 +6,10 @@ import { Transition } from "@headlessui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
+const imageLoader = ({ src, width, quality }) => {
+  return `${src}`;
+};
+
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState({});
@@ -79,7 +83,7 @@ export default function NavBar() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    href="./accounts/register"
                     className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white "
                     aria-current="page"
                   >
@@ -88,13 +92,15 @@ export default function NavBar() {
                 </li>
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
                   <Link
-                    href="/cuentas/register"
+                    href={`/profiles/${user.id}`}
                     className="text-dark "
                     aria-current="page"
                   >
                     perfil
                   </Link>
                   <Image
+                    unoptimized
+                    loader={imageLoader}
                     src={user.userImage}
                     width={100}
                     height={100}
@@ -218,7 +224,7 @@ export default function NavBar() {
                 </li>
                 <li className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
                   <Link
-                    href="/"
+                    href="./accounts/register"
                     // className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center bg-red-500"
                     aria-current="page"
                   >
@@ -227,14 +233,15 @@ export default function NavBar() {
                 </li>
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
                   <Link
-                    href="/cuentas/register"
+                    href={`/profiles/${user.id}`}
                     className="text-dark "
                     aria-current="page"
                   >
                     perfil
                   </Link>
-
                   <Image
+                    unoptimized
+                    loader={imageLoader}
                     src={user.userImage}
                     width={100}
                     height={100}

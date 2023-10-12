@@ -11,7 +11,6 @@ import HomeSection from "@/components/HomeSection";
 
 import { reviewsData } from "@/data/reviewsData";
 import { bookingsData } from "@/data/bookingsData";
-import { petData } from "@/data/petsData";
 
 const imageLoader = ({ src, width, quality }) => {
   return `${src}`;
@@ -21,7 +20,7 @@ export default function ClientProfile() {
   const router = useRouter();
   const [userData, setUserData] = useState(false);
   const [idMatch, setIdMatch] = useState(false);
-  const [imgURL, setImgURL] = useState("");
+  // const [imgURL, setImgURL] = useState("");
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -38,24 +37,25 @@ export default function ClientProfile() {
       fetch(`${URL}/users/${pathId}`)
         .then((resp) => resp.json())
         .then((resp) => {
-          if (resp.success) {
-            setUserData(resp.data);
-          }
+          if (!resp.data.isInfoCompleted && pathId === tokenInfo.id)
+            router.push("../accounts/register");
+          else if (!resp.data.isInfoCompleted) router.push("/");
+          if (resp.success) setUserData(resp.data);
         });
     }
   }, [router.query.id]);
 
-  useEffect(() => {
-    if (userData.picture) {
-      fetch(`${URL}/bucket/download/${userData.picture}`)
-        .then((resp) => resp.json())
-        .then((resp) => {
-          if (resp.success) {
-            setImgURL(resp.data);
-          }
-        });
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData.picture) {
+  //     fetch(`${URL}/bucket/download/${userData.picture}`)
+  //       .then((resp) => resp.json())
+  //       .then((resp) => {
+  //         if (resp.success) {
+  //           setImgURL(resp.data);
+  //         }
+  //       });
+  //   }
+  // }, [userData]);
 
   return (
     <main
@@ -81,7 +81,7 @@ export default function ClientProfile() {
                     unoptimized
                     priority
                     alt="Profile Picture"
-                    src={imgURL || "src"}
+                    src={userData.picture}
                     width={200}
                     height={200}
                     className="min-w-[250px] max-w-[250px] min-h-[250px] max-h-[250px] object-cover rounded-full flex-none"
@@ -94,7 +94,13 @@ export default function ClientProfile() {
                   />
                   <p className="font-bold text-[14px]">
                     Miembro desde:
-                    <span className="font-normal">14/Enero/2021</span>
+                    <span className="font-normal">
+                      {` ${userData.joined
+                        .split("T")[0]
+                        .split("-")
+                        .reverse()
+                        .join("-")}`}
+                    </span>
                   </p>
                 </div>
                 <div id="description" className="w-full">

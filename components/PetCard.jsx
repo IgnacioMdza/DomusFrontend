@@ -10,6 +10,7 @@ export default function PetCard({ data }) {
     <main className="p-[16px] bg-white rounded-[15px] w-full h-full shadow-md flex flex-col gap-[12px]">
       <div className="flex items-center bg-[#F2F2F2] rounded-l-[72px] rounded-r-[72px] p-[8px]">
         <Image
+          unoptimized
           loader={imageLoader}
           alt="Profile Picture"
           src={data.picture}

@@ -38,7 +38,7 @@ export default function Login() {
           const decodedToken = JSON.parse(atob(resp.token.split(".")[1]));
           setUser(decodedToken);
         } else {
-          toast.error("Invalid Data");
+          toast.error(resp.message);
         }
       });
   };
