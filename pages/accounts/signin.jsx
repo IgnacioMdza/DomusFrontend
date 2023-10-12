@@ -5,9 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [user, setUser] = useState({});
+  const router = useRouter()
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -34,7 +36,9 @@ export default function Login() {
         if (resp.success) {
           localStorage.setItem("token", resp.token);
           const decodedToken = JSON.parse(atob(resp.token.split(".")[1]));
-          setUser(decodedToken);
+          console.log(decodedToken)
+          // setUser(decodedToken);
+          // router.push(`/profiles/${decodedToken.id}`)
         } else {
           toast.error("Invalid Data");
         }
