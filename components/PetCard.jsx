@@ -2,27 +2,20 @@ import Image from "next/image";
 import { Rating } from "@mui/material";
 
 const imageLoader = ({ src, width, quality }) => {
-  return `https://hips.hearstapps.com/${src}`;
+  return `${src}`;
 };
 
 export default function PetCard({ data }) {
   return (
     <main className="p-[16px] bg-white rounded-[15px] w-full h-full shadow-md flex flex-col gap-[12px]">
       <div className="flex items-center bg-[#F2F2F2] rounded-l-[72px] rounded-r-[72px] p-[8px]">
-        {/* <Image
+        <Image
           loader={imageLoader}
           alt="Profile Picture"
-          src={
-            "hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*"
-          }
+          src={data.picture}
           width={110}
           height={110}
-          className="object-cover rounded-full"
-        /> */}
-        {/*<img
-          className="w-[110px] h-[110px] object-cover rounded-full"
-          src={data.picture}
-          alt="Pet Image"
+          className="min-w-[110px] max-w-[110px] min-h-[110px] max-h-[110px] object-cover rounded-full"
         />
         <div className="mx-auto">
           <p className="text-[Raleway] text-[28px] text-[#FF7068] mb-3 text-center">
@@ -37,7 +30,9 @@ export default function PetCard({ data }) {
             Raza: <span className="font-normal">{data.breed}</span>
           </p>
           <p className="font-bold text-center">
-            Edad: <span className="font-normal">{`${data.age} años`}</span>
+            Edad:{" "}
+            <span className="font-normal">{`${data.age} 
+            ${data.age === 1 ? "año" : "años"}`}</span>
           </p>
         </div>
         <div className="inline-block text-[16px] md:text-left">
@@ -47,11 +42,11 @@ export default function PetCard({ data }) {
           <p className="font-bold text-center">
             Tamaño: <span className="font-normal">{data.size}</span>
           </p>
-      </div>*/}
+        </div>
       </div>
-      {/*<p className="text-[16px] text-center md:text-justify px-[4px]">
+      <p className="text-[16px] text-center md:text-justify px-[4px]">
         {data.aboutMe}
-    </p>*/}
+      </p>
     </main>
   );
 }

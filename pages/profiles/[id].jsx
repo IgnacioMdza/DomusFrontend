@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Rating } from "@mui/material";
 
 import ReviewCard from "@/components/ReviewCard";
 import BookingCard from "@/components/BookingCard";
@@ -18,8 +19,9 @@ const imageLoader = ({ src, width, quality }) => {
 
 export default function ClientProfile() {
   const router = useRouter();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(false);
   const [idMatch, setIdMatch] = useState(false);
+  const [imgURL, setImgURL] = useState("");
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -49,11 +51,11 @@ export default function ClientProfile() {
         .then((resp) => resp.json())
         .then((resp) => {
           if (resp.success) {
-            setUserData({ ...userData, pictureURL: resp.data });
+            setImgURL(resp.data);
           }
         });
     }
-  }, [router.query.id]);
+  }, [userData]);
 
   return (
     <main
@@ -61,152 +63,166 @@ export default function ClientProfile() {
         idMatch ? "max-w-screen-2xl" : "max-w-screen-xl"
       }`}
     >
-      <div className="max-h-[991px] m-auto"></div>
-      <section
-        id="top"
-        className="items-start mt-[100px] flex flex-col lg:flex-row gap-10"
-      >
-        <div className="flex flex-col gap-5">
-          <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
-            <div className="text-center flex flex-col gap-3 items-center">
-              <Image
-                loader={imageLoader}
-                unoptimized
-                priority
-                alt="Profile Picture"
-                src={userData?.pictureURL || "src"}
-                width={200}
-                height={200}
-                className="min-w-[200px] max-w-[200px] min-h-[200px] max-h-[200px] object-cover rounded-full flex-none"
-              />
-              <p className="text-[30px]">⭐⭐⭐⭐⭐</p>
-              <p className="font-bold text-[14px]">
-                Miembro desde:{" "}
-                <span className="font-normal">14/Enero/2021</span>
-              </p>
-            </div>
-            <div id="description" className="w-full">
-              <div className="relative text-center md:text-left">
-                <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
-                  {`${userData.name} ${userData.lastname}`}
-                </p>
-                <Link
-                  className={`absolute right-0 bottom-0 ${
-                    idMatch ? "" : "hidden"
-                  }`}
-                  href={"/"}
-                >
-                  <i className="fa fa-edit text-[25px]"></i>
-                </Link>
-              </div>
-
-              <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-              <p className="text-[20px] text-center md:text-justify">
-                {userData.aboutMe}
-              </p>
-            </div>
-          </div>
-          <div>
-            <div className="relative">
-              <p className="font-bold text-[35px]">
-                {userData?.type === "client" ? "Mascotas" : null}
-                {userData?.type === "host" ? "Alojamiento" : null}
-              </p>
-              <Link
-                className={`absolute right-0 bottom-0 ${
-                  idMatch ? "" : "hidden"
-                }`}
-                href={"/"}
+      {userData && (
+        <>
+          <div className="max-h-[991px] m-auto"></div>
+          <section
+            id="top"
+            className="items-start mt-[100px] flex flex-col lg:flex-row gap-10"
+          >
+            <div className="flex flex-col gap-5">
+              <div
+                id="general"
+                className="flex flex-col md:flex-row gap-5 mb-3"
               >
-                <i className="fa fa-edit text-[25px]"></i>
-              </Link>
+                <div className="text-center flex flex-col gap-3 items-center">
+                  <Image
+                    loader={imageLoader}
+                    unoptimized
+                    priority
+                    alt="Profile Picture"
+                    src={imgURL || "src"}
+                    width={200}
+                    height={200}
+                    className="min-w-[250px] max-w-[250px] min-h-[250px] max-h-[250px] object-cover rounded-full flex-none"
+                  />
+                  <Rating
+                    readOnly
+                    value={userData.rate}
+                    precision={0.5}
+                    size="large"
+                  />
+                  <p className="font-bold text-[14px]">
+                    Miembro desde:
+                    <span className="font-normal">14/Enero/2021</span>
+                  </p>
+                </div>
+                <div id="description" className="w-full">
+                  <div className="relative text-center md:text-left">
+                    <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
+                      {`${userData.name} ${userData.lastname}`}
+                    </p>
+                    <Link
+                      className={`absolute right-0 bottom-0 ${
+                        idMatch ? "" : "hidden"
+                      }`}
+                      href={"/"}
+                    >
+                      <i className="fa fa-edit text-[25px]"></i>
+                    </Link>
+                  </div>
+
+                  <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
+                  <p className="text-[20px] text-center md:text-justify">
+                    {userData.aboutMe}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <div className="relative">
+                  <p className="font-bold text-[35px]">
+                    {userData?.type === "client" ? "Mascotas" : null}
+                    {userData?.type === "host" ? "Alojamiento" : null}
+                  </p>
+                  <Link
+                    className={`absolute right-0 bottom-0 ${
+                      idMatch ? "" : "hidden"
+                    }`}
+                    href={"/"}
+                  >
+                    <i className="fa fa-edit text-[25px]"></i>
+                  </Link>
+                </div>
+                <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
+                {userData?.type === "client" ? (
+                  <PetsSection data={userData.pets} idMatch={idMatch} />
+                ) : null}
+                {userData?.type === "host" ? <HomeSection /> : null}
+              </div>
             </div>
-            <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-            {userData?.type === "client" ? (
-              <PetsSection data={petData} idMatch={idMatch} />
-            ) : null}
-            {userData?.type === "host" ? <HomeSection /> : null}
-          </div>
-        </div>
-        <div
-          className={`w-full lg:min-w-[450px] text-center px-5 lg:rounded-[10px] py-6 
+            <div
+              className={`w-full lg:max-w-[450px] text-center px-5 lg:rounded-[10px] py-6 
           ${!idMatch ? "hidden" : ""}
           ${userData.type === "client" ? " bg-[#2B2E4A]" : ""}
           ${userData.type === "host" ? " bg-[#FF7068]" : ""}`}
-        >
-          <p className="text-white text-[40px] font-[Raleway] mb-4">Reservas</p>
-          <select
-            className="w-[300px] lg:w-[75%] font-[20px] rounded-[10px] h-[40px] px-3 mb-10"
-            name="bookingFilter"
-            id="bookingFilter"
-          >
-            <option value="all">Todas</option>
-            <option value="pending">Pendiente</option>
-            <option value="accepted">Aceptada</option>
-            <option value="rejected">Rechazada</option>
-            <option value="paid">Pagada</option>
-            <option value="ongoing">En curso</option>
-            <option value="finished">Terminada</option>
-          </select>
-          <div
-            className={`flex flex-col gap-3 pt-1 max-h-[530px] overflow-y-scroll `}
-          >
-            {bookingsData.map((item, index) => {
-              return (
-                <BookingCard
-                  key={index}
-                  usertype={userData?.type}
-                  data={item}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </section>
-      <section id="bottom" className="">
-        <p className="font-bold text-[35px]">Reseñas</p>
-        <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-        <div className="flex flex-row gap-5">
-          <div className="flex flex-col gap-3">
-            {reviewsData
-              .filter(
-                (item, index) => index === 3 || index === 4 || index === 5
-              )
-              .map((item, index) => {
-                return (
-                  <ReviewCard
-                    key={index}
-                    authorImage={item.authorImage}
-                    authorName={item.authorName}
-                    reviewDate={item.reviewDate}
-                    value={item.value}
-                    review={item.review}
-                    anfitrionName={item.anfitrionName}
-                  />
-                );
-              })}
-          </div>
-          <div className="hidden lg:flex flex-col gap-3">
-            {reviewsData
-              .filter(
-                (item, index) => index === 0 || index === 1 || index === 2
-              )
-              .map((item, index) => {
-                return (
-                  <ReviewCard
-                    key={index}
-                    authorImage={item.authorImage}
-                    authorName={item.authorName}
-                    reviewDate={item.reviewDate}
-                    value={item.value}
-                    review={item.review}
-                    anfitrionName={item.anfitrionName}
-                  />
-                );
-              })}
-          </div>
-        </div>
-      </section>
+            >
+              <p className="text-white text-[40px] font-[Raleway] mb-4">
+                Reservas
+              </p>
+              <select
+                className="w-[300px] lg:w-[75%] font-[20px] rounded-[10px] h-[40px] px-3 mb-10"
+                name="bookingFilter"
+                id="bookingFilter"
+              >
+                <option value="all">Todas</option>
+                <option value="pending">Pendiente</option>
+                <option value="accepted">Aceptada</option>
+                <option value="rejected">Rechazada</option>
+                <option value="paid">Pagada</option>
+                <option value="ongoing">En curso</option>
+                <option value="finished">Terminada</option>
+              </select>
+              <div
+                className={`flex flex-col gap-3 pt-1 max-h-[530px] overflow-y-scroll `}
+              >
+                {bookingsData.map((item, index) => {
+                  return (
+                    <BookingCard
+                      key={index}
+                      usertype={userData?.type}
+                      data={item}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+          <section id="bottom" className="">
+            <p className="font-bold text-[35px]">Reseñas</p>
+            <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
+            <div className="flex flex-row gap-5">
+              <div className="flex flex-col gap-3">
+                {reviewsData
+                  .filter(
+                    (item, index) => index === 3 || index === 4 || index === 5
+                  )
+                  .map((item, index) => {
+                    return (
+                      <ReviewCard
+                        key={index}
+                        authorImage={item.authorImage}
+                        authorName={item.authorName}
+                        reviewDate={item.reviewDate}
+                        value={item.value}
+                        review={item.review}
+                        anfitrionName={item.anfitrionName}
+                      />
+                    );
+                  })}
+              </div>
+              <div className="hidden lg:flex flex-col gap-3">
+                {reviewsData
+                  .filter(
+                    (item, index) => index === 0 || index === 1 || index === 2
+                  )
+                  .map((item, index) => {
+                    return (
+                      <ReviewCard
+                        key={index}
+                        authorImage={item.authorImage}
+                        authorName={item.authorName}
+                        reviewDate={item.reviewDate}
+                        value={item.value}
+                        review={item.review}
+                        anfitrionName={item.anfitrionName}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
     </main>
   );
 }
