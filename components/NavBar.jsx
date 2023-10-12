@@ -3,10 +3,30 @@ import Link from "next/link";
 import logo from "/public/icons/huella.png";
 import user from "/public/icons/avatar.jpg";
 import { Transition } from "@headlessui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState({});
+  const router = useRouter();
+
+  useEffect(() => {
+    const tokenUser = localStorage.getItem("token") || "";
+    const payloadUser = tokenUser.split(".")[1];
+
+    let userIdToken = "";
+    if (payloadUser) {
+      userIdToken = JSON.parse(atob(payloadUser)); // atob
+    }
+    setUser(userIdToken);
+  }, []);
+
+  function onclick() {
+    const rem = localStorage.removeItem("token");
+    setUser();
+    router.push("/");
+  }
 
   return (
     <nav className="bg-white border-gray-200 w-full z-20 shadow-xl font-[Nunito]text-[20px] fixed top-0 left-0 right-0">
@@ -18,55 +38,82 @@ export default function NavBar() {
         </div>
         <div className="hidden md:block">
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="font-medium flex items-center md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-6 md:mt-0 md:border-0 md:bg-white">
-              <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                <Link href="/">Home </Link>
-              </li>
-              <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                <Link href="#" className="">
-                  Nosotros{" "}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/accounts/signup"
-                  className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white "
-                  aria-current="page"
-                >
-                  Únete a nuestra comunidad
-                  <i className="fa fa-home ml-3"></i>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/accounts/signin"
-                  className="text-dark block py-2 px-5 border rounded-full md:bg-transparent  border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white"
-                >
-                  Ingresar
-                </Link>
-              </li>
-            </ul>
-            {/* <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
-              <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
-                <Link
-                  href="/cuentas/register"
-                  className="text-dark "
-                  aria-current="page"
-                >
-                  perfil
-                </Link>
-                <Image
-                  src={user}
-                  alt="Domus Logo"
-                  className="w-10 h-10 rounded-full"
-                ></Image>
-              </li>
-              <li className=" ml-0">
-                <Link href="/cuentas/login" className="text-dark text-center">
-                  Cerrar Sesión
-                </Link>
-              </li>
-            </ul> */}
+            {!user?.userNickName ? (
+              <ul className="font-medium flex items-center md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-6 md:mt-0 md:border-0 md:bg-white">
+                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
+                  <Link href="/">Home </Link>
+                </li>
+                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
+                  <Link href="#" className="">
+                    Nosotros{" "}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accounts/signup"
+                    className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white "
+                    aria-current="page"
+                  >
+                    Únete a nuestra comunidad
+                    <i className="fa fa-home ml-3"></i>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accounts/signin"
+                    className="text-dark block py-2 px-5 border rounded-full md:bg-transparent  border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white"
+                  >
+                    Ingresar
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
+                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
+                  <Link href="/">Home </Link>
+                </li>
+                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
+                  <Link href="#" className="">
+                    Nosotros{" "}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/"
+                    className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white "
+                    aria-current="page"
+                  >
+                    Completar Registro
+                  </Link>
+                </li>
+                <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
+                  <Link
+                    href="/cuentas/register"
+                    className="text-dark "
+                    aria-current="page"
+                  >
+                    perfil
+                  </Link>
+                  <Image
+                    src={user.userImage}
+                    width={100}
+                    height={100}
+                    alt="Domus Logo"
+                    className="w-10 h-10 rounded-full"
+                  ></Image>
+                </li>
+                <li className=" ml-0">
+                  <button
+                    type="submit"
+                    onClick={onclick}
+                    className="text-dark text-center"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </li>
+              </ul>
+            )}
+            {/* */}
           </div>
         </div>
         <button
@@ -115,70 +162,97 @@ export default function NavBar() {
       <Transition show={isOpen}>
         <div className="md:hidden z-50 border-0 navbar" id="mobile-menu">
           <div className="w-full " id="navbar-default">
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
-              <li>
-                <Link
-                  onClick={() => setIsOpen(!isOpen)}
-                  href="/"
-                  className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                  aria-current="page"
-                  id="pepe"
-                >
-                  Home
-                  <i className="fa fa-home ml-3"></i>
-                </Link>
-              </li>
-              <li>
-                <a
-                  onClick={() => setIsOpen(!isOpen)}
-                  href="#"
-                  className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                  aria-current="page"
-                >
-                  Nosotros
-                </a>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setIsOpen(!isOpen)}
-                  href="/accounts/signup"
-                  className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                  aria-current="page"
-                >
-                  Únete a nuestra comunidad
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setIsOpen(!isOpen)}
-                  href="/accounts/signin"
-                  className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                >
-                  Ingresar
-                </Link>
-              </li>
-            </ul>
-            {/* <ul className="font-medium flex flex-col py-4 md:p-0 mt-4 border md:flex-row md:space-x-8 md:mt-0 md:border-0 justify-center items-center ">
-              <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
-                <Link
-                  href="/cuentas/register"
-                  className="text-dark "
-                  aria-current="page"
-                >
-                  perfil
-                </Link>
-                <Image
-                  src={user}
-                  alt="Domus Logo"
-                  className="w-10 h-10 rounded-full"
-                ></Image>
-              </li>
-              <li className=" ml-0">
-                <Link href="/cuentas/login" className="text-dark text-center">
-                  Cerrar Sesión
-                </Link>
-              </li>
-            </ul> */}
+            {!user?.userNickName ? (
+              <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+                <li>
+                  <Link
+                    onClick={() => setIsOpen(!isOpen)}
+                    href="/"
+                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
+                    aria-current="page"
+                    id="pepe"
+                  >
+                    Home
+                    <i className="fa fa-home ml-3"></i>
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    onClick={() => setIsOpen(!isOpen)}
+                    href="#"
+                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
+                    aria-current="page"
+                  >
+                    Nosotros
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    onClick={() => setIsOpen(!isOpen)}
+                    href="/accounts/signup"
+                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
+                    aria-current="page"
+                  >
+                    Únete a nuestra comunidad
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={() => setIsOpen(!isOpen)}
+                    href="/accounts/signin"
+                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
+                  >
+                    Ingresar
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="font-medium flex flex-col py-4 md:p-0 mt-4 border md:flex-row md:space-x-8 md:mt-0 md:border-0 justify-center items-center gap-5 ">
+                <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
+                  <Link href="/">Home </Link>
+                </li>
+                <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
+                  <Link href="#" className="">
+                    Nosotros{" "}
+                  </Link>
+                </li>
+                <li className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
+                  <Link
+                    href="/"
+                    // className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center bg-red-500"
+                    aria-current="page"
+                  >
+                    Completar Registro
+                  </Link>
+                </li>
+                <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
+                  <Link
+                    href="/cuentas/register"
+                    className="text-dark "
+                    aria-current="page"
+                  >
+                    perfil
+                  </Link>
+
+                  <Image
+                    src={user.userImage}
+                    width={100}
+                    height={100}
+                    alt="Domus Logo"
+                    className="w-10 h-10 rounded-full"
+                  ></Image>
+                </li>
+                <li className=" ml-0">
+                  <button
+                    type="submit"
+                    onClick={onclick}
+                    className="text-dark text-center"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </Transition>
