@@ -1,4 +1,5 @@
 import SearchCard from "@/components/SearchCard";
+import HostSearchCard from "@/components/HostSearchCard";
 import ReviewCard from "@/components/ReviewCard";
 import component from "/public/images/seccion_beneficios_1.png";
 import check from "/public/icons/check.png";
@@ -35,7 +36,7 @@ export default function Home() {
             </p>
           </div>
           <div className="md:relative top-[-40px] lg:static">
-            <SearchCard />
+            <HostSearchCard isLanding={true}/>
           </div>
         </div>
       </section>
@@ -173,7 +174,7 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105"
+              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white"
             >
               REGISTRARSE COMO ANFITRIÓN
             </Link>
@@ -191,7 +192,7 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105"
+              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#FF7068] hover:bg-white"
             >
               REGISTRARSE COMO CLIENTE
             </Link>

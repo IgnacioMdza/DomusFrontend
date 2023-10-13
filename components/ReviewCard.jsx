@@ -1,3 +1,5 @@
+import { Stack, Rating } from "@mui/material";
+
 export default function ReviewCard({
     authorImage,
     authorName,
@@ -12,22 +14,21 @@ export default function ReviewCard({
             className="w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-105 lg:hover:bg-opacity-[85%]"
         >
             <img className="rounded-full w-[104px] h-[104px]" src={authorImage} />
-            <div className="flex flex-col w-full items-center justify-between sm:justify-normal gap-[24px]">
-                <div className="flex flex-col sm:flex-row justify-between sm:w-full items-center sm:items-start">
-                    <div className="flex flex-col items-center sm:items-start">
-                        <p className="text-[24px] font-semibold font-[Nunito]">
-                            {authorName}
-                        </p>
-                        <p className="text-[16px] font-light font-[Nunito]">{reviewDate}</p>
-                        <p className="text-[16px] text-[#FF7068] font-[Nunito]">Anfitrion: {anfitrionName}</p>
+            <div className="flex flex-col w-full items-center justify-between sm:justify-normal gap-[16px]">
+                <div className="flex flex-col w-full items-center place-content-center gap-[4px]">
+                    <div className='w-full flex gap-[8px] items-center place-content-center sm:place-content-start'>
+                        <p className="text-[16px] font-bold">{authorName}</p>
+                        <p className='text-[16px]'>a</p>
+                        <p className="text-[16px] py-[4px] px-[10px] bg-[#F2F2F2] rounded-full">{anfitrionName}</p>
                     </div>
-                    <div>
-                        <p className="text-[20px] font-light font-[Nunito]">{value}</p>
+                    <div className='w-full flex sm:justify-between justify-around items-center'>
+                        <p className="text-[16px] font-light font-[Nunito]">{reviewDate}</p>
+                        <Rating readOnly value={value} precision={0.5} size="large"/>
                     </div>
                 </div>
                 <div className="w-full text-center sm:text-left">
                     <p className="text-[16px] font-normal font-[Nunito]">
-                        {review.slice(0, 150)}...
+                        {review.slice(0, 100)}...
                     </p>
                 </div>
             </div>

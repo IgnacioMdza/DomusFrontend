@@ -16,12 +16,12 @@ export default function HostCard({
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <div className="bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[12px] xl:p-[16px] rounded-[10px] gap-[20px] max-w-[1024px]">
-        <img
-          src={hostProfileImage}
-          alt="host_image"
-          className="w-[140px] h-[140px] rounded-[5px] lg:w-[180px] lg:h-[180px]"
-        />
+      <div className="bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[16px] xl:p-[20px] rounded-[10px] gap-[20px] max-w-[1280px] border">
+          <img
+            src={hostProfileImage}
+            alt="host_image"
+            className="w-[140px] h-[140px] rounded-full lg:w-[235px] lg:h-[235px] object-cover aspect-square"
+          />
         <div className="flex flex-col gap-[16px]">
           <div className="w-full flex justify-between items-center">
             <p className="font-[Nunito] text-[#2B2E4A] text-[20px] lg:text-[24px]  font-semibold">
@@ -48,17 +48,17 @@ export default function HostCard({
             Fecha del 00/00/0000 al 00/00/0000
           </p>
           <p className="text-justify text-[14px font-[Nunito] text-[#2B2E4A] md:text-[16px]">
-            {aboutHost}
+            {aboutHost.slice(0, 245)}...
           </p>
           <div className="w-full flex justify-between sm:justify-end sm:gap-[24px] lg:justify-between xl:justify-end">
             <Link
               href="/profiles/host"
-              className="py-[12px] w-[120px] bg-[#2B2E4A] rounded-[5px] text-[#F2F2F2] text-center font-[Nunito] hover:shadow-lg"
+              className="py-[12px] w-[130px] bg-[#2B2E4A] rounded-xl text-[#F2F2F2] text-center font-[Nunito] border-[2px] hover:border-[#2B2E4A] border-[#F2F2F2] hover:shadow-lg transition"
             >
               Visitar perfil
             </Link>
             <button
-              className="py-[12px] w-[120px] bg-[#FF7068] rounded-[5px] text-[#F2F2F2] text-center font-[Nunito] hover:shadow-lg"
+              className="py-[12px] w-[130px] bg-[#FF7068] rounded-xl text-[#F2F2F2] text-center font-[Nunito] border-[2px] hover:border-[#FF7068] border-[#F2F2F2] hover:shadow-lg transition"
               onClick={() => setShowModal(true)}
             >
               Reservar

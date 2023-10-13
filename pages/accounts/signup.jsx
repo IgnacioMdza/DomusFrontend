@@ -1,20 +1,35 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Register() {
+  const { user, setUser } = useState();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
-
+  const router = useRouter();
   const password = useRef({});
   password.current = watch("password", "");
-  const onSubmit = (e) => {
-    console.log(e);
+
+  const onSubmit = (data) => {
+    fetch(`http://localhost:8080/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nickname: data.nickname,
+        email: data.email,
+        password: data.password,
+        type: data.radio,
+      }),
+    }).then((res) => router.push("/accounts/confirm"));
   };
 
   return (
@@ -166,7 +181,7 @@ export default function Register() {
             <span className="text-red-500">{errors.email.message}</span>
           )}
         </div>
-        <div className="pb-4">
+        {/* <div className="pb-4">
           <label forlabel="code" className="block mb-2 text-lg font-medium">
             Código de Verificación:
           </label>
@@ -187,7 +202,7 @@ export default function Register() {
           {errors.code && (
             <span className="text-red-500">{errors.code.message}</span>
           )}
-        </div>
+        </div> */}
         <div>
           <label forlabel="password" className="block mb-2 text-lg font-medium">
             Contraseña:
@@ -266,8 +281,7 @@ export default function Register() {
               </label>
               <input
                 type="radio"
-                value=""
-                name="default-radio"
+                value="client"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
                 {...register("radio", {
                   required: {
@@ -284,11 +298,10 @@ export default function Register() {
               </label>
               <input
                 type="radio"
-                name="default-radio"
+                value="host"
                 className="w-4 h-4"
                 {...register("radio", {
                   required: {
-                    value: true,
                     message: "Selecciona un perfil",
                   },
                 })}
