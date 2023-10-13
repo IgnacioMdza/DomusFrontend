@@ -7,48 +7,58 @@ import { useRouter } from "next/router";
 
 export default function CompleteRegister() {
   const router = useRouter()
-  const [user, setUser] = useState(null);
-  const [image, setImage] = useState(null);
+  const [token, setToken] = useState(null);
+  const [picture, setPicture] = useState(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // useEffect(() => {
-  //   const userId = ''
-  //   fetch(`https://localhost:8080/users/${userId}`)
-  //   .then(response => response.json())
-  //   .then(response => {
-  //       setUser(response.data);
-  //   })
-  // }, [])
+  useEffect(() => {
+    const pathId = router.query.id;
+    if (pathId) {
+      const token = localStorage.getItem("token");
+      const tokenInfo = JSON.parse(atob(token.split(".")[1]));
+      const pathId = router.query.id;
+      console.log('token info:', tokenInfo, 'path id:', pathId)
+      if(tokenInfo.id != pathId){
+        router.push('/')
+      }
+      setToken(token)
+    }
+  }, [router.query.id, router]);
   
   const onSubmit = (data) => {
-    fetch(`https://localhost:8080/users/${userId}`, {
+    fetch(`${urlFetch}/users/${JSON.parse(atob(token.split(".")[1])).id}`, {
       method: 'PATCH',
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      headers: { "Content-Type": "application/json" , Authorization: `Bearer ${token}` },
       body: JSON.stringify({
           picture: '',
           name: data.name,
           lastname: data.lastname,
-          phone: data.cellphone,
-          birthday: data.date,
+          phone: data.phone,
+          birthday: data.birthday,
           sex: data.sex,
-          aboutMe: data.textAbout,
+          aboutMe: data.aboutMe,
           emergencyContact: {
-            name: data.contactName,
-            lastname: data.contactLastname,
-            phone: data.contactCellphone,
-            relationship: data.contactSelect
+            name: data.emergencyContactName,
+            lastname: data.emergencyContactLastname,
+            phone: data.emergencyContactPhone,
+            relationship: data.emergencyContactRelationship
           }
       }),
       })
       .then((response) => response.json())
       .then((response) => {
           console.log("response: ", response);
-          toast.success("Usuario actualizado con éxito", {autoClose: 2000,});
-          setTimeout(() => router.push(`/profiles/${userId}`), 2000); 
+          if(response.success){
+            toast.success("Usuario actualizado con éxito", {autoClose: 2000,})
+            // setTimeout(() => router.push(`/profiles/${token.id}`), 2000); 
+          } else { 
+            toast.error("Error al actualizar el usuario")
+          };
       })
       .catch(() => {
           alert("falló el fetch");
@@ -56,8 +66,8 @@ export default function CompleteRegister() {
   };
 
   return (
-    // user &&
-    <div className="mt-[114px] mb-[24px]">
+    !token ? <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]"></main>
+    : <main className="mt-[114px] mb-[24px]">
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       {/* <div className="bg-[#FF6868] py-4 text-center">
         <h1 className="text-white text-[28px] font-medium font-[Raleway]">
@@ -84,8 +94,8 @@ export default function CompleteRegister() {
                 className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
               > 
                 <div className='w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]'>
-                    {image 
-                    ? <img src={image} alt="Selected" className='h-full w-full object-cover rounded-full'/> 
+                    {picture 
+                    ? <img src={URL.createObjectURL(picture.target.files[0])} alt="Selected" className='h-full w-full object-cover rounded-full'/> 
                     : <div className='h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40'>
                         <p className='text-center text-slate-400 font-light mt-[8px]'>Aún no has cargado una imagen</p>
                       </div>}
@@ -102,17 +112,17 @@ export default function CompleteRegister() {
                       type="file"
                       accept=".png, .jpg, .jpeg"
                       className='cursor-pointer p-[8px]'
-                      {...register("image", {
+                      {...register("picture", {
                         required: {
                           value: true,
                           message: "Subir imagen es requerido",
                         },
-                        onChange: (e) => setImage(URL.createObjectURL(e.target.files[0])),
+                        onChange: (e) => setPicture(e),
                       })}
                     />
                   </div>
-                  {errors.image && (
-                    <span className="text-red-500">{errors.image.message}</span>
+                  {errors.picture && (
+                    <span className="text-red-500">{errors.picture.message}</span>
                   )}
                 </div>
                 {/* <div className="flex justify-center items-center hover:scale-[102%] w-fit mx-auto my-[20px] hover:shadow-lg rounded-full transition">
@@ -215,7 +225,7 @@ export default function CompleteRegister() {
                   </div>
                   <div className="pb-4 sm:w-1/2">
                     <label
-                      forlabel="lastName"
+                      forlabel="lastname"
                       className="block mb-2 text-lg font-medium"
                     >
                       Apellido(s):
@@ -244,7 +254,7 @@ export default function CompleteRegister() {
                 <div className="sm:flex sm:justify-center sm:gap-4 lg:flex lg:justify-start lg:gap-14 ">
                   <div className="pb-4 w-full">
                     <label
-                      forlabel="name"
+                      forlabel="phone"
                       className="block mb-2 text-lg font-medium"
                     >
                       Celular:
@@ -263,10 +273,10 @@ export default function CompleteRegister() {
                       </div>
                       <input
                         type="number"
-                        name="cellPhone"
+                        name="phone"
                         className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder="xxxxxxxxxx"
-                        {...register("cellphone", {
+                        {...register("phone", {
                           required: {
                             value: true,
                             message: "El campo Celular es requerido",
@@ -286,15 +296,15 @@ export default function CompleteRegister() {
                         })}
                       />
                     </div>
-                    {errors.cellphone && (
+                    {errors.phone && (
                       <span className="text-red-500">
-                        {errors.cellphone.message}
+                        {errors.phone.message}
                       </span>
                     )}
                   </div>
                   <div className="pb-4 w-full">
                     <label
-                      forlabel="date"
+                      forlabel="birthday"
                       className="block mb-2 text-lg font-medium"
                     >
                       Fecha de Nacimiento:
@@ -320,7 +330,7 @@ export default function CompleteRegister() {
                         type="date"
                         className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder="Ingresa tu Nombre"
-                        {...register("date", {
+                        {...register("birthday", {
                           required: {
                             value: true,
                             message: "El campo Fecha es requerido",
@@ -335,13 +345,13 @@ export default function CompleteRegister() {
                         })}
                       />
                     </div>
-                    {errors.date && (
-                      <span className="text-red-500">{errors.date.message}</span>
+                    {errors.birthday && (
+                      <span className="text-red-500">{errors.birthday.message}</span>
                     )}
                   </div>
                   <div className="w-full sm:w-full">
                     <label
-                      forlabel="lastName"
+                      forlabel="sex"
                       className="block mb-2 text-lg font-medium"
                     >
                       Sexo:
@@ -369,17 +379,17 @@ export default function CompleteRegister() {
                 </div>
                 <div className="pt-4">
                   <label
-                    htmlFor="message"
+                    htmlFor="aboutMe"
                     className="block mb-2 text-lg font-medium"
                   >
                     Acerca de mí{" "}
                   </label>
                   <textarea
-                    id="message"
+                    id="aboutMe"
                     rows="6"
                     className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                     placeholder="Describe ¿De dónde eres? -¿Qué te gusta hacer? -¿A qué te dedicas? -¿Qué significan tus mascotas para ti? ... [300 a 400 caracteres]"
-                    {...register("textAbout", {
+                    {...register("aboutMe", {
                       required: {
                         value: true,
                         message: "El campo es requerido",
@@ -395,8 +405,8 @@ export default function CompleteRegister() {
                     })}
                   ></textarea>
                 </div>
-                {errors.textAbout && (
-                  <span className="text-red-500">{errors.textAbout.message}</span>
+                {errors.aboutMe && (
+                  <span className="text-red-500">{errors.aboutMe.message}</span>
                 )}
                 <div>
                   <div className="border-b-[2px] border-[#FF6868] pt-4">
@@ -413,7 +423,7 @@ export default function CompleteRegister() {
                     <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
                       <div className="pb-4  sm:w-full">
                         <label
-                          forlabel="name"
+                          forlabel="emergencyContactName"
                           className="block mb-2 text-lg font-medium"
                         >
                           Nombre:
@@ -449,10 +459,10 @@ export default function CompleteRegister() {
                           </div>
                           <input
                             type="text"
-                            name="name"
+                            name="emergencyContactName"
                             className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
-                            {...register("contactName", {
+                            {...register("emergencyContactName", {
                               required: {
                                 value: true,
                                 message: "El campo Nombre es requerido",
@@ -460,15 +470,15 @@ export default function CompleteRegister() {
                             })}
                           />
                         </div>
-                        {errors.contactName && (
+                        {errors.emergencyContactName && (
                           <span className="text-red-500">
-                            {errors.contactName.message}
+                            {errors.emergencyContactName.message}
                           </span>
                         )}
                       </div>
                       <div className="pb-4  sm:w-full">
                         <label
-                          forlabel="lastName"
+                          forlabel="emergencyContactLastname"
                           className="block mb-2 text-lg font-medium"
                         >
                           Apellido(s):
@@ -480,7 +490,7 @@ export default function CompleteRegister() {
                             name="lastName"
                             className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                             placeholder="Ingresa tu Apellido"
-                            {...register("contactLastname", {
+                            {...register("emergencyContactLastname", {
                               required: {
                                 value: true,
                                 message: "El campo Apellido es requerido",
@@ -488,9 +498,9 @@ export default function CompleteRegister() {
                             })}
                           />
                         </div>
-                        {errors.contactLastname && (
+                        {errors.emergencyContactLastname && (
                           <span className="text-red-500">
-                            {errors.contactLastname.message}
+                            {errors.emergencyContactLastname.message}
                           </span>
                         )}
                       </div>
@@ -498,7 +508,7 @@ export default function CompleteRegister() {
                     <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14 ">
                       <div className="pb-4 sm:w-full">
                         <label
-                          forlabel="name"
+                          forlabel="emergencyContactPhone"
                           className="block mb-2 text-lg font-medium"
                         >
                           Celular:
@@ -517,10 +527,10 @@ export default function CompleteRegister() {
                           </div>
                           <input
                             type="number"
-                            name="contactCellPhone"
+                            name="emergencyContactPhone"
                             className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                             placeholder="xxxxxxxxxx"
-                            {...register("contactCellphone", {
+                            {...register("emergencyContactPhone", {
                               required: {
                                 value: true,
                                 message: "El campo Celular es requerido",
@@ -540,23 +550,23 @@ export default function CompleteRegister() {
                             })}
                           />
                         </div>
-                        {errors.contactCellphone && (
+                        {errors.emergencyContactPhone && (
                           <span className="text-red-500">
-                            {errors.contactCellphone.message}
+                            {errors.emergencyContactPhone.message}
                           </span>
                         )}
                       </div>
                       <div className=" w-full">
                         <label
-                          forlabel="lastName"
+                          forlabel="emergencyContactRelationship"
                           className="block mb-2 text-lg font-medium"
                         >
                           Parentesco:
                         </label>
                         <select
-                          id="countries"
+                          id="emergencyContactRelationship"
                           className="rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                          {...register("contactSelect", {
+                          {...register("emergencyContactRelationship", {
                             required: {
                               value: true,
                               message: "Selecciona un campo",
@@ -572,9 +582,9 @@ export default function CompleteRegister() {
                           <option value="Amigo/a">Amigo/a</option>
                           <option value="Otro">Otro</option>
                         </select>
-                        {errors.contactSelect && (
+                        {errors.emergencyContactRelationship && (
                         <span className="text-red-500">
-                          {errors.contactSelect.message}
+                          {errors.emergencyContactRelationship.message}
                         </span>
                         )}
                       </div>
@@ -601,6 +611,6 @@ export default function CompleteRegister() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
