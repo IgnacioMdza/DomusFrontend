@@ -36,9 +36,7 @@ export default function Login() {
         if (resp.success) {
           localStorage.setItem("token", resp.token);
           const decodedToken = JSON.parse(atob(resp.token.split(".")[1]));
-          console.log(decodedToken)
-          // setUser(decodedToken);
-          // router.push(`/profiles/${decodedToken.id}`)
+          setUser(decodedToken);
         } else {
           toast.error("Invalid Data");
         }
