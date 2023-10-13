@@ -8,13 +8,14 @@ import { useRouter } from "next/router";
 export default function PetRegister() {
   const router = useRouter()
   const [token, setToken] = useState(null);
-  const[picture, setPicture] = useState(null)
+  const [picture, setPicture] = useState(null)
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
+  const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     const pathId = router.query.id;
@@ -23,15 +24,42 @@ export default function PetRegister() {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       const pathId = router.query.id;
       console.log('token info:', tokenInfo, 'path id:', pathId)
-      if(tokenInfo.id != pathId || tokenInfo.type != 'client'){
+      if(tokenInfo.id != pathId || tokenInfo.userType != 'client'){
         router.push('/')
       }
       setToken(token)
     }
   }, [router.query.id, router]);
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const onSubmit = (data) => {
+    fetch(`${urlFetch}/pets`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+          picture: ' ',
+          type: data.type,
+          name: data.name,
+          breed: data.breed,
+          size: data.size,
+          sex: data.sex,
+          age: data.age,
+          aboutMe: data.aboutMe,
+          owner: JSON.parse(atob(token.split(".")[1])).id
+      }),
+      })
+      .then((response) => response.json())
+      .then((response) => {
+          console.log("response: ", response);
+          if(response.success){
+            toast.success("Mascota creada con éxito", {autoClose: 2000,})
+            // setTimeout(() => router.push(`/profiles/${token.id}`), 2000); 
+          } else { 
+            toast.error("Error al crear mascota")
+          };
+      })
+      .catch(() => {
+          alert("falló el fetch");
+      });
   };
 
   return (
