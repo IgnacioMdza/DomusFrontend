@@ -5,9 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [user, setUser] = useState({});
+  const router = useRouter()
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
