@@ -44,38 +44,39 @@ export default function Login() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-90px)] flex">
+    <main className="min-h-[calc(100vh-90px)] flex mt-[90px] p-[20px]">
       <ToastContainer />
-      <div className="w-full m-auto mt-36 rounded-md sm:max-w-xl sm:mt-36 sm:mb-20 lg:max-w-3xl  lg:mt-28 lg:mb-10 md:px-0 lg:flex lg:items-center lg:justify-center">
-        <div className="lg:flex lg:border-[2px] lg:w-full bg-white drop-shadow-xl px-5 py-7 lg:px-0 lg:py-0">
-          <div className="lg:bg-[#2F2E43] lg:flex lg:items-center px-5">
+      <div className="w-full m-auto rounded-xl max-w-[400px] sm:max-w-[580px] md:max-w-[620px] lg:max-w-[700px] sm:px-0 sm:flex sm:items-center sm:justify-center">
+        <div className="sm:flex lg:w-full bg-white shadow-xl px-0 sm:py-0 rounded-xl">
+          <div className="sm:bg-[#2F2E43] sm:flex sm:items-center py-5 px-5 rounded-t-xl sm:rounded-tr-none sm:rounded-tl-xl sm:rounded-bl-xl sm:w-[47%]">
             <div className="px-2">
               <div className="flex justify-center ">
                 <Image
                   src={"/images/huella-mobile.png"}
                   alt="Huella Mobile"
-                  height={150}
-                  width={150}
+                  height={200}
+                  width={200}
+                  className='w-[100px] sm:w-[150px]'
                 ></Image>
               </div>
-              <div className="pb-10">
-                <h1 className="text-4xl font-bold text-center border-y-2 border-[#D90062] text-[#FF6868] py-2 mt-8 lg:text-white font-[Raleway]">
-                  Bienvenido a <span className=" lg:text-[#FF6868]">DOMUS</span>
+              <div className="sm:pb-10">
+                <h1 className="text-3xl sm:text-4xl font-normal sm:font-medium text-center border-y-[1px] border-[#E91E63] sm:border-white py-[12px] mt-8 text-[#FF6868] sm:text-white font-[Raleway]">
+                  Bienvenido a <span className="text-[#FF6868] sm:text-[#E91E63] font-semibold sm:font-bold">DOMUS</span>
                 </h1>
               </div>
             </div>
           </div>
-          <div className="lg:pb-6 w-full">
-            <div className="lg:bg-[#FF6868] lg:rounded-sm lg:text-center lg:text-white lg:py-2 lg:lg:mb-20 ">
-              <h1 className="lg:font-normal lg:text-3xl lg:mt-0 lg:pt-0 invisible lg:visible font-[Raleway] font-bold">
+          <div className="sm:w-[53%] pb-[28px] sm:pb-[72px]">
+            <div className="sm:bg-[#FF6868] sm:text-center sm:text-white sm:py-[12px] rounded-tr-xl">
+              <h1 className="sm:font-medium sm:text-3xl sm:mt-0 md:pt-0 invisible sm:visible font-[Raleway] font-bold">
                 Login
               </h1>
             </div>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="px-1 lg:px-10 lg:pb-10 font-[Nunito] font-medium "
+              className="font-[Nunito] font-medium sm:pt-[72px] sm:px-[24px] px-5"
             >
-              <div className="pb-4">
+              <div className="sm:pb-[20px]">
                 <label
                   forlabel="email"
                   className="block mb-2 text-lg font-medium"
@@ -97,7 +98,7 @@ export default function Login() {
                   </div>
                   <input
                     type="email"
-                    className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                    className=" rounded-lg w-full pl-10 p-3 border-[1px] border-slate-200 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                     placeholder="Ingresa tu Email"
                     {...register("email", {
                       required: {
@@ -136,7 +137,7 @@ export default function Login() {
                   <input
                     type="password"
                     id="email-address-icon"
-                    className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
+                    className=" rounded-lg w-full pl-10 p-3 border-[1px] border-slate-200 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                     placeholder="Ingresa tu Contraseña"
                     {...register("password", {
                       required: {
@@ -157,22 +158,22 @@ export default function Login() {
                   </span>
                 )}
               </div>
-              <div className="pt-5 text-center">
+              <div className="mt-[28px] sm:mt-[48px] text-center">
                 <button
                   type="submit"
-                  className="px-6 py-3.5 w-full text-base font-medium text-white bg-[#FF6868] hover:scale-[102%] rounded-lg text-center"
+                  className="px-6 py-[14px] w-4/5 text-base font-medium text-white bg-[#FF6868] shadow-lg rounded-full text-center text-[16px] transition hover:bg-[#E91E63] active:text-[#E91E63]"
                 >
                   Ingresar
                 </button>
               </div>
             </form>
-            <div className="text-center my-3">
-              <h4 className="pb-2">¿Olvidaste tu contraseña?</h4>
+            <div className="text-center mt-[16px] sm:mt-[44px]">
+              <p className="pb-2 text-[16px]">¿Olvidaste tu contraseña?</p>
               <p>
                 ¿Ya tienes cuenta?&nbsp;
                 <Link
                   href={"/accounts/signup"}
-                  className="font-bold text-[#FF6868] underline decoration-1"
+                  className="font-bold text-[#FF6868] text-[16px] hover:underline decoration-1"
                 >
                   Registrate
                 </Link>
