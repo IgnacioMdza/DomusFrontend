@@ -405,7 +405,7 @@ export default function CompleteRegister() {
                     id="message"
                     rows="6"
                     className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                    placeholder={`Describe:\n- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n[300 a 400 caracteres]`}
+                    placeholder={`Describe:\n- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n[150 a 350 caracteres]`}
                     {...register("textAbout", {
                       required: {
                         value: true,

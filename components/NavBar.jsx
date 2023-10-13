@@ -105,7 +105,7 @@ export default function NavBar() {
                     width={100}
                     height={100}
                     alt="Domus Logo"
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10 object-cover rounded-full"
                   ></Image>
                 </li>
                 <li className=" ml-0">
@@ -246,7 +246,7 @@ export default function NavBar() {
                     width={100}
                     height={100}
                     alt="Domus Logo"
-                    className="w-10 h-10 rounded-full"
+                    className="w-10 h-10 object-cover rounded-full"
                   ></Image>
                 </li>
                 <li className=" ml-0">

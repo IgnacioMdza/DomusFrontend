@@ -20,7 +20,6 @@ export default function ClientProfile() {
   const router = useRouter();
   const [userData, setUserData] = useState(false);
   const [idMatch, setIdMatch] = useState(false);
-  // const [imgURL, setImgURL] = useState("");
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -37,38 +36,30 @@ export default function ClientProfile() {
       fetch(`${URL}/users/${pathId}`)
         .then((resp) => resp.json())
         .then((resp) => {
+          if (resp.success) {
+            console.log("user data", resp.data);
+            setUserData(resp.data);
+          } else {
+            router.push("./search/404");
+          }
           if (!resp.data.isInfoCompleted && pathId === tokenInfo.id)
             router.push("../accounts/register");
-          else if (!resp.data.isInfoCompleted) router.push("/");
-          if (resp.success) setUserData(resp.data);
+          else if (!resp.data.isInfoCompleted) router.push("./search/404");
         });
     }
   }, [router.query.id]);
 
-  // useEffect(() => {
-  //   if (userData.picture) {
-  //     fetch(`${URL}/bucket/download/${userData.picture}`)
-  //       .then((resp) => resp.json())
-  //       .then((resp) => {
-  //         if (resp.success) {
-  //           setImgURL(resp.data);
-  //         }
-  //       });
-  //   }
-  // }, [userData]);
-
   return (
     <main
-      className={`p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] ${
+      className={`mt-[100px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] ${
         idMatch ? "max-w-screen-2xl" : "max-w-screen-xl"
       }`}
     >
       {userData && (
         <>
-          <div className="max-h-[991px] m-auto"></div>
           <section
             id="top"
-            className="items-start mt-[100px] flex flex-col lg:flex-row gap-10"
+            className="items-start flex flex-col lg:flex-row gap-10"
           >
             <div className="flex flex-col gap-5">
               <div
@@ -84,7 +75,7 @@ export default function ClientProfile() {
                     src={userData.picture}
                     width={200}
                     height={200}
-                    className="min-w-[250px] max-w-[250px] min-h-[250px] max-h-[250px] object-cover rounded-full flex-none"
+                    className="min-w-[200px] max-w-[200px] min-h-[250px] max-h-[250px] object-cover rounded-full flex-none"
                   />
                   <Rating
                     readOnly
@@ -143,7 +134,9 @@ export default function ClientProfile() {
                 {userData?.type === "client" ? (
                   <PetsSection data={userData.pets} idMatch={idMatch} />
                 ) : null}
-                {userData?.type === "host" ? <HomeSection /> : null}
+                {userData?.type === "host" ? (
+                  <HomeSection homeData={userData.accommodation} />
+                ) : null}
               </div>
             </div>
             <div
