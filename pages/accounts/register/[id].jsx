@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 export default function CompleteRegister() {
-  const router = useRouter()
+  const router = useRouter();
   const [token, setToken] = useState(null);
   const [picture, setPicture] = useState(null);
   const {
@@ -22,53 +22,68 @@ export default function CompleteRegister() {
       const token = localStorage.getItem("token");
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       const pathId = router.query.id;
-      console.log('token info:', tokenInfo, 'path id:', pathId)
-      if(tokenInfo.id != pathId){
-        router.push('/')
+      console.log("token info:", tokenInfo, "path id:", pathId);
+      if (tokenInfo.id != pathId) {
+        router.push("/");
       }
-      setToken(token)
+      setToken(token);
     }
   }, [router.query.id, router]);
-  
+
   const onSubmit = (data) => {
     fetch(`${urlFetch}/users/${JSON.parse(atob(token.split(".")[1])).id}`, {
-      method: 'PATCH',
-      headers: { "Content-Type": "application/json" , Authorization: `Bearer ${token}` },
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-          picture: '',
-          name: data.name,
-          lastname: data.lastname,
-          phone: data.phone,
-          birthday: data.birthday,
-          sex: data.sex,
-          aboutMe: data.aboutMe,
-          emergencyContact: {
-            name: data.emergencyContactName,
-            lastname: data.emergencyContactLastname,
-            phone: data.emergencyContactPhone,
-            relationship: data.emergencyContactRelationship
-          }
+        picture: "",
+        name: data.name,
+        lastname: data.lastname,
+        phone: data.phone,
+        birthday: data.birthday,
+        sex: data.sex,
+        aboutMe: data.aboutMe,
+        emergencyContact: {
+          name: data.emergencyContactName,
+          lastname: data.emergencyContactLastname,
+          phone: data.emergencyContactPhone,
+          relationship: data.emergencyContactRelationship,
+        },
       }),
-      })
+    })
       .then((response) => response.json())
       .then((response) => {
-          console.log("response: ", response);
-          if(response.success){
-            toast.success("Usuario actualizado con éxito", {autoClose: 2000,})
-            // setTimeout(() => router.push(`/profiles/${token.id}`), 2000); 
-          } else { 
-            toast.error("Error al actualizar el usuario")
-          };
+        console.log("response: ", response);
+        if (response.success) {
+          toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
+          // setTimeout(() => router.push(`/profiles/${token.id}`), 2000);
+        } else {
+          toast.error("Error al actualizar el usuario");
+        }
       })
       .catch(() => {
-          alert("falló el fetch");
+        alert("falló el fetch");
       });
   };
 
-  return (
-    !token ? <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]"></main>
-    : <main className="mt-[114px] mb-[24px]">
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+  return !token ? (
+    <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]"></main>
+  ) : (
+    <main className="mt-[114px] mb-[24px]">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {/* <div className="bg-[#FF6868] py-4 text-center">
         <h1 className="text-white text-[28px] font-medium font-[Raleway]">
           Completar Registro
@@ -81,37 +96,44 @@ export default function CompleteRegister() {
               Completar Registro
             </h1>
           </div>
-          <div className='p-[24px]'>
+          <div className="p-[24px]">
             <div className="border-b-[2px] border-[#FF6868]">
               <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
                 Información General
               </h2>
             </div>
             <div className="lg:flex lg:items-start md:items-center lg:w-full">
-
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
-              > 
-                <div className='w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]'>
-                    {picture 
-                    ? <img src={URL.createObjectURL(picture.target.files[0])} alt="Selected" className='h-full w-full object-cover rounded-full'/> 
-                    : <div className='h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40'>
-                        <p className='text-center text-slate-400 font-light mt-[8px]'>Aún no has cargado una imagen</p>
-                      </div>}
+              >
+                <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
+                  {picture ? (
+                    <img
+                      src={URL.createObjectURL(picture.target.files[0])}
+                      alt="Selected"
+                      className="h-full w-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <div className="h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40">
+                      <p className="text-center text-slate-400 font-light mt-[8px]">
+                        Aún no has cargado una imagen
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div className="pb-4 w-full">
                   <label
-                      forlabel="image"
-                      className="block mb-2 text-lg font-medium"
-                    >
-                      Subir imagen:
+                    forlabel="image"
+                    className="block mb-2 text-lg font-medium"
+                  >
+                    Subir imagen:
                   </label>
-                  <div className='flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg'>
+                  <div className="flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg">
                     <input
                       type="file"
                       accept=".png, .jpg, .jpeg"
-                      className='cursor-pointer p-[8px]'
+                      className="cursor-pointer p-[8px]"
                       {...register("picture", {
                         required: {
                           value: true,
@@ -122,7 +144,9 @@ export default function CompleteRegister() {
                     />
                   </div>
                   {errors.picture && (
-                    <span className="text-red-500">{errors.picture.message}</span>
+                    <span className="text-red-500">
+                      {errors.picture.message}
+                    </span>
                   )}
                 </div>
                 {/* <div className="flex justify-center items-center hover:scale-[102%] w-fit mx-auto my-[20px] hover:shadow-lg rounded-full transition">
@@ -220,7 +244,9 @@ export default function CompleteRegister() {
                       />
                     </div>
                     {errors.name && (
-                      <span className="text-red-500">{errors.name.message}</span>
+                      <span className="text-red-500">
+                        {errors.name.message}
+                      </span>
                     )}
                   </div>
                   <div className="pb-4 sm:w-1/2">
@@ -291,8 +317,8 @@ export default function CompleteRegister() {
                           },
                           pattern: {
                             value: /^[0-9]{1,10}$/,
-                            message: "Número inválido"
-                          }
+                            message: "Número inválido",
+                          },
                         })}
                       />
                     </div>
@@ -339,14 +365,17 @@ export default function CompleteRegister() {
                             const birthDate = new Date(value);
                             const currentDate = new Date();
                             const age =
-                              currentDate.getFullYear() - birthDate.getFullYear();
+                              currentDate.getFullYear() -
+                              birthDate.getFullYear();
                             return age >= 18 || "Debes de ser mayor de edad";
                           },
                         })}
                       />
                     </div>
                     {errors.birthday && (
-                      <span className="text-red-500">{errors.birthday.message}</span>
+                      <span className="text-red-500">
+                        {errors.birthday.message}
+                      </span>
                     )}
                   </div>
                   <div className="w-full sm:w-full">
@@ -372,7 +401,7 @@ export default function CompleteRegister() {
                       <option value="Otro">Otro</option>
                     </select>
                     {errors.sex && (
-                    <span className="text-red-500">{errors.sex.message}</span>
+                      <span className="text-red-500">{errors.sex.message}</span>
                     )}
                   </div>
                   {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
@@ -410,14 +439,16 @@ export default function CompleteRegister() {
                 )}
                 <div>
                   <div className="border-b-[2px] border-[#FF6868] pt-4">
-                    <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">Contacto de Emergencia</h2>
+                    <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
+                      Contacto de Emergencia
+                    </h2>
                   </div>
                 </div>
                 <div className="lg:flex lg:items-center pt-4 gap-[36px]">
                   <p className="text-lg lg:w-64 text-justify font-light">
-                    La información de este contacto servirá únicamente para cuando
-                    tú anfitrión/cliente intente localizarte por algún asunto
-                    relacionado a las mascotas y no sea posible lograrlo.
+                    La información de este contacto servirá únicamente para
+                    cuando tu anfitrión/cliente intente localizarte por algún
+                    asunto relacionado a las mascotas y no sea posible lograrlo.
                   </p>
                   <div>
                     <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
@@ -545,8 +576,8 @@ export default function CompleteRegister() {
                               },
                               pattern: {
                                 value: /^[0-9]{1,10}$/,
-                                message: "Número inválido"
-                              }
+                                message: "Número inválido",
+                              },
                             })}
                           />
                         </div>
@@ -583,9 +614,9 @@ export default function CompleteRegister() {
                           <option value="Otro">Otro</option>
                         </select>
                         {errors.emergencyContactRelationship && (
-                        <span className="text-red-500">
-                          {errors.emergencyContactRelationship.message}
-                        </span>
+                          <span className="text-red-500">
+                            {errors.emergencyContactRelationship.message}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -593,7 +624,7 @@ export default function CompleteRegister() {
                 </div>
                 <div className="pt-6 flex justify-between items-center gap-[32px]">
                   <Link
-                    href='/'
+                    href="/"
                     type="button"
                     className="px-6 py-3 text-center w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold  sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0 hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
                   >

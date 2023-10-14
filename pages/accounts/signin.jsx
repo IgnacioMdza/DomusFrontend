@@ -16,7 +16,9 @@ export default function Login() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      window.location.replace(`/profiles/${user?.id}`);
+      window.location.replace(
+        `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+      );
     }
   }, [user]);
   const {
@@ -38,7 +40,7 @@ export default function Login() {
           const decodedToken = JSON.parse(atob(resp.token.split(".")[1]));
           setUser(decodedToken);
         } else {
-          toast.error("Invalid Data");
+          toast.error(resp.message);
         }
       });
   };
