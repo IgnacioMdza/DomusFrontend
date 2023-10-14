@@ -7,15 +7,22 @@ import Image from "next/image";
 
 export default function Search() {
     const router = useRouter()
-
     const [{state, city, petType, petSize, initialDate, endDate}, setSearchQuery] = useState({});
+    const [isLoged, setIsLoged] = useState(false)
+
     useEffect(() => {
-        if (router.isReady) {
-            const {state, city, petType, petSize, initialDate, endDate} = router.query
-            console.log(router.query);
-            setSearchQuery({state, city, petType, petSize, initialDate, endDate})
-        }
+        const {state, city, petType, petSize, initialDate, endDate} = router.query
+        console.log(router.query);
+        setSearchQuery({state, city, petType, petSize, initialDate, endDate})
+        //fetch()
     }, [router.isReady, router.query]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token") || null;
+        if(token && JSON.parse(atob(token.split(".")[1])).userType === 'client'){
+            setIsLoged(true)
+        };
+    },[])
 
     return (
         <main className='flex flex-col lg:flex-row min-h-screen bg-white'>
@@ -33,11 +40,11 @@ export default function Search() {
             </section>
             <section className='flex flex-col py-[12px] px-[16px] w-full lg:w-[62%] lg:pr-[20px] lg:ps-[10px] xl:py-[40px] xl:pr-[40px] xl:ps-[40px] lg:mt-[90px] gap-[20px] lg:gap-[32px] items-center h-full'>
                 <h1 className='text-[#2B2E4A] font-semibold font-[Raleway] text-center text-[20px] lg:text-[28px] '>Anfitriones disponibles</h1>
-                {hostsData.filter(item => item.city === city && item.state === state && item.animalToCare.includes(animalType)).map((item, index) => {
+                {/* {hostsData.filter(item => item.city === city && item.state === state && item.animalToCare.includes(animalType)).map((item, index) => {
                     return(
                         <HostCard key={index} hostProfileImage={item.hostProfileImage} hostName={item.hostName} nightPrice={item.nightPrice} city={item.city} state={item.state} raiting={item.raiting} reviewsQuantity={item.reviewsQuantity} aboutHost={item.aboutHost}/>
                     )
-                })}
+                })} */}
             </section>
         </main>
     )

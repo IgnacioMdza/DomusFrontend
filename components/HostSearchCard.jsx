@@ -8,12 +8,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 export default function HostSearchCard({isLanding}) {
-
-    const {
-        register, control, watch, handleSubmit, formState: { errors },
-    } = useForm();
-
     const router = useRouter()
+    const {
+        register, 
+        control, 
+        watch, 
+        handleSubmit, 
+        formState: { errors },
+    } = useForm();
 
     function onRoute(data){
         router.push({ pathname: '/search', query: { 
@@ -71,8 +73,8 @@ export default function HostSearchCard({isLanding}) {
                 <div className='w-1/2'>
                     <select {...register("petType", {required: {value: true, message: 'Selecciona un tipo de mascota'}})} className={`${isLanding ? 'rounded-md border border-gray-300 p-[14px] text-black w-full bg-[#F2F2F2]' : 'rounded-md border border-gray-300 p-[14px] text-black w-full'}`}>
                         <option value="">Tipo</option>
-                        <option value="dog">Perro</option>
-                        <option value="cat">Gato</option> 
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option> 
                     </select>
                     {errors.petType && (
                         <p className="text-[#2B2E4A]">{errors.petType.message}</p>
@@ -80,10 +82,17 @@ export default function HostSearchCard({isLanding}) {
                 </div>
                 <div className='w-1/2'>
                     <select {...register("petSize", {required: {value: true, message: 'Selecciona un tamaño de mascota'}})} className={`${isLanding ? 'rounded-md border border-gray-300 p-[14px] text-black w-full bg-[#F2F2F2]' : 'rounded-md border border-gray-300 p-[14px] text-black w-full'}`}>
-                        <option value="">Tamaño</option>
-                        <option value="small">Chico</option>
-                        <option value="medium">Mediano</option> 
-                        <option value="big">Grande</option> 
+                    <option value="">Seleccionar</option>
+                        { watch('petType') === 'Gato' 
+                        ?
+                            <option value="Pequeño">Chico (2-10 kilos)</option>
+                        :
+                        <>
+                            <option value="Pequeño">Chico (2-10 kilos)</option>
+                            <option value="Mediano">Mediano (10-25 kilos)</option>
+                            <option value="Grande">Grande (25-50 kilos)</option>
+                        </>
+                        } 
                     </select>
                     {errors.petType && (
                         <p className="text-[#2B2E4A]">{errors.petType.message}</p>
