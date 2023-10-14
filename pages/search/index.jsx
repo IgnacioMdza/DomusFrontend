@@ -7,20 +7,27 @@ import Image from "next/image";
 
 export default function Search() {
     const router = useRouter()
-    const [{state, city, petType, petSize, initialDate, endDate}, setSearchQuery] = useState({});
-    const [isLoged, setIsLoged] = useState(false)
+    const [{state, city, pettype, petsize, initialdate, enddate}, setSearchQuery] = useState({});
+    const [client, setClient] = useState(null)
+    const [accommodationList, setAccommodationsList] = useState([])
 
     useEffect(() => {
-        const {state, city, petType, petSize, initialDate, endDate} = router.query
+        const {state, city, pettype, petsize, initialdate, enddate} = router.query
         console.log(router.query);
-        setSearchQuery({state, city, petType, petSize, initialDate, endDate})
-        //fetch()
-    }, [router.isReady, router.query]);
+        setSearchQuery({state, city, pettype, petsize, initialdate, enddate})
+        fetch(`http://localhost:8080/accommodation?state=${state}&city=${city}&pettype=${pettype}&petsize=${petsize}`)
+            .then(response => response.json())
+            .then(response => {
+                setAccommodationsList(response.data);
+                console.log(response.data)
+            })
+    }, [router.query]);
 
     useEffect(() => {
         const token = localStorage.getItem("token") || null;
         if(token && JSON.parse(atob(token.split(".")[1])).userType === 'client'){
-            setIsLoged(true)
+            const tokenInfo = JSON.parse(atob(token.split(".")[1]));
+            setClient(tokenInfo)
         };
     },[])
 
@@ -40,11 +47,19 @@ export default function Search() {
             </section>
             <section className='flex flex-col py-[12px] px-[16px] w-full lg:w-[62%] lg:pr-[20px] lg:ps-[10px] xl:py-[40px] xl:pr-[40px] xl:ps-[40px] lg:mt-[90px] gap-[20px] lg:gap-[32px] items-center h-full'>
                 <h1 className='text-[#2B2E4A] font-semibold font-[Raleway] text-center text-[20px] lg:text-[28px] '>Anfitriones disponibles</h1>
-                {/* {hostsData.filter(item => item.city === city && item.state === state && item.animalToCare.includes(animalType)).map((item, index) => {
-                    return(
-                        <HostCard key={index} hostProfileImage={item.hostProfileImage} hostName={item.hostName} nightPrice={item.nightPrice} city={item.city} state={item.state} raiting={item.raiting} reviewsQuantity={item.reviewsQuantity} aboutHost={item.aboutHost}/>
-                    )
-                })} */}
+                {
+                    accommodationList && accommodationList.length > 0
+                    ? 
+                        accommodationList.map( (item, index) => {
+                            return(
+                                <>
+                                    <HostCard key={index} initialDate={initialdate} endDate={enddate} hostAndHouse={item} client={client} petsize={petsize} pettype={pettype}/>
+                                </>
+                            )
+                        })
+                    :
+                    <p className=''>Lo sentimos, no encontramos ningun anfitiron que coincidiera con tus necesidades</p>
+                }
             </section>
         </main>
     )
