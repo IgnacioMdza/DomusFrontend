@@ -179,45 +179,25 @@ export default function ClientProfile() {
           <section id="bottom" className="">
             <p className="font-bold text-[35px]">Reseñas</p>
             <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-            <div className="flex flex-row gap-5">
-              <div className="flex flex-col gap-3">
-                {reviewsData
-                  .filter(
-                    (item, index) => index === 3 || index === 4 || index === 5
-                  )
-                  .map((item, index) => {
-                    return (
-                      <ReviewCard
-                        key={index}
-                        authorImage={item.authorImage}
-                        authorName={item.authorName}
-                        reviewDate={item.reviewDate}
-                        value={item.value}
-                        review={item.review}
-                        anfitrionName={item.anfitrionName}
-                      />
-                    );
-                  })}
-              </div>
-              <div className="hidden lg:flex flex-col gap-3">
-                {reviewsData
-                  .filter(
-                    (item, index) => index === 0 || index === 1 || index === 2
-                  )
-                  .map((item, index) => {
-                    return (
-                      <ReviewCard
-                        key={index}
-                        authorImage={item.authorImage}
-                        authorName={item.authorName}
-                        reviewDate={item.reviewDate}
-                        value={item.value}
-                        review={item.review}
-                        anfitrionName={item.anfitrionName}
-                      />
-                    );
-                  })}
-              </div>
+            <div className="grid grid-cols- lg:grid-cols-2 gap-5">
+              {userData.reviews.map((item, index) => {
+                return (
+                  <ReviewCard
+                    key={index}
+                    authorImage={item.sender.picture}
+                    authorName={`${item.sender.name} ${item.sender.lastname}`}
+                    reviewDate={item.date
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                    value={item.rate}
+                    review={item.comment}
+                    anfitrionName={`${item.receiver.name} ${item.receiver.lastname}`}
+                    rederReceiver={false}
+                  />
+                );
+              })}
             </div>
           </section>
         </>
