@@ -31,27 +31,32 @@ export default function CompleteRegister() {
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.set("picture", picture);
+    formData.set("name", data.name);
+    formData.set("lastname", data.lastname);
+    formData.set("phone", data.phone);
+    formData.set("birthday", data.birthDate);
+    formData.set("sex", data.sex);
+    formData.set("aboutMe", data.aboutMe);
+    formData.append(
+      "emergencyContact",
+      JSON.stringify({
+        name: data.emergencyContactName,
+        lastname: data.emergencyContactLastname,
+        phone: data.emergencyContactPhone,
+        relationship: data.emergencyContactRelationship,
+      })
+    );
+
     fetch(`${urlFetch}/users/${JSON.parse(atob(token.split(".")[1])).id}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
+        // "Content-Type": "image/jpeg",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        picture: "",
-        name: data.name,
-        lastname: data.lastname,
-        phone: data.phone,
-        birthday: data.birthday,
-        sex: data.sex,
-        aboutMe: data.aboutMe,
-        emergencyContact: {
-          name: data.emergencyContactName,
-          lastname: data.emergencyContactLastname,
-          phone: data.emergencyContactPhone,
-          relationship: data.emergencyContactRelationship,
-        },
-      }),
+      body: formData,
     })
       .then((response) => response.json())
       .then((response) => {
@@ -110,7 +115,7 @@ export default function CompleteRegister() {
                 <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
                   {picture ? (
                     <img
-                      src={URL.createObjectURL(picture.target.files[0])}
+                      src={URL.createObjectURL(picture)}
                       alt="Selected"
                       className="h-full w-full object-cover rounded-full"
                     />
@@ -139,7 +144,7 @@ export default function CompleteRegister() {
                           value: true,
                           message: "Subir imagen es requerido",
                         },
-                        onChange: (e) => setPicture(e),
+                        onChange: (e) => setPicture(e.target.files[0]),
                       })}
                     />
                   </div>
@@ -354,6 +359,7 @@ export default function CompleteRegister() {
                       </div>
                       <input
                         type="date"
+                        name="birthday"
                         className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder="Ingresa tu Nombre"
                         {...register("birthday", {

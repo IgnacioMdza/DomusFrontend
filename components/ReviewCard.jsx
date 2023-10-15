@@ -20,6 +20,7 @@ export default function ReviewCard({
       className="w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-[102%] lg:hover:bg-opacity-[85%]"
     >
       <Image
+        unoptimized
         alt="Profile Picture"
         loader={imageLoader}
         src={authorImage}

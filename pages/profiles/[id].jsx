@@ -9,7 +9,6 @@ import BookingCard from "@/components/BookingCard";
 import PetsSection from "@/components/PetsSection";
 import HomeSection from "@/components/HomeSection";
 
-import { reviewsData } from "@/data/reviewsData";
 import { bookingsData } from "@/data/bookingsData";
 
 const imageLoader = ({ src, width, quality }) => {
@@ -37,7 +36,6 @@ export default function ClientProfile() {
         .then((resp) => resp.json())
         .then((resp) => {
           if (resp.success) {
-            console.log("user data", resp.data);
             setUserData(resp.data);
           } else {
             router.push("./search/404");
@@ -47,7 +45,7 @@ export default function ClientProfile() {
           else if (!resp.data.isInfoCompleted) router.push("./search/404");
         });
     }
-  }, [router.query.id]);
+  }, [router.query.id, URL, router]);
 
   return (
     <main
