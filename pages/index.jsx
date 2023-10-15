@@ -36,7 +36,7 @@ export default function Home() {
             </p>
           </div>
           <div className="md:relative top-[-40px] lg:static">
-            <HostSearchCard isLanding={true}/>
+            <HostSearchCard isLanding={true} />
           </div>
         </div>
       </section>
@@ -174,7 +174,7 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white"
+              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white disabled:opacity-75"
             >
               REGISTRARSE COMO ANFITRIÓN
             </Link>

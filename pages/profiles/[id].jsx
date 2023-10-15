@@ -21,7 +21,6 @@ export default function ClientProfile() {
   const [idMatch, setIdMatch] = useState(false);
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   useEffect(() => {
     const pathId = router.query.id;
     if (pathId) {
@@ -38,14 +37,14 @@ export default function ClientProfile() {
           if (resp.success) {
             setUserData(resp.data);
           } else {
-            router.push("./search/404");
+            router.push("./404");
           }
           if (!resp.data.isInfoCompleted && pathId === tokenInfo.id)
-            router.push("../accounts/register");
-          else if (!resp.data.isInfoCompleted) router.push("./search/404");
+            router.push(`../accounts/register/${tokenInfo.id}`);
+          else if (!resp.data.isInfoCompleted) router.push("./404");
         });
     }
-  }, [router.query.id, URL, router]);
+  }, [router.query.id, router, URL]);
 
   return (
     <main

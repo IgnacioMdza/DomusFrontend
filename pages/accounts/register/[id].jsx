@@ -31,29 +31,30 @@ export default function CompleteRegister() {
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.set("picture", picture);
-    formData.set("name", data.name);
-    formData.set("lastname", data.lastname);
-    formData.set("phone", data.phone);
-    formData.set("birthday", data.birthDate);
-    formData.set("sex", data.sex);
-    formData.set("aboutMe", data.aboutMe);
-    formData.append(
-      "emergencyContact",
-      JSON.stringify({
+    const dataObject = {
+      name: data.name,
+      lastname: data.lastname,
+      phone: data.phone,
+      birthday: new Date(data.birthday),
+      sex: data.sex,
+      aboutMe: data.aboutMe,
+      emergencyContact: {
         name: data.emergencyContactName,
         lastname: data.emergencyContactLastname,
         phone: data.emergencyContactPhone,
         relationship: data.emergencyContactRelationship,
-      })
-    );
+      },
+      isInfoCompleted: true,
+    };
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(dataObject));
+    formData.append("folder", "users");
+    formData.append("id", JSON.parse(atob(token.split(".")[1])).id);
+    formData.append("image", picture);
 
     fetch(`${urlFetch}/users/${JSON.parse(atob(token.split(".")[1])).id}`, {
       method: "PATCH",
       headers: {
-        // "Content-Type": "application/json",
-        // "Content-Type": "image/jpeg",
         Authorization: `Bearer ${token}`,
       },
       body: formData,
@@ -63,7 +64,13 @@ export default function CompleteRegister() {
         console.log("response: ", response);
         if (response.success) {
           toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
-          // setTimeout(() => router.push(`/profiles/${token.id}`), 2000);
+          setTimeout(
+            () =>
+              router.push(
+                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+              ),
+            2000
+          );
         } else {
           toast.error("Error al actualizar el usuario");
         }
@@ -205,7 +212,7 @@ export default function CompleteRegister() {
                       forlabel="name"
                       className="block mb-2 text-lg font-medium"
                     >
-                      Nombre:
+                      Nombre(s):
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -423,7 +430,7 @@ export default function CompleteRegister() {
                     id="aboutMe"
                     rows="6"
                     className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                    placeholder="Describe ¿De dónde eres? -¿Qué te gusta hacer? -¿A qué te dedicas? -¿Qué significan tus mascotas para ti? ... [300 a 400 caracteres]"
+                    placeholder={`- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n300 a 400 caracteres`}
                     {...register("aboutMe", {
                       required: {
                         value: true,
