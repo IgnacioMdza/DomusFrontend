@@ -7,7 +7,7 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -55,10 +55,9 @@ export default function CheckoutForm() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/bookingblog",
+        return_url: `http://localhost:3000/profiles/${props.clientId}`,
         payment_method_data: {
           billing_details: {
-            email: 'prueba@example.com',
             address : {
               country : 'MX'
             },
@@ -80,7 +79,6 @@ export default function CheckoutForm() {
     layout: "tabs",
     fields  : {
         billingDetails : {
-          email: 'never',
           address : {
               country : 'never'
           },

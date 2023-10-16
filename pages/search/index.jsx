@@ -39,8 +39,8 @@ export default function Search() {
                     <Image
                         src={"/images/seccion_hostSearch.png"}
                         alt="map_image"
-                        height={380}
-                        width={380}
+                        height={340}
+                        width={340}
                         className='hidden xl:inline-block rounded-full aspect-square mx-auto object-cover border'>
                     </Image>
                 </div>
