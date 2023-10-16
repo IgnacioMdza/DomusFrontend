@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/public/icons/huella.png";
-import user from "/public/icons/avatar.jpg";
 import { Transition } from "@headlessui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -16,15 +15,22 @@ export default function NavBar() {
   const router = useRouter();
 
   useEffect(() => {
-    const tokenUser = localStorage.getItem("token") || "";
-    const payloadUser = tokenUser.split(".")[1];
+    const token = localStorage.getItem("token");
+    const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-    let userIdToken = "";
-    if (payloadUser) {
-      userIdToken = JSON.parse(atob(payloadUser)); // atob
+    if (token) {
+      const tokenInfo = JSON.parse(atob(token.split(".")[1]));
+      fetch(`${URL}/users/${tokenInfo.id}`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.success) {
+            setUser(resp.data);
+          } else {
+            router.push("/404");
+          }
+        });
     }
-    setUser(userIdToken);
-  }, []);
+  }, [router]);
 
   function onclick() {
     const rem = localStorage.removeItem("token");
@@ -42,10 +48,10 @@ export default function NavBar() {
         </div>
         <div className="hidden md:block">
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            {!user?.userNickName ? (
+            {!user?._id ? (
               <ul className="font-medium flex items-center md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-6 md:mt-0 md:border-0 md:bg-white">
                 <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                  <Link href="/">Home </Link>
+                  <Link href={"/"}>Home </Link>
                 </li>
                 <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
                   <Link href="#" className="">
@@ -74,25 +80,27 @@ export default function NavBar() {
             ) : (
               <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
                 <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                  <Link href="/">Home </Link>
+                  <Link href={"/"}>Home </Link>
                 </li>
                 <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
                   <Link href="#" className="">
                     Nosotros{" "}
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="./accounts/register"
-                    className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white "
-                    aria-current="page"
-                  >
-                    Completar Registro
-                  </Link>
-                </li>
+                {!user.isInfoCompleted && (
+                  <li>
+                    <Link
+                      href={`/accounts/register/${user._id}`}
+                      className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white "
+                      aria-current="page"
+                    >
+                      Completar Registro
+                    </Link>
+                  </li>
+                )}
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
                   <Link
-                    href={`/profiles/${user.id}`}
+                    href={`/profiles/${user._id}`}
                     className="text-dark "
                     aria-current="page"
                   >
@@ -101,7 +109,7 @@ export default function NavBar() {
                   <Image
                     unoptimized
                     loader={imageLoader}
-                    src={user.userImage}
+                    src={user.picture}
                     width={100}
                     height={100}
                     alt="Domus Logo"
@@ -168,12 +176,12 @@ export default function NavBar() {
       <Transition show={isOpen}>
         <div className="md:hidden z-50 border-0 navbar" id="mobile-menu">
           <div className="w-full " id="navbar-default">
-            {!user?.userNickName ? (
+            {!user?._id ? (
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
                 <li>
                   <Link
                     onClick={() => setIsOpen(!isOpen)}
-                    href="/"
+                    href={"/"}
                     className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
                     aria-current="page"
                     id="pepe"
@@ -215,25 +223,27 @@ export default function NavBar() {
             ) : (
               <ul className="font-medium flex flex-col py-4 md:p-0 mt-4 border md:flex-row md:space-x-8 md:mt-0 md:border-0 justify-center items-center gap-5 ">
                 <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
-                  <Link href="/">Home </Link>
+                  <Link href={"/"}>Home </Link>
                 </li>
                 <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
                   <Link href="#" className="">
                     Nosotros{" "}
                   </Link>
                 </li>
-                <li className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
-                  <Link
-                    href="./accounts/register"
-                    // className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center bg-red-500"
-                    aria-current="page"
-                  >
-                    Completar Registro
-                  </Link>
-                </li>
+                {!user.isInfoCompleted && (
+                  <li className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
+                    <Link
+                      href={`/accounts/register/${user._id}`}
+                      // className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center bg-red-500"
+                      aria-current="page"
+                    >
+                      Completar Registro
+                    </Link>
+                  </li>
+                )}
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
                   <Link
-                    href={`/profiles/${user.id}`}
+                    href={`/profiles/${user._id}`}
                     className="text-dark "
                     aria-current="page"
                   >
@@ -242,7 +252,7 @@ export default function NavBar() {
                   <Image
                     unoptimized
                     loader={imageLoader}
-                    src={user.userImage}
+                    src={user.picture}
                     width={100}
                     height={100}
                     alt="Domus Logo"
