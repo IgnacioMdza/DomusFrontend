@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Rating } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 
 import ReviewCard from "@/components/ReviewCard";
 import BookingCard from "@/components/BookingCard";
@@ -10,6 +10,8 @@ import PetsSection from "@/components/PetsSection";
 import HomeSection from "@/components/HomeSection";
 
 import { bookingsData } from "@/data/bookingsData";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const imageLoader = ({ src, width, quality }) => {
   return `${src}`;
@@ -20,6 +22,12 @@ export default function ClientProfile() {
   const [userData, setUserData] = useState(false);
   const [idMatch, setIdMatch] = useState(false);
 
+  function notFeature() {
+    toast.success(
+      "Esta característica aún no está disponible, pero pronto 😉",
+      { autoClose: 2000 }
+    );
+  }
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
   useEffect(() => {
     const pathId = router.query.id;
@@ -48,10 +56,22 @@ export default function ClientProfile() {
 
   return (
     <main
-      className={`mt-[100px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] ${
+      className={`mt-[80px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] ${
         idMatch ? "max-w-screen-2xl" : "max-w-screen-xl"
       }`}
     >
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {userData && (
         <>
           <section
@@ -71,7 +91,7 @@ export default function ClientProfile() {
                     alt="Profile Picture"
                     src={userData.picture}
                     width={200}
-                    height={200}
+                    height={250}
                     className="min-w-[200px] max-w-[200px] min-h-[250px] max-h-[250px] object-cover rounded-full flex-none"
                   />
                   <Rating
@@ -96,14 +116,15 @@ export default function ClientProfile() {
                     <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
                       {`${userData.name} ${userData.lastname}`}
                     </p>
-                    <Link
+                    <button
                       className={`absolute right-0 bottom-0 ${
                         idMatch ? "" : "hidden"
                       }`}
                       href={"/"}
+                      onClick={(e) => notFeature()}
                     >
                       <i className="fa fa-edit text-[25px]"></i>
-                    </Link>
+                    </button>
                   </div>
 
                   <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
@@ -118,14 +139,14 @@ export default function ClientProfile() {
                     {userData?.type === "client" ? "Mascotas" : null}
                     {userData?.type === "host" ? "Alojamiento" : null}
                   </p>
-                  <Link
+                  <button
                     className={`absolute right-0 bottom-0 ${
                       idMatch ? "" : "hidden"
                     }`}
-                    href={"/"}
+                    onClick={(e) => notFeature()}
                   >
                     <i className="fa fa-edit text-[25px]"></i>
-                  </Link>
+                  </button>
                 </div>
                 <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
                 {userData?.type === "client" ? (
@@ -178,6 +199,7 @@ export default function ClientProfile() {
             <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
             <div className="grid grid-cols- lg:grid-cols-2 gap-5">
               {userData.reviews.map((item, index) => {
+                if (index > 5) return null;
                 return (
                   <ReviewCard
                     key={index}
@@ -192,6 +214,7 @@ export default function ClientProfile() {
                     review={item.comment}
                     anfitrionName={`${item.receiver.name} ${item.receiver.lastname}`}
                     rederReceiver={false}
+                    cardNumber={index + 1}
                   />
                 );
               })}

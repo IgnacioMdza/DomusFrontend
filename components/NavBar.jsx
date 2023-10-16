@@ -35,7 +35,7 @@ export default function NavBar() {
   function onclick() {
     const rem = localStorage.removeItem("token");
     setUser();
-    router.push("/");
+    router.pathname === "/" ? router.reload() : router.push("/");
   }
 
   return (
@@ -54,9 +54,7 @@ export default function NavBar() {
                   <Link href={"/"}>Home </Link>
                 </li>
                 <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                  <Link href="#" className="">
-                    Nosotros{" "}
-                  </Link>
+                  <Link href={"/#qs"}>Nosotros </Link>
                 </li>
                 <li>
                   <Link
@@ -83,7 +81,7 @@ export default function NavBar() {
                   <Link href={"/"}>Home </Link>
                 </li>
                 <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                  <Link href="#" className="">
+                  <Link href={"/#qs"} className="">
                     Nosotros{" "}
                   </Link>
                 </li>
@@ -193,7 +191,7 @@ export default function NavBar() {
                 <li>
                   <a
                     onClick={() => setIsOpen(!isOpen)}
-                    href="#"
+                    href={"/#qs"}
                     className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
                     aria-current="page"
                   >
@@ -226,7 +224,7 @@ export default function NavBar() {
                   <Link href={"/"}>Home </Link>
                 </li>
                 <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
-                  <Link href="#" className="">
+                  <Link href={"/#qs"} className="">
                     Nosotros{" "}
                   </Link>
                 </li>

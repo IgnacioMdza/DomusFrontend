@@ -1,14 +1,19 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 
+const imageLoader = ({ src, width, quality }) => {
+  return `${src}`;
+};
+
 export default function PetRegister() {
-  const router = useRouter()
+  const router = useRouter();
   const [token, setToken] = useState(null);
-  const [picture, setPicture] = useState(null)
+  const [picture, setPicture] = useState(null);
   const {
     register,
     handleSubmit,
@@ -23,51 +28,73 @@ export default function PetRegister() {
       const token = localStorage.getItem("token");
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       const pathId = router.query.id;
-      console.log('token info:', tokenInfo, 'path id:', pathId)
-      if(tokenInfo.id != pathId || tokenInfo.userType != 'client'){
-        router.push('/')
+      if (tokenInfo.id != pathId || tokenInfo.userType != "client") {
+        router.push("/");
       }
-      setToken(token)
+      setToken(token);
     }
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
-    fetch(`${urlFetch}/pets`, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-          picture: ' ',
-          type: data.type,
-          name: data.name,
-          breed: data.breed,
-          size: data.size,
-          sex: data.sex,
-          age: data.age,
-          aboutMe: data.aboutMe,
-          owner: JSON.parse(atob(token.split(".")[1])).id
-      }),
-      })
+    toast.success("Guardando Mascota...", { autoClose: 2000 });
+    let dataObject = {
+      type: data.type,
+      name: data.name,
+      breed: data.breed,
+      size: data.size,
+      sex: data.sex,
+      age: parseInt(data.age),
+      aboutMe: data.aboutMe,
+      owner: JSON.parse(atob(token.split(".")[1])).id,
+    };
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(dataObject));
+    formData.append("folder", "pets");
+    formData.append("image", picture);
+
+    fetch(`${urlFetch}/pets/${JSON.parse(atob(token.split(".")[1])).id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
       .then((response) => response.json())
       .then((response) => {
-          console.log("response: ", response);
-          if(response.success){
-            toast.success("Mascota creada con éxito", {autoClose: 2000,})
-            // setTimeout(() => router.push(`/profiles/${token.id}`), 2000); 
-          } else { 
-            toast.error("Error al crear mascota")
-          };
+        if (response.success) {
+          toast.success("Mascota creada con éxito", { autoClose: 2000 });
+          setTimeout(
+            () =>
+              router.push(
+                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+              ),
+            2000
+          );
+        } else {
+          toast.error("Error al crear mascota");
+        }
       })
       .catch(() => {
-          alert("falló el fetch");
+        alert("falló el fetch");
       });
   };
 
-  return (
-    !token ? 
+  return !token ? (
     <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]"></main>
-    :
+  ) : (
     <main className="mt-[110px] md:mt-32 min-h-[calc(100vh-90px)]">
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="bg-[#2B2E4A] py-4 text-center">
         <h1 className="text-white text-[24px] md:text-[28px] font-normal font-[Raleway]">
           Agregar Mascota
@@ -89,47 +116,67 @@ export default function PetRegister() {
               className="md:m-auto m-auto text-[#2B2E4A]"
             >
               <div className="border-b-[2px] border-[#2B2E4A]">
-                <h2 className="text-[24px] pb-[2px] font-semibold">Datos de tu mascota</h2>
+                <h2 className="text-[24px] pb-[2px] font-semibold">
+                  Datos de tu mascota
+                </h2>
               </div>
-              <div className='flex flex-col md:flex-row md:gap-[36px]'>
-                <div className='w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border mt-[20px] md:mt-[24px] mb-[12px] p-[12px] border-[#c1c1c1]'>
-                  {picture 
-                  ? <img src={URL.createObjectURL(picture.target.files[0])} alt="Selected" className='h-full w-full object-cover rounded-full'/> 
-                  : <div className='h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40'>
-                      <p className='text-center text-slate-400 font-light mt-[8px]'>Aún no has cargado una imagen</p>
-                    </div>}
+              <div className="flex flex-col md:flex-row md:gap-[36px]">
+                <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border mt-[20px] md:mt-[24px] mb-[12px] p-[12px] border-[#c1c1c1]">
+                  {picture ? (
+                    <Image
+                      loader={imageLoader}
+                      alt="Pet Picture"
+                      src={URL.createObjectURL(picture)}
+                      width={200}
+                      height={200}
+                      className="h-full w-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <div className="h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40">
+                      <p className="text-center text-slate-400 font-light mt-[8px]">
+                        Aún no has cargado una imagen
+                      </p>
+                    </div>
+                  )}
                 </div>
-                <div className='mt-[10px] md:mt-[24px] lg:w-[500px]'>
+                <div className="mt-[10px] md:mt-[24px] lg:w-[500px]">
                   <div className="pb-4 w-full">
                     <label
-                        forlabel="picture"
-                        className="block mb-2 text-lg font-medium"
-                      >
-                        Subir imagen:
+                      forlabel="picture"
+                      className="block mb-2 text-lg font-medium"
+                    >
+                      Subir imagen:
                     </label>
-                    <div className='flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg'>
+                    <div className="flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg">
                       <input
                         type="file"
                         accept=".png, .jpg, .jpeg"
-                        className='cursor-pointer p-[8px]'
+                        className="cursor-pointer p-[8px]"
                         {...register("picture", {
                           required: {
                             value: true,
                             message: "Subir imagen es requerido",
                           },
-                          onChange: (e) => setPicture(e),
+                          onChange: (e) => setPicture(e.target.files[0]),
                         })}
                       />
                     </div>
                     {errors.picture && (
-                      <span className="text-red-500">{errors.picture.message}</span>
+                      <span className="text-red-500">
+                        {errors.picture.message}
+                      </span>
                     )}
                   </div>
-                  <div className='my-[8px]'>
-                    <p className="block mb-[4px] text-lg font-medium">Tipo de mascota:</p>
+                  <div className="my-[8px]">
+                    <p className="block mb-[4px] text-lg font-medium">
+                      Tipo de mascota:
+                    </p>
                     <div className="flex justify-start items-center gap-5">
                       <div className="flex items-center">
-                        <label htmlFor="default-radio-1" className="mr-2 text-[18px]">
+                        <label
+                          htmlFor="default-radio-1"
+                          className="mr-2 text-[18px]"
+                        >
                           Perro
                         </label>
                         <input
@@ -146,7 +193,10 @@ export default function PetRegister() {
                         />
                       </div>
                       <div className="flex items-center">
-                        <label htmlFor="default-radio-1" className="mr-2 text-[18px]">
+                        <label
+                          htmlFor="default-radio-1"
+                          className="mr-2 text-[18px]"
+                        >
                           Gato
                         </label>
                         <input
@@ -221,6 +271,10 @@ export default function PetRegister() {
                               value: true,
                               message: "El campo Nombre es requerido",
                             },
+                            maxLength: {
+                              value: 20,
+                              message: "Máximo 20 caracteres",
+                            },
                           })}
                         />
                       </div>
@@ -253,7 +307,9 @@ export default function PetRegister() {
                         />
                       </div>
                       {errors.breed && (
-                        <span className="text-red-500">{errors.breed.message}</span>
+                        <span className="text-red-500">
+                          {errors.breed.message}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -277,16 +333,21 @@ export default function PetRegister() {
                           })}
                         >
                           <option value="">Seleccionar</option>
-                          { watch('type') === 'Gato' 
-                            ?
+                          {watch("type") === "Gato" ? (
                             <option value="chico">Chico (2-10 kilos)</option>
-                            :
+                          ) : (
                             <>
-                              <option value="Pequeño">Chico (2-10 kilos)</option>
-                              <option value="Mediano">Mediano (10-25 kilos)</option>
-                              <option value="Grande">Grande (25-50 kilos)</option>
+                              <option value="Pequeño">
+                                Chico (2-10 kilos)
+                              </option>
+                              <option value="Mediano">
+                                Mediano (10-25 kilos)
+                              </option>
+                              <option value="Grande">
+                                Grande (25-50 kilos)
+                              </option>
                             </>
-                          }
+                          )}
                         </select>
                         {errors.size && (
                           <span className="text-red-500">
@@ -352,7 +413,9 @@ export default function PetRegister() {
                           />
                         </div>
                         {errors.age && (
-                          <span className="text-red-500">{errors.age.message}</span>
+                          <span className="text-red-500">
+                            {errors.age.message}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -368,7 +431,7 @@ export default function PetRegister() {
                       id="aboutMe"
                       rows="6"
                       className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A] bg-[#F2F2F2]"
-                      placeholder="Describe ¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales? ... [100 a 200 caracteres]"
+                      placeholder={`Describe:\n- ¿Cuál es su temperamento?\n- ¿Qué le gusta hacer?\n- ¿Se lleva bien con otros animales?\n- 100 a 200 caracteres`}
                       {...register("aboutMe", {
                         required: {
                           value: true,
@@ -379,8 +442,8 @@ export default function PetRegister() {
                           message: "Mínimo 100 caracteres",
                         },
                         maxLength: {
-                          value: 200,
-                          message: "Máximo 200 caracteres",
+                          value: 150,
+                          message: "Máximo 150 caracteres",
                         },
                       })}
                     ></textarea>
@@ -393,7 +456,7 @@ export default function PetRegister() {
 
                   <div className="pt-6 flex justify-around items-center gap-4">
                     <Link
-                      href='/'
+                      href="/"
                       className="px-6 py-3 text-center w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
                     >
                       Cancelar
