@@ -13,11 +13,14 @@ export default function ReviewCard({
   review,
   anfitrionName,
   renderReceiver,
+  cardNumber,
 }) {
   return (
     <div
       href="/"
-      className="w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-[102%] lg:hover:bg-opacity-[85%]"
+      className={`w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-[102%] lg:hover:bg-opacity-[85%] ${
+        cardNumber >= 4 ? "hidden lg:flex" : "flex"
+      }`}
     >
       <Image
         unoptimized
