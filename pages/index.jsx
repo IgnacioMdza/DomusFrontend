@@ -6,8 +6,14 @@ import check from "/public/icons/check.png";
 import { reviewsData } from "@/data/reviewsData";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [pageToken, setPageToken] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) setPageToken(token);
+  }, []);
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px]">
       <section
@@ -174,7 +180,9 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white disabled:opacity-75"
+              className={`text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white ${
+                pageToken ? "pointer-events-none bg-slate-300" : null
+              }`}
             >
               REGISTRARSE COMO ANFITRIÓN
             </Link>
@@ -192,7 +200,9 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#FF7068] hover:bg-white"
+              className={`text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#FF7068] hover:bg-white ${
+                pageToken ? "pointer-events-none bg-slate-300" : null
+              }`}
             >
               REGISTRARSE COMO CLIENTE
             </Link>

@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+
+const imageLoader = ({ src, width, quality }) => {
+  return `${src}`;
+};
 
 export default function CompleteRegister() {
   const router = useRouter();
@@ -31,6 +36,9 @@ export default function CompleteRegister() {
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
+    toast.success("Actualizando tu información de perfil...", {
+      autoClose: 2000,
+    });
     const dataObject = {
       name: data.name,
       lastname: data.lastname,
@@ -49,7 +57,6 @@ export default function CompleteRegister() {
     const formData = new FormData();
     formData.append("data", JSON.stringify(dataObject));
     formData.append("folder", "users");
-    formData.append("id", JSON.parse(atob(token.split(".")[1])).id);
     formData.append("image", picture);
 
     fetch(`${urlFetch}/users/${JSON.parse(atob(token.split(".")[1])).id}`, {
@@ -121,9 +128,12 @@ export default function CompleteRegister() {
               >
                 <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
                   {picture ? (
-                    <img
+                    <Image
+                      loader={imageLoader}
+                      alt="Pet Picture"
                       src={URL.createObjectURL(picture)}
-                      alt="Selected"
+                      width={200}
+                      height={200}
                       className="h-full w-full object-cover rounded-full"
                     />
                   ) : (
