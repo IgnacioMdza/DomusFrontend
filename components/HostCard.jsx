@@ -45,13 +45,13 @@ export default function HostCard({
 
   return (
     <>
-      <div className="bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[16px] xl:p-[20px] rounded-[10px] gap-[20px] max-w-[1280px] border">
+      <div className="bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[16px] xl:p-[16px] rounded-[10px] gap-[20px] max-w-[1280px] border">
           <img
             src={hostAndHouse.owner.picture}
             alt="host_image"
             className="w-[140px] h-[140px] rounded-full lg:w-[220px] lg:h-[220px] object-cover aspect-square"
           />
-        <div className="flex flex-col gap-[16px]">
+        <div className="flex flex-col gap-[6px]">
           <div className="w-full flex justify-between items-center">
             <p className="font-[Nunito] text-[#2B2E4A] text-[20px] lg:text-[24px]  font-semibold">
               {hostAndHouse.owner.name} {hostAndHouse.owner.lastname}
