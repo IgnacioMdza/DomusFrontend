@@ -13,7 +13,7 @@ export default function Bookingblog({ reservation }) {
         const token = localStorage.getItem("token") || null;
         if(token){
             const tokenInfo = JSON.parse(atob(token.split(".")[1]));
-            if(tokenInfo.id === reservation.data.client || tokenInfo.id === reservation.data.client){
+            if(tokenInfo.id === reservation.data.client || tokenInfo.id === reservation.data.host){
                 setUser(tokenInfo)
             } else {
                 router.push('/404')
