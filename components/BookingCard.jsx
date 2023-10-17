@@ -65,7 +65,7 @@ export default function BookingCard2({ usertype, data }) {
   }
 
   return (
-    <card
+    <main
       className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-[95%] m-auto bg-white hover:scale-[102%] hover:shadow-xl`}
     >
       {/* <div
@@ -119,6 +119,6 @@ export default function BookingCard2({ usertype, data }) {
           </button>
         </div>
       </div>
-    </card>
+    </main>
   );
 }

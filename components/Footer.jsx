@@ -57,6 +57,7 @@ export default function Footer() {
           <div className="flex flex-col items-center gap-3">
             <Link href={"/"}>
               <Image
+                priority
                 src={logo}
                 alt="Domus Logo"
                 className="bg-slate-900 w-40"

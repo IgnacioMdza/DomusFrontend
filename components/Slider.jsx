@@ -11,10 +11,11 @@ import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper/modules";
 
 const imageLoader = ({ src, width, quality }) => {
-  return `https://swiperjs.com/demos/images/${src}`;
+  return `${src}`;
 };
 
-export default function Slider() {
+export default function Slider(data) {
+  console.log("Slider Data", data);
   return (
     <>
       <Swiper
@@ -34,77 +35,24 @@ export default function Slider() {
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper w-full py-[50px]"
       >
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            priority={true}
-            src={"nature-1.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            src={"nature-2.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>{" "}
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            src={"nature-3.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            src={"nature-4.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            src={"nature-5.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            src={"nature-6.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>
-        <SwiperSlide className="bg-center bg-cover max-h-[300px] max-w-[300px]">
-          <Image
-            loader={imageLoader}
-            alt="slider picture"
-            src={"nature-7.jpg"}
-            width={300}
-            height={300}
-            className="block"
-          />
-        </SwiperSlide>
+        {data.pictures.map((item, index) => {
+          return (
+            <SwiperSlide
+              key={index}
+              className="bg-center bg-cover max-h-[300px] max-w-[300px]"
+            >
+              <Image
+                loader={imageLoader}
+                alt="slider picture"
+                priority={true}
+                src={item}
+                width={300}
+                height={300}
+                className="block h-[300px] w-[300px] object-cover"
+              />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </>
   );

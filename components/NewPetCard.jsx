@@ -1,10 +1,17 @@
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 
 export default function NewPetCard() {
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setUserInfo(JSON.parse(atob(token.split(".")[1])));
+  }, []);
   return (
-    <main className="px-5 py-5 bg-white rounded-[15px] w-full h-full flex flex-col justify-between">
-      <div className="flex justify-around mb-5">
+    <main className="px-5 py-5 bg-white rounded-[15px] w-full min-h-[300px] h-full flex flex-col justify-around shadow-md">
+      <div className="flex justify-around">
         <Image
           src={"/images/newPet.png"}
           width={150}
@@ -18,10 +25,11 @@ export default function NewPetCard() {
           <p>✩✩✩✩✩</p>
         </div>
       </div>
-      <Link href={"/accounts/petregister"}>
-        <button className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white hover:scale-[102%]">
-          Agregar Ahora
-        </button>
+      <Link
+        href={`/accounts/petregister/${userInfo.id}`}
+        className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white text-center hover:scale-[102%]"
+      >
+        Agregar Ahora
       </Link>
     </main>
   );
