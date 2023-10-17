@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import XMark from "/public/icons/xmark.svg";
 
 export default function BookingBlogDropdownMenu() {
-
     const router = useRouter()
+    const id = router.query.id
     const [isOpen, setIsOpen] = useState(false)
 
     return(
@@ -22,11 +22,21 @@ export default function BookingBlogDropdownMenu() {
 
                 { isOpen && 
                     <div className='bg-white w-full shadow-2xl text-[#2B2E4A] flex flex-col text-center px-[12px] text-[20px] font-[nunito]'>
-                        <Link href={router.pathname === '/bookingblog' ? 'bookingblog/info' : 'info'} className='border-b py-[12px] border-[#F2F2F2]'><p>Datos de reserva</p></Link>
-                        <Link href={router.pathname === '/bookingblog' ? 'bookingblog/pets' : 'pets'} className='border-b py-[12px] border-[#F2F2F2]'><p>Mascotas</p></Link>
-                        <Link href={router.pathname === '/bookingblog' ? 'bookingblog/evidence' : 'evidence'} className='border-b py-[12px] border-[#F2F2F2]'><p>Evidencia fotográfica</p></Link>
-                        <Link href={router.pathname === '/bookingblog' ? 'bookingblog/chat' : 'chat'} className='border-b py-[12px] border-[#F2F2F2]'><p>Comunicación</p></Link>
-                        <Link href={router.pathname === '/bookingblog' ? 'bookingblog/reviews' : 'reviews'} className='py-[12px] '><p>Reseñas</p></Link>
+                        <Link href={ `/bookingblog/info/${id}`} className='border-b py-[12px] border-[#F2F2F2]'>
+                            <p>Datos de reserva</p>
+                        </Link>
+                        <Link href={ `/bookingblog/pets/${id}` } className='border-b py-[12px] border-[#F2F2F2]'>
+                            <p>Mascotas</p>
+                        </Link>
+                        <Link href={ `/bookingblog/evidence/${id}` } className='border-b py-[12px] border-[#F2F2F2]'>
+                            <p>Evidencia fotográfica</p>
+                        </Link>
+                        <Link href={ `/bookingblog/chat/${id}` } className='border-b py-[12px] border-[#F2F2F2]'>
+                            <p>Comunicación</p>
+                        </Link>
+                        <Link href={ `/bookingblog/reviews/${id}` } className='py-[12px] '>
+                            <p>Reseñas</p>
+                        </Link>
                     </div>
                 }
             </div>
