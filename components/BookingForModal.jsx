@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+
 import XMark from "/public/icons/xmark.svg";
 
 import { DatePicker } from "@mui/x-date-pickers";
@@ -12,37 +14,73 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
-export default function BookingForModal({hostName, onClose}){
+export default function BookingForModal({
+        hostName,
+        location,
+        home,
+        nightPetPrice,
+        initialDay,
+        endDay,
+        onClose,
+        userClient,
+        hostId
+    }){
+
     const [mascota, setMascota] = useState('')
-    const [initialDate, setInitialDate] = useState(dayjs())
-    const [endDate, setEndDate] = useState(dayjs())
+    const [initialDate, setInitialDate] = useState(dayjs(initialDay))
+    const [endDate, setEndDate] = useState(dayjs(endDay))
 
-    const mascotas = ['Firulais', 'Michi', 'Nala', 'Rocky']
+    const router = useRouter()
+    const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
+
     const days = Math.round((endDate.$d.getTime() - initialDate.$d.getTime()) / 1000 / 60 / 60 / 24)
-    // const validateDays = Math.sign(days) === 1 ? days : 0
-    const priceByDay = 150.00
-    const priceByDays = days * priceByDay
+    const priceByDays = days * nightPetPrice
     const tarifaDomus = Math.sign(days) === 1 ? (priceByDays * 0.10) + 300 : 0
     const impuestos = ((tarifaDomus + priceByDays) * 0.16)
     const totalPrice = priceByDays + tarifaDomus + impuestos
 
     function handleSubmit(event) {
         event.preventDefault();
-        if (mascota && initialDate && endDate) {
-            const data = {
-                mascota,
-                initialDate,
-                endDate
-            };
-            console.log(data)
-            console.log(data.initialDate.$d)
-            console.log(data.endDate.$d)
+        if (mascota) {
+            fetch(`${urlFetch}/reservations`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    client: userClient._id,
+                    host: hostId,
+                    startDate: initialDate,
+                    finishDate: endDate,
+                    pet: [mascota],
+                    status: 'pending',
+                    cost:{
+                        costPerNight: nightPetPrice,
+                        nights: days,
+                        taxes: impuestos,
+                        domusFee: tarifaDomus,
+                        total: totalPrice
+                    }
+                }),
+                })
+                .then((response) => response.json())
+                .then((response) => {
+                    console.log("response: ", response);
+                    if(response.success){
+                        toast.success("Reservación creada con éxito", {autoClose: 2000,})
+                        setTimeout(() => router.push(`/profiles/${userClient._id}`), 1500); 
+                    } else { 
+                        toast.error("Error al crear reservación")
+                    };
+                })
         } else {
-            alert("Falta llenar un campo");
+            alert("No has seleccionado una mascota");
         }
     }
     return(
+        <>
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
             <div className='p-[24px] w-[calc(100%-24px)] md:w-[calc(100%-48px)] lg:w-[780px] h-[calc(100%-24px)] md:h-fit max-h-[calc(100%-24px)] flex flex-col gap-[12px] bg-white rounded-2xl overflow-auto'>
                 <div className='flex w-full justify-between h-fit'>
                     <h1 className='text-[32px] font-[Raleway] font-semibold text-[#2B2E4A]'>Reserva</h1>
@@ -59,10 +97,10 @@ export default function BookingForModal({hostName, onClose}){
                             onChange={(event) => setMascota(event.target.value)}
                             >
                                 <div className='flex gap-[32px] flex-wrap justify-between'>
-                                    {mascotas.map((item, index) => {
+                                    { userClient && userClient.pets.map((item, index) => {
                                         return(
                                             <>
-                                                <FormControlLabel key={index} value={item} control={<Radio />} label={item} />
+                                                <FormControlLabel key={index} value={item._id} control={<Radio />} label={item.name} />
                                             </>
                                         )
                                     })}
@@ -121,11 +159,11 @@ export default function BookingForModal({hostName, onClose}){
                                 </div>
                                 <div className='flex justify-between text-[14px] w-full'>
                                     <p>Ubicación</p>
-                                    <p>Guadalajara, Jalisco</p>
+                                    <p>{location}</p>
                                 </div>
                                 <div className='flex justify-between text-[14px] w-full'>
                                     <p>Domicilio</p>
-                                    <p>Colonia Centro Av X no.19</p>
+                                    <p>{home}</p>
                                 </div>
                             </div>
                             <div className='w-full flex flex-col items-center font-light font-[nunito] text-[16px] gap-[8px]'>
@@ -133,7 +171,7 @@ export default function BookingForModal({hostName, onClose}){
                                 <div className='h-[1px] w-full bg-[#2B2E4A]'></div>
                                 <div className='flex justify-between text-[14px] w-full'>
                                     <p>Noches agendadas</p>
-                                    <p>{days} x ${priceByDay}</p>
+                                    <p>{days} x ${nightPetPrice}</p>
                                     <p>${priceByDays}</p>
                                 </div>
                                 <div className='flex justify-between text-[14px] w-full'>
@@ -156,5 +194,6 @@ export default function BookingForModal({hostName, onClose}){
                     className='bg-[#FF7068] rounded-full py-[10px] text-[#F2F2F2] text-[20px] font-[nunito] font-bold hover:cursor-pointer transition hover:bg-[#F2F2F2] hover:text-[#FF7068] hover:border hover:border-[#FF7068] hover:py-[9px] w-full hover:shadow-xl'>Enviar solicitud</button>
                 </form>
             </div>
+        </>
     )
 }
