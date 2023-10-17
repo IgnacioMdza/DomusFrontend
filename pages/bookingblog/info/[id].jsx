@@ -12,7 +12,7 @@ export default function Info({reservation}) {
         const token = localStorage.getItem("token") || null;
         if(token){
             const tokenInfo = JSON.parse(atob(token.split(".")[1]));
-            if(tokenInfo.id === reservation.data.client || tokenInfo.id === reservation.data.client){
+            if(tokenInfo.id === reservation.data.client._id || tokenInfo.id === reservation.data.host._id){
                 setUser(tokenInfo)
             } else {
                 router.push('/404')
@@ -81,15 +81,15 @@ export default function Info({reservation}) {
                                     </div>
                                     <div className='flex justify-between'>
                                         <p>Domicilio</p>
-                                        <p>{reservation.data.host.accommodation.address.street} #{reservation.data.host.accommodation.address.externalNumber}</p>
+                                        <p>{reservation.data.host.accommodation?.address?.street} #{reservation.data.host.accommodation?.address?.externalNumber}</p>
                                     </div>
                                     <div className='flex justify-between'>
                                         <p>Colonia</p>
-                                        <p>{reservation.data.host.accommodation.address.neighbourhood}</p>
+                                        <p>{reservation.data.host.accommodation?.address?.neighbourhood}</p>
                                     </div>
                                     <div className='flex justify-between'>
                                         <p>Ciudad</p>
-                                        <p>{reservation.data.host.accommodation.address.city}, {reservation.data.host.accommodation.address.state}</p>
+                                        <p>{reservation.data.host.accommodation?.address.city}, {reservation.data.host.accommodation?.address.state}</p>
                                     </div>
                                 </div>
                             </div>
@@ -171,11 +171,17 @@ export async function getServerSideProps(context) {
     const response = await fetch(`http://localhost:8080/reservations/all/${id}?find=info`);
     if (response.status === 200) {
         const reservation = await response.json();
-        return {
-            props: {
-                reservation,
-            },
-        };
+        if(reservation.data.status != 'paid' && reservation.data.status != 'current' && reservation.data.status != 'concluded') {
+            return {
+                notFound: true, 
+            };
+        } else {
+            return {
+                props: {
+                    reservation,
+                },
+            };
+        }
     } else {
         return {
             notFound: true, 
