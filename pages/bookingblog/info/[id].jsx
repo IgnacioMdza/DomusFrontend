@@ -81,15 +81,15 @@ export default function Info({reservation}) {
                                     </div>
                                     <div className='flex justify-between'>
                                         <p>Domicilio</p>
-                                        <p>{reservation.data.host.accommodation?.address?.street} #{reservation.data.host.accommodation?.address?.externalNumber}</p>
+                                        <p>{reservation.data.host.accommodation.address.street} #{reservation.data.host.accommodation.address.externalNumber}</p>
                                     </div>
                                     <div className='flex justify-between'>
                                         <p>Colonia</p>
-                                        <p>{reservation.data.host.accommodation?.address?.neighbourhood}</p>
+                                        <p>{reservation.data.host.accommodation.address.neighbourhood}</p>
                                     </div>
                                     <div className='flex justify-between'>
                                         <p>Ciudad</p>
-                                        <p>{reservation.data.host.accommodation?.address.city}, {reservation.data.host.accommodation?.address.state}</p>
+                                        <p>{reservation.data.host.accommodation.address.city}, {reservation.data.host.accommodation.address.state}</p>
                                     </div>
                                 </div>
                             </div>
