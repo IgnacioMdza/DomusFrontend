@@ -1,16 +1,256 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import { locations } from "@/data/locations";
+
+import { useState } from "react";
 
 export default function HomeRegister() {
   const {
     register,
     handleSubmit,
+    watch,
+
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (e) => {
-    console.log(e);
+  const [images, setimages] = useState([]);
+
+  const [isOpen, setIsOpen] = useState([]);
+  const [isOpenCheck, setIsOpenCheck] = useState([]);
+  const [isOpenCheck2, setIsOpenCheck2] = useState([]);
+  const [isOpenCheck3, setIsOpenCheck3] = useState([]);
+  const [isOpenCheck4, setIsOpenCheck4] = useState([]);
+  const [isOpenCheck5, setIsOpenCheck5] = useState([]);
+
+  const [textareaActive, setTextareaActive] = useState(false);
+  const [check, setCheck] = useState(false);
+  const [check2, setCheck2] = useState(false);
+  const [check3, setCheck3] = useState(false);
+  const [check4, setCheck4] = useState(false);
+  const [check5, setCheck5] = useState(false);
+
+  const onSubmit = (data) => {
+    const amenities = data.amenities;
+    const stringAmenities = amenities.replace(/ /g, "");
+    const ListAmenities = stringAmenities.split(".");
+
+    const restrictions = data.restrictions;
+    const stringRestrictions = restrictions.replace(/ /g, "");
+    const ListRestrictions = stringRestrictions.split(".");
+
+    const dataObject = {
+      pet: {
+        cat: {
+          isHosted: check4,
+        },
+        dog: {
+          isHosted: check5,
+        },
+      },
+      picture: images,
+      hosting: {
+        amount: data.amount,
+        dog: {
+          small: {
+            isHosted: check,
+            price: data.price1,
+          },
+          medium: {
+            isHosted: data.medium,
+            price: data.price2,
+          },
+          big: {
+            isHosted: data.big,
+            price: data.price3,
+          },
+        },
+        cat: {
+          isHosted: check4,
+          price: data.price4,
+        },
+      },
+      description: data.description,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      amenities: ListAmenities,
+      restrictions: ListRestrictions,
+      address: {
+        street: data.street,
+        externalNumber: data.externalNumber,
+        internalNumber: data.internalNumber,
+        neighbourhood: data.neighbourhood,
+        state: data.state,
+        city: data.city,
+        postalCode: data.postalCode,
+        streetsNearby: data.streetsNearby,
+        references: data.references,
+      },
+      bankAccount: {
+        name: data.name,
+        number: data.number,
+        bank: data.bank,
+        clabe: data.clabe,
+      },
+    };
+    console.log(dataObject);
   };
+
+  // useEffect(() => {
+  const hiddenText = (e) => {
+    let aux = null;
+    if (isOpen.includes(e.target.value)) {
+      aux = isOpen.filter((element) => element !== e.target.value);
+      // setIsOpen(aux);
+    } else {
+      aux = isOpen.concat(e.target.value);
+      console.log(aux);
+      hiddenText;
+    }
+    setIsOpen(aux);
+
+    if (aux.length > 0) {
+      setTextareaActive(true);
+    } else {
+      setTextareaActive(false);
+    }
+  };
+
+  const hiddenCheck = (e) => {
+    let aux = null;
+    if (isOpenCheck.includes(e.target.value)) {
+      aux = isOpenCheck.filter((element) => element !== e.target.value);
+      // setIsOpen2(aux);
+    } else {
+      aux = isOpenCheck.concat(e.target.value);
+    }
+    setIsOpenCheck(aux);
+
+    if (aux.length > 0) {
+      setCheck(true);
+    } else {
+      setCheck(false);
+    }
+  };
+  const hiddenCheck2 = (e) => {
+    let aux = null;
+    if (isOpenCheck2.includes(e.target.value)) {
+      aux = isOpenCheck2.filter((element) => element !== e.target.value);
+      //setIsOpen(aux);
+    } else {
+      aux = isOpenCheck2.concat(e.target.value);
+    }
+    setIsOpenCheck2(aux);
+
+    if (aux.length > 0) {
+      setCheck2(true);
+    } else {
+      setCheck2(false);
+    }
+  };
+  const hiddenCheck3 = (e) => {
+    let aux = null;
+    if (isOpenCheck3.includes(e.target.value)) {
+      aux = isOpenCheck3.filter((element) => element !== e.target.value);
+      //setIsOpen(aux);
+    } else {
+      aux = isOpenCheck3.concat(e.target.value);
+    }
+    setIsOpenCheck3(aux);
+
+    if (aux.length > 0) {
+      setCheck3(true);
+    } else {
+      setCheck3(false);
+    }
+  };
+
+  const hiddenCheck4 = (e) => {
+    let aux = null;
+    if (isOpenCheck4.includes(e.target.value)) {
+      aux = isOpenCheck4.filter((element) => element !== e.target.value);
+      //setIsOpen(aux);
+    } else {
+      aux = isOpenCheck4.concat(e.target.value);
+    }
+    setIsOpenCheck4(aux);
+
+    if (aux.length > 0) {
+      setCheck4(true);
+    } else {
+      setCheck4(false);
+    }
+  };
+
+  const hiddenCheck5 = (e) => {
+    let aux = null;
+    if (isOpenCheck5.includes(e.target.value)) {
+      aux = isOpenCheck5.filter((element) => element !== e.target.value);
+      //setIsOpen(aux);
+    } else {
+      aux = isOpenCheck5.concat(e.target.value);
+    }
+    setIsOpenCheck5(aux);
+
+    if (aux.length > 0) {
+      setCheck5(true);
+    } else {
+      setCheck5(false);
+    }
+  };
+
+  const changeInput = (e) => {
+    //esto es el indice que se le dará a cada imagen, a partir del indice de la ultima foto
+    let indexImg;
+
+    //aquí evaluamos si ya hay imagenes antes de este input, para saber en dónde debe empezar el index del proximo array
+    if (images.length > 0) {
+      indexImg = images[images.length - 1].index + 1;
+    } else {
+      indexImg = 0;
+    }
+
+    let newImgsToState = readmultifiles(e, indexImg);
+    let newImgsState = [...images, ...newImgsToState];
+    setimages(newImgsState);
+
+    console.log(newImgsState);
+  };
+
+  function readmultifiles(e, indexInicial) {
+    const files = e.currentTarget.files;
+
+    //el array con las imagenes nuevas
+    const arrayImages = [];
+
+    Object.keys(files).forEach((i) => {
+      const file = files[i];
+
+      let url = URL.createObjectURL(file);
+
+      //console.log(file);
+      arrayImages.push({
+        index: indexInicial,
+        name: file.name,
+        url,
+        file,
+      });
+
+      indexInicial++;
+    });
+
+    //despues de haber concluido el ciclo retornamos las nuevas imagenes
+    return arrayImages;
+  }
+
+  function deleteImg(indice) {
+    //console.log("borrar img " + indice);
+
+    const newImgs = images.filter(function (element) {
+      return element.index !== indice;
+    });
+    console.log(newImgs);
+    setimages(newImgs);
+  }
 
   return (
     <div className="mt-32 mb-24">
@@ -19,6 +259,7 @@ export default function HomeRegister() {
           Agregar Alojamiento
         </h1>
       </div>
+
       <div className="lg:flex lg:justify-center">
         <div className="border-[2px] py-4 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl bg-white drop-shadow-xl  font-[Nunito] font-medium">
           <div className="border-b-4 border-[#FF6868]">
@@ -80,69 +321,49 @@ export default function HomeRegister() {
                       de tu alojamiento
                     </p>
                   </div>
+
                   <div className="">
-                    <div className="bg-[#F2F2F2] px-4 py-2 mb-3 rounded-full">
-                      <p className="flex">
-                        C://misdocumentos/folder/imagen1.img&nbsp;
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </span>
+                    <br></br>
+                    {/* INPUT IMAGES */}
+                    <label className="">
+                      <p className="bg-[#2F2E43] px-10  text-white rounded-full py-2 text-lg md:text-lg sm:text-sm w-full cursor-pointer">
+                        Selecciona tus imagenes Aquí
                       </p>
-                    </div>
-                    <div className="bg-[#F2F2F2] px-4 py-2 mb-3  rounded-full">
-                      <p className="flex">
-                        C://misdocumentos/folder/imagen1.img&nbsp;
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </span>
-                      </p>
-                    </div>
-                    <div className="bg-[#F2F2F2] px-4 py-2 mb-3  rounded-full">
-                      <p className="flex">
-                        C://misdocumentos/folder/imagen1.img&nbsp;
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </span>
-                      </p>
+                      <div className="flex">
+                        <input
+                          type="file"
+                          hidden
+                          className="text-[#2A2D49]"
+                          accept=".png, .jpg, .jpeg"
+                          multiple
+                          onChange={changeInput}
+                        />
+                      </div>
+                    </label>
+
+                    {/* VIEW IMAGES */}
+                    <div className="flex flex-row gap-2 flex-wrap">
+                      {images.map((imagen) => (
+                        <div className="flex " key={imagen.index}>
+                          <div className="">
+                            <button
+                              className="position-absolute px-2 text-white bg-[#FF6868] mt-4"
+                              onClick={deleteImg.bind(this, imagen.index)}
+                            >
+                              x
+                            </button>
+                            <div className="drop-shadow-2xl">
+                              <Image
+                                src={imagen.url}
+                                width={100}
+                                height={100}
+                                className="border border-5 w-max-80 h-auto"
+                                alt="Imagen dada de alta"
+                              ></Image>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -158,16 +379,10 @@ export default function HomeRegister() {
                           Perro
                         </label>
                         <input
-                          type="radio"
-                          value=""
-                          name="default-radio"
-                          className="w-4 h-4 text-blue-600 bg-[#F2F2F2] border-gray-300 focus:ring-blue-500 "
-                          {...register("radiopet", {
-                            required: {
-                              value: true,
-                              message: "Selecciona una mascota",
-                            },
-                          })}
+                          type="checkbox"
+                          value="perro"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                          onChange={hiddenCheck5}
                         />
                       </div>
 
@@ -176,21 +391,15 @@ export default function HomeRegister() {
                           Gato
                         </label>
                         <input
-                          type="radio"
-                          value=""
-                          name="default-radio"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-                          {...register("radiopet", {
-                            required: {
-                              value: true,
-                              message: "Selecciona una mascota",
-                            },
-                          })}
+                          type="checkbox"
+                          value="gato"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                          onChange={hiddenCheck4}
                         />
                       </div>
-                      {errors.radiopet && (
+                      {errors.pet && (
                         <span className="text-red-500">
-                          {errors.radiopet.message}
+                          {errors.pet.message}
                         </span>
                       )}
                     </div>
@@ -199,42 +408,35 @@ export default function HomeRegister() {
                     <h4>Tamaño (puede ser más de uno):</h4>
                     <div className="flex justify-start items-center gap-3 pt-4">
                       <div className="flex items-center">
-                        <label htmlFor="default-radio-1" className="mr-2 ">
+                        <label htmlFor="" className="mr-2 ">
                           Chico
                         </label>
                         <input
                           type="checkbox"
-                          value=""
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                          {...register("check", {
-                            required: {
-                              value: true,
-                              message: "Selecciona un tamaño",
-                            },
-                          })}
+                          onChange={hiddenCheck}
+                          // {...register("small", {})}
                         />
                       </div>
 
                       <div className="flex items-center">
-                        <label htmlFor="default-radio-1" className="mr-2 ">
+                        <label htmlFor="" className="mr-2 ">
                           Mediano
                         </label>
                         <input
-                          id="checkbox2"
                           type="checkbox"
-                          value=""
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                          onChange={hiddenCheck2}
                         />
                       </div>
                       <div className="flex items-center">
-                        <label htmlFor="default-radio-1" className="mr-2 ">
+                        <label htmlFor="" className="mr-2 ">
                           Grande
                         </label>
                         <input
-                          id="checkbox3"
                           type="checkbox"
-                          value=""
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                          onChange={hiddenCheck3}
                         />
                       </div>
                     </div>
@@ -247,25 +449,24 @@ export default function HomeRegister() {
                       Cuántas mascotas podrías cuidar simultáneamente?:
                     </label>
                     <select
-                      id="countries"
                       className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
-                      {...register("selectcountries", {
+                      {...register("amount", {
                         required: {
                           value: true,
-                          message: "Selecciona una mascota",
+                          message: "Selecciona un número de mascotas",
                         },
                       })}
                     >
-                      <option>1</option>
+                      <option value="">--Selecciona un numero--</option>
                       <option value="dos">2</option>
                       <option value="tres">3</option>
                       <option value="cuatro">4</option>
                       <option value="cinco">5</option>
                       <option value="otro">otro</option>
                     </select>
-                    {errors.selectcountries && (
+                    {errors.amount && (
                       <span className="text-red-500">
-                        {errors.selectcountries.message}
+                        {errors.amount.message}
                       </span>
                     )}
                   </div>
@@ -299,7 +500,7 @@ export default function HomeRegister() {
                             type="time"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
-                            {...register("time", {
+                            {...register("checkIn", {
                               required: {
                                 value: true,
                                 message: "Campo requerido",
@@ -307,9 +508,9 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.time && (
+                        {errors.checkIn && (
                           <span className="text-red-500">
-                            {errors.time.message}
+                            {errors.checkIn.message}
                           </span>
                         )}
                       </div>
@@ -342,7 +543,7 @@ export default function HomeRegister() {
                             name="date"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa tu Nombre"
-                            {...register("time2", {
+                            {...register("checkOut", {
                               required: {
                                 value: true,
                                 message: "Campo requerido",
@@ -350,39 +551,40 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.time2 && (
+                        {errors.checkOut && (
                           <span className="text-red-500">
-                            {errors.time2.message}
+                            {errors.checkOut.message}
                           </span>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="pt-4">
-                    <div className="flex justify-between items-center pb-2">
+                    <div className="flex justify-start justify-items-center  items-center pb-2">
                       <label
                         htmlFor="message"
                         className="block mb-2 text-lg font-medium"
                       >
                         Habitan mascotas en el sitio?
                       </label>
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        value=""
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                      />
+                      <div className="flex justify-center items-center gap-1 mb-2 pl-10">
+                        <p>Marcar</p>
+                        <input
+                          id="default-checkbox"
+                          type="checkbox"
+                          value=""
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                          onChange={hiddenText}
+                        />
+                      </div>
                     </div>
                     <textarea
                       id="message"
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales?"
-                      {...register("textpet", {
-                        required: {
-                          value: true,
-                          message: "El campo es requerido",
-                        },
+                      disabled={!textareaActive}
+                      {...register("description", {
                         minLength: {
                           value: 100,
                           message: "Mínimo 100 caracteres",
@@ -393,9 +595,9 @@ export default function HomeRegister() {
                         },
                       })}
                     ></textarea>
-                    {errors.textpet && (
+                    {errors.description && (
                       <span className="text-red-500">
-                        {errors.textpet.message}
+                        {errors.description.message}
                       </span>
                     )}
                   </div>
@@ -405,6 +607,7 @@ export default function HomeRegister() {
                       className="block mb-2 text-lg font-medium"
                     >
                       Amenidades:
+                      <small>(Separa tu amenidad con un punto al final.)</small>
                     </label>
 
                     <textarea
@@ -412,7 +615,7 @@ export default function HomeRegister() {
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Describe las particularidades que hacen de tu alojamiento un lugar ideal para las mascotas (jardin, etc...)"
-                      {...register("textplace", {
+                      {...register("amenities", {
                         required: {
                           value: true,
                           message: "El campo es requerido",
@@ -427,9 +630,9 @@ export default function HomeRegister() {
                         },
                       })}
                     ></textarea>
-                    {errors.textplace && (
+                    {errors.amenities && (
                       <span className="text-red-500">
-                        {errors.textplace.message}
+                        {errors.amenities.message}
                       </span>
                     )}
                   </div>
@@ -446,7 +649,7 @@ export default function HomeRegister() {
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                       placeholder="Describe las limitaciones que tendrán las mascotas hospedadas en tu alojamiento."
-                      {...register("textrestrictions", {
+                      {...register("restrictions", {
                         required: {
                           value: true,
                           message: "El campo es requerido",
@@ -461,9 +664,9 @@ export default function HomeRegister() {
                         },
                       })}
                     ></textarea>
-                    {errors.textrestrictions && (
+                    {errors.restrictions && (
                       <span className="text-red-500">
-                        {errors.textrestrictions.message}
+                        {errors.restrictions.message}
                       </span>
                     )}
                   </div>
@@ -524,10 +727,9 @@ export default function HomeRegister() {
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                             <input
                               type="number"
-                              name="exterior"
                               className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                               placeholder="Número Exterior"
-                              {...register("numext", {
+                              {...register("externalNumber", {
                                 required: {
                                   value: true,
                                   message: "El campo es requerido",
@@ -535,9 +737,9 @@ export default function HomeRegister() {
                               })}
                             />
                           </div>
-                          {errors.numext && (
+                          {errors.externalNumber && (
                             <span className="text-red-500">
-                              {errors.numext.message}
+                              {errors.externalNumber.message}
                             </span>
                           )}
                         </div>
@@ -555,7 +757,7 @@ export default function HomeRegister() {
                               name="interior"
                               className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] [$>*::webkit-inner-spin-button"
                               placeholder="Número Interior"
-                              {...register("numint", {
+                              {...register("internalNumber", {
                                 required: {
                                   value: true,
                                   message: "El campo es requerido",
@@ -563,9 +765,9 @@ export default function HomeRegister() {
                               })}
                             />
                           </div>
-                          {errors.numint && (
+                          {errors.internalNumber && (
                             <span className="text-red-500">
-                              {errors.numint.message}
+                              {errors.internalNumber.message}
                             </span>
                           )}
                         </div>
@@ -585,7 +787,7 @@ export default function HomeRegister() {
                           name="cologne"
                           className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                           placeholder="Ingresa tu Colonia"
-                          {...register("cologne", {
+                          {...register("neighbourhood", {
                             required: {
                               value: true,
                               message: "El campo es requerido",
@@ -593,9 +795,9 @@ export default function HomeRegister() {
                           })}
                         />
                       </div>
-                      {errors.cologne && (
+                      {errors.neighbourhood && (
                         <span className="text-red-500">
-                          {errors.cologne.message}
+                          {errors.neighbourhood.message}
                         </span>
                       )}
                     </div>
@@ -608,12 +810,28 @@ export default function HomeRegister() {
                           Estado:
                         </label>
                         <select
-                          id="countries"
+                          {...register("state", {
+                            required: {
+                              value: true,
+                              message: "Selecciona un estado",
+                            },
+                          })}
                           className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                         >
-                          <option>Guerrero</option>
-                          <option value="">otros</option>
+                          <option value="">Estado</option>
+                          {locations.map((item, index) => {
+                            return (
+                              <option key={index} value={item.estado}>
+                                {item.estado}
+                              </option>
+                            );
+                          })}
                         </select>
+                        {errors.state && (
+                          <p className="text-[#2B2E4A]">
+                            {errors.state.message}
+                          </p>
+                        )}
                       </div>
                       <div className="pt-4 sm:pt-0 sm:w-full">
                         <label
@@ -623,13 +841,30 @@ export default function HomeRegister() {
                           Ciudad:
                         </label>
                         <select
-                          id="countries"
-                          className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]"
+                          {...register("city", {
+                            required: {
+                              value: true,
+                              message: "Selecciona un municipio",
+                            },
+                          })}
+                          className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                         >
-                          <option>Acapulco de Juárez</option>
-                          <option value="">Chilpancingo de los Bravo</option>
-                          <option value="">Iguala</option>
+                          <option value="">Municipio</option>
+                          {locations
+                            .filter((item) => item.estado === watch("state"))[0]
+                            ?.municipios.map((municipio, index) => {
+                              return (
+                                <option key={index} value={municipio}>
+                                  {municipio}
+                                </option>
+                              );
+                            })}
                         </select>
+                        {errors.city && (
+                          <p className="text-[#2B2E4A]">
+                            {errors.city.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="sm:flex sm:gap-10 sm:mt-5">
@@ -643,10 +878,10 @@ export default function HomeRegister() {
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
-                            type="text"
+                            type="number"
                             className=" rounded-lg w-50 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Código Postal"
-                            {...register("postalcode", {
+                            {...register("postalCode", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
@@ -654,9 +889,9 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.postalcode && (
+                        {errors.postalCode && (
                           <span className="text-red-500">
-                            {errors.postalcode.message}
+                            {errors.postalCode.message}
                           </span>
                         )}
                       </div>
@@ -672,7 +907,7 @@ export default function HomeRegister() {
                           <input
                             type="text"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            {...register("streetandcorner", {
+                            {...register("streetsNearby", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
@@ -680,9 +915,9 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.streetandcorner && (
+                        {errors.streetsNearby && (
                           <span className="text-red-500">
-                            {errors.streetandcorner.message}
+                            {errors.streetsNearby.message}
                           </span>
                         )}
                       </div>
@@ -698,7 +933,7 @@ export default function HomeRegister() {
                         rows="6"
                         className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder="Ejemplo. -¿Color de la casa? -¿Color de la puerta / portón? -¿Algún negocio cercano?"
-                        {...register("reference", {
+                        {...register("references", {
                           required: {
                             value: true,
                             message: "El campo es requerido",
@@ -713,9 +948,9 @@ export default function HomeRegister() {
                           },
                         })}
                       ></textarea>
-                      {errors.streetandcorner && (
+                      {errors.references && (
                         <span className="text-red-500">
-                          {errors.streetandcorner.message}
+                          {errors.references.message}
                         </span>
                       )}
                     </div>
@@ -741,9 +976,10 @@ export default function HomeRegister() {
                 </div>
                 <div className="md:w-full">
                   <div className="relative overflow-x-auto shadow-md sm:rounded-lg pt-4">
-                    <table className="w-full text-sm text-left">
-                      <thead className="text-xs uppercase bg-[#2A2D49] text-white ">
+                    <table className="w-full text-sm ">
+                      <thead className="text-xs uppercase bg-[#2A2D49] text-white text-center ">
                         <tr>
+                          {/* <th>Activar Costo</th> */}
                           <th scope="col" className="px-6 py-3">
                             Mascota
                           </th>
@@ -757,27 +993,137 @@ export default function HomeRegister() {
                       </thead>
                       <tbody className="text-center">
                         <tr className="bg-white border-b">
-                          <th
-                            scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                          >
-                            Perro
-                          </th>
-                          <td className="px-6 py-4">Chico</td>
-
-                          <td className="px-6 py-4">$2,999</td>
-                        </tr>
-                        <tr className="border-b bg-gray-50">
+                          {/* <th>
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                              {...register("small", {
+                                required: {
+                                  value: true,
+                                  message: "Selecciona un tamaño",
+                                },
+                              })}
+                            />
+                          </th> */}
                           <th
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
                           >
-                            Gato
+                            Perro
+                          </th>
+                          <td className="px-6 py-4">Pequeño</td>
+                          <td className="px-6 py-4">
+                            {" "}
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <svg
+                                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12 1C11.4477 1 11 1.44772 11 2V3H10C8.3642 3 7.0588 3.60369 6.1691 4.57428C5.29413 5.52878 4.875 6.77845 4.875 8C4.875 9.22155 5.29413 10.4712 6.1691 11.4257C6.33335 11.6049 6.51177 11.7716 6.70382 11.9243C7.55205 12.5986 8.6662 13 10 13H11V19H10C9.17499 19 8.62271 18.7966 8.2422 18.5429C7.85544 18.2851 7.58511 17.9342 7.39443 17.5528C7.20178 17.1675 7.10048 16.7701 7.04889 16.4606C7.02329 16.307 7.00411 16.1512 6.99999 15.9953C6.99736 15.4454 6.55059 15 6 15C5.44771 15 5 15.4477 5 16C5.00003 16.0672 5.0024 16.1317 5.01035 16.2431C5.02006 16.3791 5.039 16.5668 5.07611 16.7894C5.14952 17.2299 5.29821 17.8325 5.60557 18.4472C5.91489 19.0658 6.39456 19.7149 7.1328 20.2071C7.8773 20.7034 8.82502 21 10 21H11V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V21H14C15.6358 21 16.9412 20.3963 17.8309 19.4257C18.7059 18.4712 19.125 17.2216 19.125 16C19.125 14.7784 18.7059 13.5288 17.8309 12.5743C16.9412 11.6037 15.6358 11 14 11H13V5H14C14.825 5 15.3773 5.20338 15.7578 5.45705C16.1446 5.71489 16.4149 6.06584 16.6056 6.44721C16.7982 6.8325 16.8995 7.22989 16.9511 7.5394C16.9767 7.69303 16.9959 7.84879 17 8.00465C17.0027 8.55467 17.4494 9 18 9C18.5458 9 19 8.54436 19 7.99898C18.9999 7.93212 18.9976 7.8677 18.9896 7.75688C18.9799 7.62092 18.961 7.43322 18.9239 7.2106C18.8505 6.77011 18.7018 6.1675 18.3944 5.55279C18.0851 4.93416 17.6054 4.28511 16.8672 3.79295C16.1227 3.29662 15.175 3 14 3H13V2C13 1.44772 12.5523 1 12 1ZM11 5H10C8.8858 5 8.1287 5.39631 7.6434 5.92572C7.14337 6.47122 6.875 7.22155 6.875 8C6.875 8.77845 7.14337 9.52878 7.6434 10.0743C8.1287 10.6037 8.8858 11 10 11H11V5ZM13 13V19H14C15.1142 19 15.8713 18.6037 16.3566 18.0743C16.8566 17.5288 17.125 16.7784 17.125 16C17.125 15.2216 16.8566 14.4712 16.3566 13.9257C15.8713 13.3963 15.1142 13 14 13H13Z"
+                                    fill="#0F0F0F"
+                                  />
+                                </svg>
+                              </div>
+                              <input
+                                type="number"
+                                min="0"
+                                className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="Ingresa tu Costo  $00.00"
+                                disabled={!check}
+                                {...register("price1", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo es requerido",
+                                  },
+                                  pattern: {
+                                    value: /^[0-9]+/,
+                                    message: "El formato no es correcto",
+                                  },
+                                })}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                        <tr className="border-b bg-gray-50">
+                          {/* <th>
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                              {...register("medium", {
+                                required: {
+                                  value: true,
+                                  message: "Selecciona un tamaño",
+                                },
+                              })}
+                            />
+                          </th> */}
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                          >
+                            Perro
                           </th>
                           <td className="px-6 py-4">Mediano</td>
-                          <td className="px-6 py-4">$199</td>
+                          <td className="px-6 py-4">
+                            {" "}
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <svg
+                                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12 1C11.4477 1 11 1.44772 11 2V3H10C8.3642 3 7.0588 3.60369 6.1691 4.57428C5.29413 5.52878 4.875 6.77845 4.875 8C4.875 9.22155 5.29413 10.4712 6.1691 11.4257C6.33335 11.6049 6.51177 11.7716 6.70382 11.9243C7.55205 12.5986 8.6662 13 10 13H11V19H10C9.17499 19 8.62271 18.7966 8.2422 18.5429C7.85544 18.2851 7.58511 17.9342 7.39443 17.5528C7.20178 17.1675 7.10048 16.7701 7.04889 16.4606C7.02329 16.307 7.00411 16.1512 6.99999 15.9953C6.99736 15.4454 6.55059 15 6 15C5.44771 15 5 15.4477 5 16C5.00003 16.0672 5.0024 16.1317 5.01035 16.2431C5.02006 16.3791 5.039 16.5668 5.07611 16.7894C5.14952 17.2299 5.29821 17.8325 5.60557 18.4472C5.91489 19.0658 6.39456 19.7149 7.1328 20.2071C7.8773 20.7034 8.82502 21 10 21H11V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V21H14C15.6358 21 16.9412 20.3963 17.8309 19.4257C18.7059 18.4712 19.125 17.2216 19.125 16C19.125 14.7784 18.7059 13.5288 17.8309 12.5743C16.9412 11.6037 15.6358 11 14 11H13V5H14C14.825 5 15.3773 5.20338 15.7578 5.45705C16.1446 5.71489 16.4149 6.06584 16.6056 6.44721C16.7982 6.8325 16.8995 7.22989 16.9511 7.5394C16.9767 7.69303 16.9959 7.84879 17 8.00465C17.0027 8.55467 17.4494 9 18 9C18.5458 9 19 8.54436 19 7.99898C18.9999 7.93212 18.9976 7.8677 18.9896 7.75688C18.9799 7.62092 18.961 7.43322 18.9239 7.2106C18.8505 6.77011 18.7018 6.1675 18.3944 5.55279C18.0851 4.93416 17.6054 4.28511 16.8672 3.79295C16.1227 3.29662 15.175 3 14 3H13V2C13 1.44772 12.5523 1 12 1ZM11 5H10C8.8858 5 8.1287 5.39631 7.6434 5.92572C7.14337 6.47122 6.875 7.22155 6.875 8C6.875 8.77845 7.14337 9.52878 7.6434 10.0743C8.1287 10.6037 8.8858 11 10 11H11V5ZM13 13V19H14C15.1142 19 15.8713 18.6037 16.3566 18.0743C16.8566 17.5288 17.125 16.7784 17.125 16C17.125 15.2216 16.8566 14.4712 16.3566 13.9257C15.8713 13.3963 15.1142 13 14 13H13Z"
+                                    fill="#0F0F0F"
+                                  />
+                                </svg>
+                              </div>
+                              <input
+                                type="number"
+                                min="0"
+                                className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="Ingresa tu Costo  $00.00"
+                                disabled={!check2}
+                                {...register("price2", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo es requerido",
+                                  },
+                                  pattern: {
+                                    value: /^[0-9]+/,
+                                    message: "El formato no es correcto",
+                                  },
+                                })}
+                              />
+                            </div>
+                          </td>
                         </tr>
                         <tr className="bg-white border-b">
+                          {/* <th>
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                              {...register("big", {
+                                required: {
+                                  value: true,
+                                  message: "Selecciona un tamaño",
+                                },
+                              })}
+                            />
+                          </th> */}
                           <th
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
@@ -785,17 +1131,102 @@ export default function HomeRegister() {
                             Perro
                           </th>
                           <td className="px-6 py-4">Grande</td>
-                          <td className="px-6 py-4">$299</td>
+                          <td className="px-6 py-4">
+                            {" "}
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <svg
+                                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12 1C11.4477 1 11 1.44772 11 2V3H10C8.3642 3 7.0588 3.60369 6.1691 4.57428C5.29413 5.52878 4.875 6.77845 4.875 8C4.875 9.22155 5.29413 10.4712 6.1691 11.4257C6.33335 11.6049 6.51177 11.7716 6.70382 11.9243C7.55205 12.5986 8.6662 13 10 13H11V19H10C9.17499 19 8.62271 18.7966 8.2422 18.5429C7.85544 18.2851 7.58511 17.9342 7.39443 17.5528C7.20178 17.1675 7.10048 16.7701 7.04889 16.4606C7.02329 16.307 7.00411 16.1512 6.99999 15.9953C6.99736 15.4454 6.55059 15 6 15C5.44771 15 5 15.4477 5 16C5.00003 16.0672 5.0024 16.1317 5.01035 16.2431C5.02006 16.3791 5.039 16.5668 5.07611 16.7894C5.14952 17.2299 5.29821 17.8325 5.60557 18.4472C5.91489 19.0658 6.39456 19.7149 7.1328 20.2071C7.8773 20.7034 8.82502 21 10 21H11V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V21H14C15.6358 21 16.9412 20.3963 17.8309 19.4257C18.7059 18.4712 19.125 17.2216 19.125 16C19.125 14.7784 18.7059 13.5288 17.8309 12.5743C16.9412 11.6037 15.6358 11 14 11H13V5H14C14.825 5 15.3773 5.20338 15.7578 5.45705C16.1446 5.71489 16.4149 6.06584 16.6056 6.44721C16.7982 6.8325 16.8995 7.22989 16.9511 7.5394C16.9767 7.69303 16.9959 7.84879 17 8.00465C17.0027 8.55467 17.4494 9 18 9C18.5458 9 19 8.54436 19 7.99898C18.9999 7.93212 18.9976 7.8677 18.9896 7.75688C18.9799 7.62092 18.961 7.43322 18.9239 7.2106C18.8505 6.77011 18.7018 6.1675 18.3944 5.55279C18.0851 4.93416 17.6054 4.28511 16.8672 3.79295C16.1227 3.29662 15.175 3 14 3H13V2C13 1.44772 12.5523 1 12 1ZM11 5H10C8.8858 5 8.1287 5.39631 7.6434 5.92572C7.14337 6.47122 6.875 7.22155 6.875 8C6.875 8.77845 7.14337 9.52878 7.6434 10.0743C8.1287 10.6037 8.8858 11 10 11H11V5ZM13 13V19H14C15.1142 19 15.8713 18.6037 16.3566 18.0743C16.8566 17.5288 17.125 16.7784 17.125 16C17.125 15.2216 16.8566 14.4712 16.3566 13.9257C15.8713 13.3963 15.1142 13 14 13H13Z"
+                                    fill="#0F0F0F"
+                                  />
+                                </svg>
+                              </div>
+                              <input
+                                type="number"
+                                min="1"
+                                className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="Ingresa tu Costo  $00.00"
+                                disabled={!check3}
+                                {...register("price3", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo es requerido",
+                                  },
+                                  pattern: {
+                                    value: /^[0-9]+/,
+                                    message: "El formato no es correcto",
+                                  },
+                                })}
+                              />
+                            </div>
+                          </td>
                         </tr>
                         <tr className="border-b bg-gray-50">
+                          {/* <th>
+                            <input
+                              id="default-checkbox"
+                              type="checkbox"
+                              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                              {...register("cat", {
+                                required: {
+                                  value: true,
+                                  message: "Selecciona un tamaño",
+                                },
+                              })}
+                            />
+                          </th> */}
                           <th
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                           >
                             Gato
                           </th>
-                          <td className="px-6 py-4">Chico</td>
-                          <td className="px-6 py-4">$159</td>
+                          <td className="px-6 py-4">-----</td>
+                          <td className="px-6 py-4">
+                            {" "}
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <svg
+                                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12 1C11.4477 1 11 1.44772 11 2V3H10C8.3642 3 7.0588 3.60369 6.1691 4.57428C5.29413 5.52878 4.875 6.77845 4.875 8C4.875 9.22155 5.29413 10.4712 6.1691 11.4257C6.33335 11.6049 6.51177 11.7716 6.70382 11.9243C7.55205 12.5986 8.6662 13 10 13H11V19H10C9.17499 19 8.62271 18.7966 8.2422 18.5429C7.85544 18.2851 7.58511 17.9342 7.39443 17.5528C7.20178 17.1675 7.10048 16.7701 7.04889 16.4606C7.02329 16.307 7.00411 16.1512 6.99999 15.9953C6.99736 15.4454 6.55059 15 6 15C5.44771 15 5 15.4477 5 16C5.00003 16.0672 5.0024 16.1317 5.01035 16.2431C5.02006 16.3791 5.039 16.5668 5.07611 16.7894C5.14952 17.2299 5.29821 17.8325 5.60557 18.4472C5.91489 19.0658 6.39456 19.7149 7.1328 20.2071C7.8773 20.7034 8.82502 21 10 21H11V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V21H14C15.6358 21 16.9412 20.3963 17.8309 19.4257C18.7059 18.4712 19.125 17.2216 19.125 16C19.125 14.7784 18.7059 13.5288 17.8309 12.5743C16.9412 11.6037 15.6358 11 14 11H13V5H14C14.825 5 15.3773 5.20338 15.7578 5.45705C16.1446 5.71489 16.4149 6.06584 16.6056 6.44721C16.7982 6.8325 16.8995 7.22989 16.9511 7.5394C16.9767 7.69303 16.9959 7.84879 17 8.00465C17.0027 8.55467 17.4494 9 18 9C18.5458 9 19 8.54436 19 7.99898C18.9999 7.93212 18.9976 7.8677 18.9896 7.75688C18.9799 7.62092 18.961 7.43322 18.9239 7.2106C18.8505 6.77011 18.7018 6.1675 18.3944 5.55279C18.0851 4.93416 17.6054 4.28511 16.8672 3.79295C16.1227 3.29662 15.175 3 14 3H13V2C13 1.44772 12.5523 1 12 1ZM11 5H10C8.8858 5 8.1287 5.39631 7.6434 5.92572C7.14337 6.47122 6.875 7.22155 6.875 8C6.875 8.77845 7.14337 9.52878 7.6434 10.0743C8.1287 10.6037 8.8858 11 10 11H11V5ZM13 13V19H14C15.1142 19 15.8713 18.6037 16.3566 18.0743C16.8566 17.5288 17.125 16.7784 17.125 16C17.125 15.2216 16.8566 14.4712 16.3566 13.9257C15.8713 13.3963 15.1142 13 14 13H13Z"
+                                    fill="#0F0F0F"
+                                  />
+                                </svg>
+                              </div>
+                              <input
+                                type="number"
+                                min="1"
+                                className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="Ingresa tu Costo  $00.00"
+                                disabled={!check4}
+                                {...register("price4", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo es requerido",
+                                  },
+                                  pattern: {
+                                    value: /^[0-9]+/,
+                                    message: "El formato no es correcto",
+                                  },
+                                })}
+                              />
+                            </div>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -816,7 +1247,7 @@ export default function HomeRegister() {
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Nombre completo del Titular"
-                            {...register("heandlinename", {
+                            {...register("name", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
@@ -824,9 +1255,9 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.heandlinename && (
+                        {errors.name && (
                           <span className="text-red-500">
-                            {errors.heandlinename.message}
+                            {errors.name.message}
                           </span>
                         )}
                       </div>
@@ -840,11 +1271,11 @@ export default function HomeRegister() {
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
-                            type="text"
+                            type="number"
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa el Número de Cuenta"
-                            {...register("accountnumber", {
+                            {...register("number", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
@@ -860,9 +1291,9 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.accountnumber && (
+                        {errors.number && (
                           <span className="text-red-500">
-                            {errors.accountnumber.message}
+                            {errors.number.message}
                           </span>
                         )}
                       </div>
@@ -876,14 +1307,24 @@ export default function HomeRegister() {
                           Banco:
                         </label>
                         <select
-                          id="countries"
                           className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
+                          {...register("bank", {
+                            required: {
+                              value: true,
+                              message: "El campo es requerido",
+                            },
+                          })}
                         >
                           <option>BANAMEX</option>
-                          <option value="">BBVA BANCOMER</option>
-                          <option value="">SANTANDER</option>
-                          <option value="">HSBC</option>
+                          <option value="BBVA">BBVA BANCOMER</option>
+                          <option value="SANTANDER">SANTANDER</option>
+                          <option value="HSBC">HSBC</option>
                         </select>
+                        {errors.bank && (
+                          <span className="text-red-500">
+                            {errors.bank.message}
+                          </span>
+                        )}
                       </div>
                       <div className="pb-4 sm:w-full">
                         <label
@@ -895,11 +1336,11 @@ export default function HomeRegister() {
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
-                            type="text"
+                            type="number"
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder=" Ingresa tu clave interbancaria"
-                            {...register("accountkey", {
+                            {...register("clabe", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
@@ -915,9 +1356,9 @@ export default function HomeRegister() {
                             })}
                           />
                         </div>
-                        {errors.accountkey && (
+                        {errors.clabe && (
                           <span className="text-red-500">
-                            {errors.accountkey.message}
+                            {errors.clabe.message}
                           </span>
                         )}
                       </div>
