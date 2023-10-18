@@ -21,6 +21,7 @@ export default function ClientProfile() {
   const router = useRouter();
   const [userData, setUserData] = useState(false);
   const [idMatch, setIdMatch] = useState(false);
+  const [bookingsFilter, setBookingsFilter] = useState("all");
 
   function notFeature() {
     toast.success(
@@ -171,54 +172,63 @@ export default function ClientProfile() {
                 className="w-[300px] lg:w-[75%] font-[20px] rounded-[10px] h-[40px] px-3 mb-10"
                 name="bookingFilter"
                 id="bookingFilter"
+                onChange={(e) => setBookingsFilter(e.target.value)}
+                value={bookingsFilter}
               >
-                <option value="all">Todas</option>
+                <option selected value="all">
+                  Todas
+                </option>
                 <option value="pending">Pendiente</option>
                 <option value="accepted">Aceptada</option>
-                <option value="rejected">Rechazada</option>
+                <option value="refused">Rechazada</option>
                 <option value="paid">Pagada</option>
-                <option value="ongoing">En curso</option>
-                <option value="finished">Terminada</option>
+                <option value="current">En curso</option>
+                <option value="concluded">Terminada</option>
               </select>
               <div
                 className={`flex flex-col gap-3 pt-1 max-h-[530px] overflow-y-scroll pb-1`}
               >
-                {userData.reservations?.map((item, index) => {
-                  return (
-                    <BookingCard
-                      key={index}
-                      reservationId={item._id}
-                      usertype={userData?.type}
-                      cardUserName={
-                        userData.type === "client"
-                          ? `${item.host.name} ${item.host.lastname}`
-                          : `${item.client.name} ${item.client.lastname}`
-                      }
-                      cardUserId={
-                        userData.type === "client"
-                          ? item.host._id
-                          : item.client._id
-                      }
-                      cardUserImage={
-                        userData.type === "client"
-                          ? item.host.picture
-                          : item.client.picture
-                      }
-                      startDate={item.startDate
-                        .split("T")[0]
-                        .split("-")
-                        .reverse()
-                        .join("/")}
-                      finishDate={item.finishDate
-                        .split("T")[0]
-                        .split("-")
-                        .reverse()
-                        .join("/")}
-                      status={item.status}
-                      cost={item.cost.total}
-                    />
-                  );
-                })}
+                {userData.reservations
+                  ?.filter(
+                    (item) =>
+                      bookingsFilter === "all" || item.status === bookingsFilter
+                  )
+                  .map((item, index) => {
+                    return (
+                      <BookingCard
+                        key={index}
+                        reservationId={item._id}
+                        usertype={userData?.type}
+                        cardUserName={
+                          userData.type === "client"
+                            ? `${item.host.name} ${item.host.lastname}`
+                            : `${item.client.name} ${item.client.lastname}`
+                        }
+                        cardUserId={
+                          userData.type === "client"
+                            ? item.host._id
+                            : item.client._id
+                        }
+                        cardUserImage={
+                          userData.type === "client"
+                            ? item.host.picture
+                            : item.client.picture
+                        }
+                        startDate={item.startDate
+                          .split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("/")}
+                        finishDate={item.finishDate
+                          .split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("/")}
+                        status={item.status}
+                        cost={item.cost.total}
+                      />
+                    );
+                  })}
               </div>
             </div>
           </section>

@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const imageLoader = ({ src, width, quality }) => {
-  return `https://leadership.ng/${src}`;
+  return `${src}`;
 };
 
 export default function BookingCard2({
@@ -16,6 +19,9 @@ export default function BookingCard2({
   cost,
   cardUserImage,
 }) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const router = useRouter();
+
   let statusColor = "#1F2937";
   let statusText = status;
   let borderStyle = "";
@@ -82,6 +88,27 @@ export default function BookingCard2({
       break;
   }
 
+  function changeStatus(newStatus) {
+    const token = localStorage.getItem("token");
+    fetch(`${BASE_URL}/reservations/${reservationId}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status: newStatus }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.success) {
+          toast.success("Estatus actualizado", { autoClose: 2000 });
+          setTimeout(() => router.reload(), 2000);
+        } else {
+          toast.error("Error al actualizar el estatus");
+        }
+      });
+  }
+
   return (
     <main
       className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-[95%] m-auto bg-white hover:scale-[102%] hover:shadow-xl`}
@@ -98,47 +125,64 @@ export default function BookingCard2({
         height={110}
         className="object-cover hidden md:inline lg:hidden"
       />
-      <div className="text-left w-full">
-        <div className="flex justify-between">
-          <Link href={`/profiles/${cardUserId}`}>
-            <p className="hover:underline text-[24px] font-[Raleway] inline-block">
-              {nameText}
+      <div className="text-left w-full flex flex-col justify-between">
+        <div>
+          <div className="flex justify-between">
+            <Link href={`/profiles/${cardUserId}`}>
+              <p className="hover:underline text-[24px] font-[Raleway] inline-block">
+                {nameText}
+              </p>
+            </Link>
+            <p className="text-[24px] font-semibold text-right inline-block">
+              ${cost}
             </p>
-          </Link>
-          <p className="text-[24px] font-semibold text-right inline-block">
-            ${cost}
-          </p>
-        </div>
-        <p className="text-[14px] font-light">Ent: {startDate}</p>
-        <p className="text-[14px] font-light">Sal: {finishDate}</p>
-        <div className="flex justify-between items-end mb-3">
-          <p className={`text-[${statusColor}] text-[16px] font-bold`}>
-            {statusText}
-          </p>
+          </div>
+          <p className="text-[14px] font-light">Ent: {startDate}</p>
+          <p className="text-[14px] font-light">Sal: {finishDate}</p>
+          <div className="flex justify-between items-end mb-3">
+            <p className={`text-[${statusColor}] text-[16px] font-bold`}>
+              {statusText}
+            </p>
 
-          <Link href={"#"} className={`${paymentButtonDisplay}`}>
-            <button
-              className={`${paymentButtonDisplay} text-[14px] font-semibold text-white bg-[#E91E63] rounded-[5px] h-[35px] w-[100px] hover:bg-[#ed4a82]`}
+            <Link
+              href={`/payment/${reservationId}`}
+              className={`${paymentButtonDisplay}`}
             >
-              Ir al pago
-            </button>
-          </Link>
-          <Link
-            href={`/bookingblog/reviews/${reservationId}`}
-            className={`${bitacoraButtonDisplay}`}
-          >
-            <button
-              className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
+              <button
+                className={`${paymentButtonDisplay} text-[14px] font-semibold text-white bg-[#E91E63] rounded-[5px] h-[35px] w-[100px] hover:bg-[#ed4a82]`}
+              >
+                Ir al pago
+              </button>
+            </Link>
+            <Link
+              href={`/bookingblog/${reservationId}`}
+              className={`${bitacoraButtonDisplay}`}
             >
-              Bitácora
-            </button>
-          </Link>
+              <button
+                className={`${bitacoraButtonDisplay} text-[14px] font-semibold text-white bg-[${bitacoraButtonColor}] rounded-[5px] h-[35px] w-[100px] hover:bg-[${bitacoraButtonHover}]`}
+              >
+                Bitácora
+              </button>
+            </Link>
+          </div>
         </div>
-        <div className={`${pendingButtonsDisplay} flex justify-around`}>
-          <button className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]">
+
+        <div className={`${pendingButtonsDisplay} flex justify-around gap-2`}>
+          <Link href={`/profiles/${cardUserId}`}>
+            <button className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]">
+              Ver Cliente
+            </button>
+          </Link>
+          <button
+            onClick={(e) => changeStatus("refused")}
+            className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]"
+          >
             Rechazar
           </button>
-          <button className="bg-[#E91E63] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#ed4a82]">
+          <button
+            onClick={(e) => changeStatus("accepted")}
+            className="bg-[#E91E63] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#ed4a82]"
+          >
             Aceptar
           </button>
         </div>
