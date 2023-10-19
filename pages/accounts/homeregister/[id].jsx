@@ -464,7 +464,7 @@ export default function HomeRegister() {
                       forlabel="lastName"
                       className="block mb-2 text-lg font-medium"
                     >
-                      Cuántas mascotas podrías cuidar simultáneamente?:
+                      ¿Cuántas mascotas podrías cuidar simultáneamente?:
                     </label>
                     <select
                       className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
@@ -1033,10 +1033,6 @@ export default function HomeRegister() {
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check}
                                 {...register("price1", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1092,10 +1088,6 @@ export default function HomeRegister() {
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check2}
                                 {...register("price2", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1151,10 +1143,6 @@ export default function HomeRegister() {
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check3}
                                 {...register("price3", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1210,10 +1198,6 @@ export default function HomeRegister() {
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check4}
                                 {...register("price4", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
