@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { locations } from "@/data/locations";
+import { bank } from "@/data/bank";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomeRegister() {
   const {
@@ -30,66 +31,90 @@ export default function HomeRegister() {
   const [check5, setCheck5] = useState(false);
 
   const onSubmit = (data) => {
-    const amenities = data.amenities;
-    const stringAmenities = amenities.replace(/ /g, "");
-    const ListAmenities = stringAmenities.split(".");
+    // const amenities = data.amenities;
+    // const stringAmenities = amenities.replace(/ /g, "");
+    // const ListAmenities = stringAmenities.split(".");
 
-    const restrictions = data.restrictions;
-    const stringRestrictions = restrictions.replace(/ /g, "");
-    const ListRestrictions = stringRestrictions.split(".");
+    // const restrictions = data.restrictions;
+    // const stringRestrictions = restrictions.replace(/ /g, "");
+    // const ListRestrictions = stringRestrictions.split(".");
+
+    const amenities = data.amenities;
+    const stringAmenities = amenities.split(".");
+    const ListAmenities = stringAmenities.map((p) => p.trim());
+
+    const restrictions = data.amenities;
+    const stringRestrictions = restrictions.split(".");
+    const ListRestrictions = stringRestrictions.map((p) => p.trim());
+
+    let clabe = parseInt(data.clabe);
+    let externalNumber = parseInt(data.externalNumber);
+    let internalNumber = parseInt(data.internalNumber);
+    let postalCode = parseInt(data.postalCode);
+    let number = parseInt(data.number);
+
+    let price1 = parseInt(data.price1);
+    let price2 = parseInt(data.price2);
+    let price3 = parseInt(data.price3);
+    let price4 = parseInt(data.price4);
+
+    const num = 0;
+    isNaN(externalNumber) ? (externalNumber = num) : externalNumber;
+    isNaN(internalNumber) ? (internalNumber = num) : internalNumber;
+    isNaN(postalCode) ? (postalCode = num) : postalCode;
+    isNaN(number) ? (number = num) : number;
+    isNaN(clabe) ? (clabe = num) : clabe;
+
+    isNaN(price1) ? (price1 = num) : price1;
+    isNaN(price2) ? (price2 = num) : price2;
+    isNaN(price3) ? (price3 = num) : price3;
+    isNaN(price4) ? (price4 = num) : price4;
 
     const dataObject = {
-      pet: {
-        cat: {
-          isHosted: check4,
-        },
-        dog: {
-          isHosted: check5,
-        },
-      },
       picture: images,
       hosting: {
         amount: data.amount,
         dog: {
           small: {
             isHosted: check,
-            price: data.price1,
+            price: price1,
           },
           medium: {
-            isHosted: data.medium,
-            price: data.price2,
+            isHosted: check2,
+            price: price2,
           },
           big: {
-            isHosted: data.big,
-            price: data.price3,
+            isHosted: check3,
+            price: price3,
           },
         },
         cat: {
           isHosted: check4,
-          price: data.price4,
+          price: price4,
         },
       },
-      description: data.description,
+      description:
+        data.description === "" ? (data.description = "N/D") : data.description,
       checkIn: data.checkIn,
       checkOut: data.checkOut,
       amenities: ListAmenities,
       restrictions: ListRestrictions,
       address: {
         street: data.street,
-        externalNumber: data.externalNumber,
-        internalNumber: data.internalNumber,
+        externalNumber: externalNumber,
+        internalNumber: internalNumber,
         neighbourhood: data.neighbourhood,
         state: data.state,
         city: data.city,
-        postalCode: data.postalCode,
+        postalCode: postalCode,
         streetsNearby: data.streetsNearby,
         references: data.references,
       },
       bankAccount: {
         name: data.name,
-        number: data.number,
+        number: number,
         bank: data.bank,
-        clabe: data.clabe,
+        clabe: clabe,
       },
     };
     console.log(dataObject);
@@ -333,12 +358,18 @@ export default function HomeRegister() {
                         <input
                           type="file"
                           hidden
+                          name="imag"
                           className="text-[#2A2D49]"
                           accept=".png, .jpg, .jpeg"
                           multiple
                           onChange={changeInput}
                         />
                       </div>
+                      {errors.imag && (
+                        <span className="text-red-500">
+                          {errors.imag.message}
+                        </span>
+                      )}
                     </label>
 
                     {/* VIEW IMAGES */}
@@ -352,7 +383,7 @@ export default function HomeRegister() {
                             >
                               x
                             </button>
-                            <div className="drop-shadow-2xl">
+                            <div className="">
                               <Image
                                 src={imagen.url}
                                 width={100}
@@ -397,11 +428,6 @@ export default function HomeRegister() {
                           onChange={hiddenCheck4}
                         />
                       </div>
-                      {errors.pet && (
-                        <span className="text-red-500">
-                          {errors.pet.message}
-                        </span>
-                      )}
                     </div>
                   </div>
                   <div className=" my-5 text-lg font-medium">
@@ -415,6 +441,7 @@ export default function HomeRegister() {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                           onChange={hiddenCheck}
+                          disabled={check4 && check5 ? !check4 : check4}
                           // {...register("small", {})}
                         />
                       </div>
@@ -427,6 +454,7 @@ export default function HomeRegister() {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                           onChange={hiddenCheck2}
+                          disabled={check4 && check5 ? !check4 : check4}
                         />
                       </div>
                       <div className="flex items-center">
@@ -437,6 +465,7 @@ export default function HomeRegister() {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
                           onChange={hiddenCheck3}
+                          disabled={check4 && check5 ? !check4 : check4}
                         />
                       </div>
                     </div>
@@ -458,6 +487,7 @@ export default function HomeRegister() {
                       })}
                     >
                       <option value="">--Selecciona un numero--</option>
+                      <option value="uno">1</option>
                       <option value="dos">2</option>
                       <option value="tres">3</option>
                       <option value="cuatro">4</option>
@@ -607,7 +637,10 @@ export default function HomeRegister() {
                       className="block mb-2 text-lg font-medium"
                     >
                       Amenidades:
-                      <small>(Separa tu amenidad con un punto al final.)</small>
+                      <small>
+                        {" "}
+                        (Separa tu amenidad con un punto al final.)
+                      </small>
                     </label>
 
                     <textarea
@@ -642,6 +675,10 @@ export default function HomeRegister() {
                       className="block mb-2 text-lg font-medium"
                     >
                       Restricciones:
+                      <small>
+                        {" "}
+                        (Separa tu restricción con un punto al final.)
+                      </small>
                     </label>
 
                     <textarea
@@ -687,36 +724,36 @@ export default function HomeRegister() {
                   </div>
                   <div className="md:pt-5">
                     <div className="sm:flex  sm:items-center">
-                      <div className="pb-4 pt-4 sm:pt-0 sm:w-full sm:mr-4 sm:pb-0 lg:pb-0">
-                        <label
-                          forlabel="street"
-                          className="block mb-2 text-lg font-medium"
-                        >
-                          Calle:
-                        </label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
-                          <input
-                            type="text"
-                            name="street"
-                            className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            placeholder="Ingresa la Calle"
-                            {...register("street", {
-                              required: {
-                                value: true,
-                                message: "El campo es requerido",
-                              },
-                            })}
-                          />
-                        </div>
-                        {errors.street && (
-                          <span className="text-red-500">
-                            {errors.street.message}
-                          </span>
-                        )}
-                      </div>
                       <div className="flex gap-4">
-                        <div className="pb-4 sm:w-52 sm:pb-0 lg:pb-0 ">
+                        <div className="pb-4 pt-4 sm:pt-0 sm:w-full sm:mr-4 sm:pb-0 lg:pb-0">
+                          <label
+                            forlabel="street"
+                            className="block mb-2 text-lg font-medium"
+                          >
+                            Calle:
+                          </label>
+                          <div className="relative">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
+                            <input
+                              type="text"
+                              name="street"
+                              className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                              placeholder="Ingresa la Calle"
+                              {...register("street", {
+                                required: {
+                                  value: true,
+                                  message: "El campo es requerido",
+                                },
+                              })}
+                            />
+                          </div>
+                          {errors.street && (
+                            <span className="text-red-500">
+                              {errors.street.message}
+                            </span>
+                          )}
+                        </div>
+                        <div className="pb-4  pt-4 sm:w-52 sm:pb-0 lg:pb-0 sm:pt-0">
                           <label
                             forlabel="exterior"
                             className="block mb-2 text-lg font-medium"
@@ -727,6 +764,7 @@ export default function HomeRegister() {
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                             <input
                               type="number"
+                              min="0"
                               className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                               placeholder="Número Exterior"
                               {...register("externalNumber", {
@@ -743,7 +781,7 @@ export default function HomeRegister() {
                             </span>
                           )}
                         </div>
-                        <div className="pb-4 sm:w-52 sm:pb-0 lg:pb-0">
+                        <div className="pb-4 pt-4 sm:w-52 sm:pb-0 lg:pb-0 sm:pt-0">
                           <label
                             forlabel="interior"
                             className="block mb-2 text-lg font-medium"
@@ -754,6 +792,7 @@ export default function HomeRegister() {
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                             <input
                               type="number"
+                              min="0"
                               name="interior"
                               className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] [$>*::webkit-inner-spin-button"
                               placeholder="Número Interior"
@@ -879,6 +918,7 @@ export default function HomeRegister() {
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
                             type="number"
+                            min="0"
                             className=" rounded-lg w-50 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Código Postal"
                             {...register("postalCode", {
@@ -1038,10 +1078,6 @@ export default function HomeRegister() {
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check}
                                 {...register("price1", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1097,10 +1133,6 @@ export default function HomeRegister() {
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check2}
                                 {...register("price2", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1151,15 +1183,11 @@ export default function HomeRegister() {
                               </div>
                               <input
                                 type="number"
-                                min="1"
+                                min="0"
                                 className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check3}
                                 {...register("price3", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1210,15 +1238,11 @@ export default function HomeRegister() {
                               </div>
                               <input
                                 type="number"
-                                min="1"
+                                min="0"
                                 className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                                 placeholder="Ingresa tu Costo  $00.00"
                                 disabled={!check4}
                                 {...register("price4", {
-                                  required: {
-                                    value: true,
-                                    message: "El campo es requerido",
-                                  },
                                   pattern: {
                                     value: /^[0-9]+/,
                                     message: "El formato no es correcto",
@@ -1272,6 +1296,7 @@ export default function HomeRegister() {
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
                             type="number"
+                            min="0"
                             name="card"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder="Ingresa el Número de Cuenta"
@@ -1287,6 +1312,10 @@ export default function HomeRegister() {
                               maxLength: {
                                 value: 20,
                                 message: "Máximo 20 caracteres",
+                              },
+                              pattern: {
+                                value: /[0-9]/,
+                                message: "El formato no es correcto",
                               },
                             })}
                           />
@@ -1306,6 +1335,7 @@ export default function HomeRegister() {
                         >
                           Banco:
                         </label>
+
                         <select
                           className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                           {...register("bank", {
@@ -1315,10 +1345,13 @@ export default function HomeRegister() {
                             },
                           })}
                         >
-                          <option>BANAMEX</option>
-                          <option value="BBVA">BBVA BANCOMER</option>
-                          <option value="SANTANDER">SANTANDER</option>
-                          <option value="HSBC">HSBC</option>
+                          {bank.map((item, index) => {
+                            return (
+                              <option key={index} value={item.marca}>
+                                {item.marca}
+                              </option>
+                            );
+                          })}
                         </select>
                         {errors.bank && (
                           <span className="text-red-500">
@@ -1338,6 +1371,7 @@ export default function HomeRegister() {
                           <input
                             type="number"
                             name="card"
+                            min="0"
                             className=" rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                             placeholder=" Ingresa tu clave interbancaria"
                             {...register("clabe", {
