@@ -11,9 +11,11 @@ import { ToastContainer, toast } from "react-toastify";
 export default function Chat() {
     const [user, setUser] = useState(null)
     const [reservation, setReservation] = useState(null)
+    const [reload, setReload] = useState(0)
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
     const router = useRouter()
@@ -36,14 +38,14 @@ export default function Chat() {
         fetch(`${urlFetch}/reservations/all/${reservationId}?find=comunication`)
             .then((resp) => resp.json())
             .then((resp) => {
-                if(user.id === resp.data.client._id || user.id === resp.data.host._id){
+                if((user.id === resp.data.client._id || user.id === resp.data.host._id) && (resp.data.status === 'paid' || resp.data.status === 'current' || resp.data.status === 'concluded')){
                     setReservation(resp.data);
                 } else {
                     router.push('/404')
                 }
             });
         }
-    }, [router, user, urlFetch]);
+    }, [router, user, urlFetch, reload]);
 
     const onSubmit = (data) => {
         fetch(`${urlFetch}/comments`, {
@@ -62,7 +64,9 @@ export default function Chat() {
         .then((response) => {
             if (response.success) {
                 toast.success("Mensaje enviado", { autoClose: 200 });
-                router.push(`http://localhost:3000/bookingblog/chat/${reservation._id}`)
+                reset()
+                //router.push(`http://localhost:3000/bookingblog/chat/${reservation._id}`)
+                setReload(reload + 1)
             } else {
                 toast.error("Error al enviar mensaje");
             }
@@ -99,7 +103,7 @@ export default function Chat() {
                         <div className='bg-white h-full lg:rounded-xl p-[12px] md:p-[16px] flex flex-col gap-[16px]'>
                             <div className="h-4/5 bg-[#F2F2F2] rounded-md md:rounded-xl p-[12px] md:p-[16px] overflow-y-auto flex flex-col gap-[16px]">
                             {
-                                reservation.comments.sort((a, b) => b.date > a.date).map((item, index) => {
+                                reservation.comments.sort((a, b) => new Date(b.date) - new Date(a.date)).map((item, index) => {
                                     return(
                                         <>
                                             <div key='index' className='flex gap-[12px]'>
@@ -114,7 +118,7 @@ export default function Chat() {
                                                                 <p className='font-[nunito] text-[#F2F2F2] text-[12px]'>{new Date(item.date).toLocaleString()}</p>
                                                             </div>
                                                             <p className='text-[#F2F2F2] font-[nunito]'>{item.message}</p>
-                                                            { index === 0 && <p className='text-[#66d43e] border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full'>Mensaje más reciente</p>}
+                                                            { index === 0 && <p className='text-[#66d43e] text-[12px] text-center border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full'>Mensaje más reciente</p>}
                                                         </div>
                                                     </>
                                                     :
@@ -126,6 +130,7 @@ export default function Chat() {
                                                                 <p className='font-[nunito] text-[#F2F2F2] text-[12px]'>{new Date(item.date).toLocaleString()}</p>
                                                             </div>
                                                             <p className='text-[#F2F2F2] font-[nunito]'>{item.message}</p>
+                                                            { index === 0 && <p className='text-[#66d43e] text-[12px] border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full'>Mensaje más reciente</p>}
                                                         </div>
                                                     </> 
                                                 }
