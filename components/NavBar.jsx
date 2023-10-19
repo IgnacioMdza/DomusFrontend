@@ -46,7 +46,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="bg-white border-gray-200 w-full z-20 shadow-xl font-[Nunito]text-[20px] fixed top-0 left-0 right-0">
+    <nav className="bg-white border-gray-200 w-full z-20 shadow-xl font-[Nunito] text-[16px] fixed top-0 left-0 right-0">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center gap-4">
           <Link href={"/"}>
@@ -57,16 +57,16 @@ export default function NavBar() {
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             {!user?._id ? (
               <ul className="font-medium flex items-center md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-6 md:mt-0 md:border-0 md:bg-white">
-                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
+                <li className="border-b-[1px] border-white hover:border-[#2B2E4A] hover:text-[#2B2E4A] transition duration-300">
                   <Link href={"/"}>Home </Link>
                 </li>
-                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
+                <li className="border-b-[1px] border-white hover:border-[#2B2E4A] hover:text-[#2B2E4A] transition duration-300">
                   <Link href={"/#qs"}>Nosotros </Link>
                 </li>
                 <li>
                   <Link
                     href="/accounts/signup"
-                    className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white "
+                    className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white transition duration-300"
                     aria-current="page"
                   >
                     Únete a nuestra comunidad
@@ -76,7 +76,7 @@ export default function NavBar() {
                 <li>
                   <Link
                     href="/accounts/signin"
-                    className="text-dark block py-2 px-5 border rounded-full md:bg-transparent  border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white"
+                    className="text-dark block py-2 px-5 border rounded-full md:bg-transparent  border-[#2B2E4A] hover:bg-[#2B2E4A] hover:text-white transition duration-300"
                   >
                     Ingresar
                   </Link>
@@ -84,34 +84,33 @@ export default function NavBar() {
               </ul>
             ) : (
               <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
-                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                  <Link href={"/"}>Home </Link>
-                </li>
-                <li className="hover:border-y-2 border-[#2B2E4A] hover:text-[#2B2E4A]">
-                  <Link href={"/#qs"} className="">
-                    Nosotros{" "}
-                  </Link>
-                </li>
                 {!user.isInfoCompleted && (
                   <li>
                     <Link
                       href={`/accounts/register/${user._id}`}
-                      className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white "
+                      className="text-[#e91e63] block py-2 px-5 border rounded-full border-[#e91e63] hover:text-white hover:bg-[#e91e63] transition duration-300"
                       aria-current="page"
                     >
                       Completar Registro
                     </Link>
                   </li>
                 )}
+                <li className="border-b-[1px] border-white hover:border-[#2B2E4A] hover:text-[#2B2E4A] transition duration-300">
+                  <Link href={"/"}>Home </Link>
+                </li>
+                <li className="border-b-[1px] border-white hover:border-[#2B2E4A] hover:text-[#2B2E4A] transition duration-300">
+                  <Link href={"/#qs"} className="">
+                    Nosotros{" "}
+                  </Link>
+                </li>
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
                   <button
                     onClick={(e) => goToProfile(user._id)}
-                    className="text-dark "
+                    className="text-dark flex items-center gap-[10px]"
                     aria-current="page"
                   >
-                    perfil
-                  </button>
-                  <Image
+                    <p >perfil</p>
+                    <Image
                     unoptimized
                     loader={imageLoader}
                     src={user.picture}
@@ -120,12 +119,13 @@ export default function NavBar() {
                     alt="Domus Logo"
                     className="w-10 h-10 object-cover rounded-full"
                   ></Image>
+                  </button>
                 </li>
                 <li className=" ml-0">
                   <button
                     type="submit"
                     onClick={onclick}
-                    className="text-dark text-center"
+                    className="text-dark text-center hover:text-[#e91e63] transition duration-300"
                   >
                     Cerrar Sesión
                   </button>
