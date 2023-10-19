@@ -132,7 +132,7 @@ export default function Home() {
             className="lg:px-[16px] object-cover w-full max-w-[1260px] mb-[16px] sm:mb-[28px] lg:absolute lg:m-auto top-0 bottom-0 start-0 end-0 z-0 max-h-full"
           ></Image>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px] sm:gap-[28px] lg:gap-[40px]">
-            {reviews.map((item, index) => {
+            {reviews && reviews.map((item, index) => {
               return (
                 <ReviewCard
                   key={index}
