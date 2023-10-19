@@ -45,7 +45,6 @@ export default function ClientProfile() {
         .then((resp) => {
           if (resp.success) {
             setUserData(resp.data);
-            console.log("USER DATA -->", resp.data);
           } else {
             router.push("./404");
           }
@@ -58,7 +57,7 @@ export default function ClientProfile() {
 
   return (
     <main
-      className={`mt-[80px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] ${
+      className={`min-h-screen mt-[80px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] flex flex-col gap-10 text-[#2B2E4A] ${
         idMatch ? "max-w-screen-2xl" : "max-w-screen-xl"
       }`}
     >
@@ -225,7 +224,7 @@ export default function ClientProfile() {
                           .reverse()
                           .join("/")}
                         status={item.status}
-                        cost={item.cost.total}
+                        cost={item.cost?.total}
                       />
                     );
                   })}

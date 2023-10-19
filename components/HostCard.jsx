@@ -6,6 +6,7 @@ import { Stack, Rating } from "@mui/material";
 
 export default function HostCard({
   hostName,
+  auth,
   initialDate,
   endDate,
   hostAndHouse,
@@ -105,6 +106,7 @@ export default function HostCard({
               endDay={endDate}
               userClient={userClient}
               hostId={hostAndHouse.owner._id}
+              authToken={auth}
               onClose={() => setShowModal(false)}
             />
           </Modal>
