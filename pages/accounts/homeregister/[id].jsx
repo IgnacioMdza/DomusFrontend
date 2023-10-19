@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import Link from "next/link";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { locations } from "@/data/locations";
-
-import { useState } from "react";
 
 export default function HomeRegister() {
   const {
@@ -30,6 +32,7 @@ export default function HomeRegister() {
   const [check5, setCheck5] = useState(false);
 
   const onSubmit = (data) => {
+    toast.success("Guardando Mascota...", { autoClose: 2000 });
     const amenities = data.amenities;
     const stringAmenities = amenities.replace(/ /g, "");
     const ListAmenities = stringAmenities.split(".");
@@ -92,7 +95,7 @@ export default function HomeRegister() {
         clabe: data.clabe,
       },
     };
-    console.log(dataObject);
+    console.log("dataToUpload -->", dataObject);
   };
 
   // useEffect(() => {
@@ -103,7 +106,7 @@ export default function HomeRegister() {
       // setIsOpen(aux);
     } else {
       aux = isOpen.concat(e.target.value);
-      console.log(aux);
+      // console.log(aux);
       hiddenText;
     }
     setIsOpen(aux);
@@ -213,7 +216,7 @@ export default function HomeRegister() {
     let newImgsState = [...images, ...newImgsToState];
     setimages(newImgsState);
 
-    console.log(newImgsState);
+    // console.log(newImgsState);
   };
 
   function readmultifiles(e, indexInicial) {
@@ -248,12 +251,24 @@ export default function HomeRegister() {
     const newImgs = images.filter(function (element) {
       return element.index !== indice;
     });
-    console.log(newImgs);
+    // console.log(newImgs);
     setimages(newImgs);
   }
 
   return (
     <div className="mt-32 mb-24">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="bg-[#FF6868] py-4 text-center">
         <h1 className="text-white text-3xl font-semibold  font-[Raleway]">
           Agregar Alojamiento
@@ -342,12 +357,12 @@ export default function HomeRegister() {
                     </label>
 
                     {/* VIEW IMAGES */}
-                    <div className="flex flex-row gap-2 flex-wrap">
+                    <div className="flex flex-row gap-2 flex-wrap max-w-[350px]">
                       {images.map((imagen) => (
                         <div className="flex " key={imagen.index}>
-                          <div className="">
+                          <div className="flex-col">
                             <button
-                              className="position-absolute px-2 text-white bg-[#FF6868] mt-4"
+                              className="position-absolute px-2 text-white bg-[#FF6868] mt-4 mb-2"
                               onClick={deleteImg.bind(this, imagen.index)}
                             >
                               x
@@ -370,7 +385,7 @@ export default function HomeRegister() {
                 <div className="md:w-full">
                   <div className=" my-5 text-lg font-medium">
                     <h4>
-                      Qué tipo de mascotas recibirás en tu alojamiento (puede
+                      ¿Qué tipo de mascotas recibirás en tu alojamiento (puede
                       ser más de uno)?:
                     </h4>
                     <div className="flex justify-start items-center gap-3 pt-4">
@@ -405,7 +420,10 @@ export default function HomeRegister() {
                     </div>
                   </div>
                   <div className=" my-5 text-lg font-medium">
-                    <h4>Tamaño (puede ser más de uno):</h4>
+                    <h4>
+                      Tamaño (Puede ser más de uno. Los gatos son pequeños por
+                      default):
+                    </h4>
                     <div className="flex justify-start items-center gap-3 pt-4">
                       <div className="flex items-center">
                         <label htmlFor="" className="mr-2 ">
@@ -458,11 +476,11 @@ export default function HomeRegister() {
                       })}
                     >
                       <option value="">--Selecciona un numero--</option>
+                      <option value="uno">1</option>
                       <option value="dos">2</option>
                       <option value="tres">3</option>
                       <option value="cuatro">4</option>
                       <option value="cinco">5</option>
-                      <option value="otro">otro</option>
                     </select>
                     {errors.amount && (
                       <span className="text-red-500">
@@ -477,7 +495,7 @@ export default function HomeRegister() {
                           forlabel="datetime"
                           className="block mb-2 text-lg font-medium"
                         >
-                          Check In:
+                          Entrada:
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -519,7 +537,7 @@ export default function HomeRegister() {
                           forlabel="datetime"
                           className="block mb-2 text-lg font-medium"
                         >
-                          Check Out:
+                          Salida:
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -565,7 +583,7 @@ export default function HomeRegister() {
                         htmlFor="message"
                         className="block mb-2 text-lg font-medium"
                       >
-                        Habitan mascotas en el sitio?
+                        ¿Habitan mascotas en el sitio?
                       </label>
                       <div className="flex justify-center items-center gap-1 mb-2 pl-10">
                         <p>Marcar</p>
@@ -582,7 +600,7 @@ export default function HomeRegister() {
                       id="message"
                       rows="6"
                       className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                      placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales?"
+                      placeholder={`- ¿Cuál es su temperamento?\n- ¿Qué le gusta hacer?\n- ¿Se lleva bien con otros animales?\n100 - 200 caracteres.`}
                       disabled={!textareaActive}
                       {...register("description", {
                         minLength: {
@@ -606,8 +624,8 @@ export default function HomeRegister() {
                       htmlFor="message"
                       className="block mb-2 text-lg font-medium"
                     >
-                      Amenidades:
-                      <small>(Separa tu amenidad con un punto al final.)</small>
+                      Amenidades
+                      <small>{` (Separa tus amenidades con un punto al final):`}</small>
                     </label>
 
                     <textarea
@@ -619,14 +637,6 @@ export default function HomeRegister() {
                         required: {
                           value: true,
                           message: "El campo es requerido",
-                        },
-                        minLength: {
-                          value: 100,
-                          message: "Mínimo 100 caracteres",
-                        },
-                        maxLength: {
-                          value: 200,
-                          message: "Máximo 200 caracteres",
                         },
                       })}
                     ></textarea>
@@ -641,7 +651,8 @@ export default function HomeRegister() {
                       htmlFor="message"
                       className="block mb-2 text-lg font-medium"
                     >
-                      Restricciones:
+                      Restricciones
+                      <small>{` (Separa tus restricciones con un punto al final):`}</small>
                     </label>
 
                     <textarea
@@ -653,14 +664,6 @@ export default function HomeRegister() {
                         required: {
                           value: true,
                           message: "El campo es requerido",
-                        },
-                        minLength: {
-                          value: 100,
-                          message: "Mínimo 100 caracteres",
-                        },
-                        maxLength: {
-                          value: 200,
-                          message: "Máximo 200 caracteres",
                         },
                       })}
                     ></textarea>
@@ -932,19 +935,11 @@ export default function HomeRegister() {
                       <textarea
                         rows="6"
                         className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                        placeholder="Ejemplo. -¿Color de la casa? -¿Color de la puerta / portón? -¿Algún negocio cercano?"
+                        placeholder={`- ¿Color de la casa?\n- ¿Color de la puerta / portón?\n- ¿Algún negocio cercano?\n- Min 60 caracteres`}
                         {...register("references", {
                           required: {
                             value: true,
                             message: "El campo es requerido",
-                          },
-                          minLength: {
-                            value: 100,
-                            message: "Mínimo 100 caracteres",
-                          },
-                          maxLength: {
-                            value: 200,
-                            message: "Máximo 200 caracteres",
                           },
                         })}
                       ></textarea>
@@ -1367,12 +1362,13 @@ export default function HomeRegister() {
                 </div>
               </div>
               <div className="pt-6 sm:flex sm:justify-around items-center gap-4">
-                <button
+                <Link
+                  href={"/"}
                   type="button"
-                  className="px-6 py-3 w-full border-[2px] border-[#2B2E4A] rounded-full md:font-semibold mb-3 sm:mt-0 md:mb-0 lg:mb-0 sm:mb-0 hover:scale-[102%]"
+                  className="text-center px-6 py-3 w-full border-[2px] border-[#2B2E4A] rounded-full md:font-semibold mb-3 sm:mt-0 md:mb-0 lg:mb-0 sm:mb-0 hover:scale-[102%]"
                 >
                   Cancelar
-                </button>
+                </Link>
                 <button
                   type="submit"
                   className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center"
