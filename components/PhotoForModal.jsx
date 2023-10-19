@@ -13,9 +13,9 @@ export default function PhotoForModal({onClose, photo}){
                 <div className='bg-[#F2F2F2] h-[327px] w-[327px] sm:h-[400px] sm:w-[400px] rounded-lg flex justify-center items-center'>
                 {photo.url === "" 
                 ?
-                    < p className='text-[16px]'>N / A</p>
+                    < p className='text-[20px]'>N / A</p>
                 : 
-                    <img src={photo.url} alt="New Pet Image" className="w-full h-full object-cover rounded-lg shadow-lg"/>
+                    <img src={photo.url} alt="New Pet Image" className="w-full h-full object-cover aspect-square rounded-lg shadow-lg"/>
                 }
                 </div>
             </div>
