@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -26,12 +26,14 @@ export default function BookingForModal({
         endDay,
         onClose,
         userClient,
-        hostId
+        hostId,
+        authToken
     }){
 
     const [mascota, setMascota] = useState('')
     const [initialDate, setInitialDate] = useState(dayjs(initialDay))
     const [endDate, setEndDate] = useState(dayjs(endDay))
+    const [token, setToken] = useState(null)
 
     const router = useRouter()
     const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
@@ -42,12 +44,13 @@ export default function BookingForModal({
     const impuestos = ((tarifaDomus + priceByDays) * 0.16)
     const totalPrice = priceByDays + tarifaDomus + impuestos
 
+
     function handleSubmit(event) {
         event.preventDefault();
         if (mascota) {
             fetch(`${urlFetch}/reservations`, {
                 method: 'POST',
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}`},
                 body: JSON.stringify({
                     client: userClient._id,
                     host: hostId,
