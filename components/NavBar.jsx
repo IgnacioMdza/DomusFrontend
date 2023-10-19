@@ -38,6 +38,13 @@ export default function NavBar() {
     router.pathname === "/" ? router.reload() : router.push("/");
   }
 
+  function goToProfile(profileId) {
+    console.log("href", window.location.href);
+    window.location.href.includes(`/profiles/${profileId}`)
+      ? null
+      : window.location.replace(`/profiles/${profileId}`);
+  }
+
   return (
     <nav className="bg-white border-gray-200 w-full z-20 shadow-xl font-[Nunito]text-[20px] fixed top-0 left-0 right-0">
       <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -97,13 +104,13 @@ export default function NavBar() {
                   </li>
                 )}
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
-                  <Link
-                    href={`/profiles/${user._id}`}
+                  <button
+                    onClick={(e) => goToProfile(user._id)}
                     className="text-dark "
                     aria-current="page"
                   >
                     perfil
-                  </Link>
+                  </button>
                   <Image
                     unoptimized
                     loader={imageLoader}
@@ -240,13 +247,13 @@ export default function NavBar() {
                   </li>
                 )}
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
-                  <Link
-                    href={`/profiles/${user._id}`}
+                  <button
+                    onClick={(e) => goToProfile(user._id)}
                     className="text-dark "
                     aria-current="page"
                   >
                     perfil
-                  </Link>
+                  </button>
                   <Image
                     unoptimized
                     loader={imageLoader}
