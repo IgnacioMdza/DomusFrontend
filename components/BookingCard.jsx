@@ -109,6 +109,9 @@ export default function BookingCard2({
       });
   }
 
+  function goToProfile(profileId) {
+    window.location.replace(`/profiles/${profileId}`);
+  }
   return (
     <main
       className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-[95%] m-auto bg-white hover:scale-[102%] hover:shadow-xl`}
@@ -128,11 +131,11 @@ export default function BookingCard2({
       <div className="text-left w-full flex flex-col justify-between">
         <div>
           <div className="flex justify-between">
-            <Link href={`/profiles/${cardUserId}`}>
+            <button onClick={(e) => goToProfile(cardUserId)}>
               <p className="hover:underline text-[24px] font-[Raleway] inline-block">
                 {nameText}
               </p>
-            </Link>
+            </button>
             <p className="text-[24px] font-semibold text-right inline-block">
               ${cost}
             </p>
@@ -168,11 +171,12 @@ export default function BookingCard2({
         </div>
 
         <div className={`${pendingButtonsDisplay} flex justify-around gap-2`}>
-          <Link href={`/profiles/${cardUserId}`}>
-            <button className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]">
-              Ver Cliente
-            </button>
-          </Link>
+          <button
+            onClick={(e) => goToProfile(cardUserId)}
+            className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]"
+          >
+            Ver Cliente
+          </button>
           <button
             onClick={(e) => changeStatus("refused")}
             className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]"

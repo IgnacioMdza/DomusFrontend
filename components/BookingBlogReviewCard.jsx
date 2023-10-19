@@ -25,7 +25,7 @@ export default function BookingBlogReviewCard({
         />
       </div>
 
-      <div className="w-full text-center md:text-left">
+      <div className="w-full h-[190px] text-center md:text-left">
         <div className="flex justify-center mb-5">
           <Rating readOnly value={rate} precision={0.5} size="large" />
         </div>
