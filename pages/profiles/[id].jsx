@@ -159,7 +159,7 @@ export default function ClientProfile() {
               </div>
             </div>
             <div
-              className={`w-full lg:max-w-[450px] text-center px-5 lg:rounded-[10px] py-6 
+              className={`w-full lg:max-w-[450px] lg:h-[calc(100vh-168px)] text-center px-5 lg:rounded-[10px] py-6 
           ${!idMatch ? "hidden" : ""}
           ${userData.type === "client" ? " bg-[#2B2E4A]" : ""}
           ${userData.type === "host" ? " bg-[#FF7068]" : ""}`}

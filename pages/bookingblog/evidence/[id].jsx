@@ -38,7 +38,7 @@ export default function Evidence() {
   useEffect(() => {
       const reservationId = router.query.id;
       if (user && reservationId){
-      fetch(`${urlFetch}/reservations/all/${reservationId}?find=comunication`)
+      fetch(`${urlFetch}/reservations/all/${reservationId}?find=evidence`)
           .then((resp) => resp.json())
           .then((resp) => {
               if((user.id === resp.data.client._id || user.id === resp.data.host._id) && (resp.data.status === 'paid' || resp.data.status === 'current' || resp.data.status === 'concluded')){

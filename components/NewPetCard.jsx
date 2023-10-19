@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Stack, Rating } from "@mui/material";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -22,12 +23,13 @@ export default function NewPetCard() {
         <div className="text-center text-[30px] font-medium font-[Raleway]">
           <p>Tu Nueva</p>
           <p>Mascota</p>
-          <p>✩✩✩✩✩</p>
+          {/* <p>✩✩✩✩✩</p> */}
+          <Rating readOnly value={0} precision={0.5} size="large" />
         </div>
       </div>
       <Link
         href={`/accounts/petregister/${userInfo.id}`}
-        className="w-full bg-[#FF7068] h-[40px] font-medium text-[28px] rounded-[50px] text-white text-center hover:scale-[102%]"
+        className="w-full bg-[#FF7068] font-normal text-[22px] md:text-[26px] py-[4px] rounded-[50px] text-white text-center shadow-lg hover:scale-[102%] transition"
       >
         Agregar Ahora
       </Link>
