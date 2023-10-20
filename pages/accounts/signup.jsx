@@ -30,7 +30,12 @@ export default function Register() {
         password: data.password,
         type: data.radio,
       }),
-    }).then((res) => router.push("/accounts/confirm"));
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        // if (res.success) router.push("/accounts/confirm");
+      });
   };
 
   return (
