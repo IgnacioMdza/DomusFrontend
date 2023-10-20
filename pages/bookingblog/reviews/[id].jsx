@@ -27,7 +27,19 @@ export default function Reviews() {
   }, [router.query.id]);
 
   useEffect(() => {
-    if (reservationData)
+    if (reservationData) {
+      console.log("reservation Data", reservationData);
+      console.log("userInfo", userInfo);
+      userInfo.id === reservationData.client._id ||
+      userInfo.id === reservationData.client._id
+        ? null
+        : router.push("/404");
+      reservationData.status !== "paid" &&
+      reservationData.status !== "current" &&
+      reservationData.status !== "concluded"
+        ? router.push("/404")
+        : null;
+      reservationData.status !== "concluded";
       for (let review of reservationData?.reviews) {
         if (review?.sender._id === userInfo?.id) {
           setUserReview(review);
@@ -35,83 +47,86 @@ export default function Reviews() {
           setOtherUserReview(review);
         }
       }
-  }, [reservationData, userInfo]);
+    }
+  }, [reservationData, userInfo, router]);
 
   return (
     <>
-      {reservationData && (
-        <div>
-          <section className="flex flex-col items-center">
-            <div className="max-w-[1024px] mt-[90px] w-full px-[24px] lg:px-0">
-              <Link
-                href="/bookingblog"
-                className="text-[32px] md:text-[48px] font-[raleway] text-[#E91E63] font-bold py-[12px] inline-block"
-              >
-                Bitácora
-              </Link>
-            </div>
-            <BookingBlogNavMenu />
-            <BookingBlogDropdownMenu />
-          </section>
-          <main className="mt-[30px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl min-h-[calc(100vh-256px)]">
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
-              {userReview ? (
-                <BookingBlogReviewCard
-                  authorName={`${userReview.sender.name} ${userReview.sender.lastname}`}
-                  date={userReview.date
-                    .split("T")[0]
-                    .split("-")
-                    .reverse()
-                    .join("/")}
-                  review={userReview.comment}
-                  rate={userReview.rate}
-                  picture={userReview.sender.picture}
-                />
-              ) : (
-                <WriteReview
-                  receiverName={
-                    userInfo.userType === "host"
-                      ? reservationData.client.name
-                      : reservationData.host.name
-                  }
-                  senderId={
-                    userInfo.userType === "host"
-                      ? reservationData.host._id
-                      : reservationData.client._id
-                  }
-                  receiverId={
-                    userInfo.userType === "host"
-                      ? reservationData.client._id
-                      : reservationData.host._id
-                  }
-                  serviceId={
-                    userInfo.userType === "host"
-                      ? reservationData.pet[0]._id
-                      : reservationData.host.accommodation
-                  }
-                  reservationId={reservationData._id}
-                />
-              )}
+      <main className="min-h-screen">
+        {reservationData && (
+          <div>
+            <section className="flex flex-col items-center">
+              <div className="max-w-[1024px] mt-[90px] w-full px-[24px] lg:px-0">
+                <Link
+                  href="/bookingblog"
+                  className="text-[32px] md:text-[48px] font-[raleway] text-[#E91E63] font-bold py-[12px] inline-block"
+                >
+                  Bitácora
+                </Link>
+              </div>
+              <BookingBlogNavMenu />
+              <BookingBlogDropdownMenu />
+            </section>
+            <main className="mt-[30px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl min-h-[calc(100vh-256px)]">
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
+                {userReview ? (
+                  <BookingBlogReviewCard
+                    authorName={`${userReview.sender.name} ${userReview.sender.lastname}`}
+                    date={userReview.date
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                    review={userReview.comment}
+                    rate={userReview.rate}
+                    picture={userReview.sender.picture}
+                  />
+                ) : (
+                  <WriteReview
+                    receiverName={
+                      userInfo.userType === "host"
+                        ? reservationData.client.name
+                        : reservationData.host.name
+                    }
+                    senderId={
+                      userInfo.userType === "host"
+                        ? reservationData.host._id
+                        : reservationData.client._id
+                    }
+                    receiverId={
+                      userInfo.userType === "host"
+                        ? reservationData.client._id
+                        : reservationData.host._id
+                    }
+                    serviceId={
+                      userInfo.userType === "host"
+                        ? reservationData.pet[0]._id
+                        : reservationData.host.accommodation
+                    }
+                    reservationId={reservationData._id}
+                  />
+                )}
 
-              {userReview && otherUserReview ? (
-                <BookingBlogReviewCard
-                  authorName={`${otherUserReview.sender.name} ${otherUserReview.sender.lastname}`}
-                  date={otherUserReview.date
-                    .split("T")[0]
-                    .split("-")
-                    .reverse()
-                    .join("/")}
-                  review={otherUserReview.comment}
-                  rate={otherUserReview.rate}
-                  picture={otherUserReview.sender.picture}
-                />
-              ) : (
-                <PendingReviewCard />
-              )}
-            </div>
-          </main>
-        </div>
-      )}
+                {userReview && otherUserReview ? (
+                  <BookingBlogReviewCard
+                    authorName={`${otherUserReview.sender.name} ${otherUserReview.sender.lastname}`}
+                    date={otherUserReview.date
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                    review={otherUserReview.comment}
+                    rate={otherUserReview.rate}
+                    picture={otherUserReview.sender.picture}
+                  />
+                ) : (
+                  <PendingReviewCard />
+                )}
+              </div>
+            </main>
+          </div>
+        )}
+      </main>
     </>
   );
 }

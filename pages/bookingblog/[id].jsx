@@ -21,7 +21,7 @@ export default function Bookingblog({ reservation }) {
         } else {
             router.push('/404')
         };
-    },[reservation.data.client, reservation.data.host, reservation.host, router])
+    },[reservation.data.client, reservation.data.host, router])
 
     return (
         <main className='min-h-screen'>

@@ -1,5 +1,4 @@
 import React from "react";
-// import fetch from "node-fetch";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useState, useEffect } from "react";

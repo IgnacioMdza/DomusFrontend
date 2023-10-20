@@ -9,6 +9,7 @@ export default function Search() {
     const router = useRouter()
     const [{state, city, pettype, petsize, initialdate, enddate}, setSearchQuery] = useState({});
     const [client, setClient] = useState(null)
+    const [token, setToken] = useState(null)
     const [accommodationList, setAccommodationsList] = useState([])
 
     useEffect(() => {
@@ -28,6 +29,7 @@ export default function Search() {
         if(token && JSON.parse(atob(token.split(".")[1])).userType === 'client'){
             const tokenInfo = JSON.parse(atob(token.split(".")[1]));
             setClient(tokenInfo)
+            setToken(token)
         };
     },[])
 
@@ -53,7 +55,7 @@ export default function Search() {
                         accommodationList.map( (item, index) => {
                             return(
                                 <>
-                                    <HostCard key={index} initialDate={initialdate} endDate={enddate} hostAndHouse={item} client={client} petsize={petsize} pettype={pettype}/>
+                                    <HostCard key={index} initialDate={initialdate} endDate={enddate} hostAndHouse={item} auth={token} client={client} petsize={petsize} pettype={pettype}/>
                                 </>
                             )
                         })

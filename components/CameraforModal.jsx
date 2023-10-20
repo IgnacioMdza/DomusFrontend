@@ -1,7 +1,7 @@
 // import Image from "next/image";
 import XMark from "/public/icons/xmark.svg";
 import React, { useState, useRef } from "react";
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { BrowserView, MobileView, isBrowser, isMobile, browserName } from 'react-device-detect';
 import Mobile from "/public/icons/mobile.svg";
 
 export default function CameraForModal({onClose}){
@@ -60,8 +60,15 @@ export default function CameraForModal({onClose}){
                     <button className='group text-xl flex text-[20px] font-[nunito] h-full md:py-[8px] items-center my-auto gap-[6px] text-[#2B2E4A]' onClick={() => onClose()
                     }><XMark className='fill-[#2B2E4A] group-hover:fill-[#FF7068] w-[32px] h-[32px] transition'/></button>
                 </div>
-                <MobileView>
+                {(isBrowser || browserName === 'Brave') &&
+                    <div className='border border-[#2B2E4A] rounded-xl p-[20px]'>
+                        <Mobile className='w-[32px] h-[32px] fill-[#2B2E4A] mx-auto mb-[20px]'/>
+                        <p className="max-w-[300px] text-center text-[16px] text-[#2B2E4A] rounded-xl">Ingresa desde tu celular (O en su caso, a un navegador distinto a Brave) para capturar las fotografías de evidencia.</p>
+                    </div>
+                }
+                {isMobile && browserName !== 'Brave' &&
                     <div className='flex flex-col gap-[8px] items-center'>
+                        <h1>{browserName}</h1>
                         <button onClick={handleClick} className='text-[16px] text-[#2B2E4A] border border-[#2B2E4A] bg-[#F2F2F2] w-full p-[8px] active:bg-[#2B2E4A] active:text-[#F2F2F2] rounded-xl transition'>Capturar fotografía</button>
                         <label>
                             <input
@@ -81,13 +88,7 @@ export default function CameraForModal({onClose}){
                             </div>
                         }
                     </div>
-                </MobileView>
-                <BrowserView>
-                    <div className='border border-[#2B2E4A] rounded-xl p-[20px]'>
-                        <Mobile className='w-[32px] h-[32px] fill-[#2B2E4A] mx-auto mb-[20px]'/>
-                        <p className="max-w-[300px] text-center text-[16px] text-[#2B2E4A] rounded-xl">Ingresa desde tu celular para realizar las capturas de evidencia fotográfica.</p>
-                    </div>
-                </BrowserView>
+                }
             </div>
         </>
     )

@@ -24,15 +24,20 @@ export default function PetRegister() {
 
   useEffect(() => {
     const pathId = router.query.id;
-    if (pathId) {
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/");
+      return;
+    }
+    if(pathId && token){
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       const pathId = router.query.id;
       if (tokenInfo.id != pathId || tokenInfo.userType != "client") {
         router.push("/");
+      } else {
+        setToken(token);
       }
-      setToken(token);
-    }
+    } 
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
