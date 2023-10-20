@@ -6,7 +6,7 @@ import Link from "next/link";
 import Head from "next/head";
 import Modal from "@/components/Modal";
 import { useState, useEffect } from "react";
-import CameraForModal from "@/components/CameraforModal";
+import CameraForModal from "@/components/CameraForModal";
 import { useRouter } from "next/router";
 
 export default function Evidence() {
@@ -44,7 +44,7 @@ export default function Evidence() {
         .then((resp) => {
           if (
             (user.id === resp.data.client._id ||
-              user.id === resp.data.host._id) &&
+              user.id === resp.data.host) &&
             (resp.data.status === "paid" ||
               resp.data.status === "current" ||
               resp.data.status === "concluded")
@@ -75,7 +75,8 @@ export default function Evidence() {
         <BookingBlogDropdownMenu />
       </section>
       <main className="max-w-[1280px] p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] min-h-screen">
-        {user && user.userType === "host" && (
+        {user && 
+          user.userType === "host" && (
           <div className="p-[24px] bg-white rounded-[10px] max-w-fit m-auto mb-6">
             <button
               onClick={() => setShowModal(true)}
@@ -87,15 +88,20 @@ export default function Evidence() {
           </div>
         )}
         <div className="flex flex-col">
-          {reservation &&
+          {
+          reservation &&
             user &&
             reservation.evidence.map((item, index) => (
               <DayEvidence key={index} evidencePerDay={item} day={index + 1} />
-            ))}
+            ))
+          }
         </div>
       </main>
       <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
-        <CameraForModal onClose={() => setShowModal(false)} />
+        <CameraForModal 
+          onClose={() => setShowModal(false)} 
+          reservation={reservation}
+        />
       </Modal>
     </>
   );
