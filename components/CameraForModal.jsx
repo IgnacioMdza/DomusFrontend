@@ -9,10 +9,16 @@ import {
   browserName,
 } from "react-device-detect";
 import Mobile from "/public/icons/mobile.svg";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 export default function CameraForModal({ onClose, reservation }) {
+  const router = useRouter();
   const [image, setImage] = useState(null);
   const handleFileInput = useRef(null);
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const TOKEN = localStorage.getItem("token");
 
   const handleClick = () => {
     handleFileInput.current.click();
@@ -56,7 +62,49 @@ export default function CameraForModal({ onClose, reservation }) {
     };
   };
 
-  const uploadImage = () => {};
+  const uploadImage = () => {
+    toast.success("Guardando Evidencia...", { autoClose: 2000 });
+
+    const formData = new FormData();
+    formData.set("folder", "reservations");
+    formData.set("id", reservation._id);
+    formData.set("image", image);
+
+    fetch(`${BASE_URL}/bucket/uploadOne`, {
+      method: "POST",
+      body: formData,
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.success) {
+          fetch(`${BASE_URL}/reservations/${reservation._id}/evidence`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              url: resp.data.url,
+              time: new Date(),
+              status: "success",
+            }),
+            headers: {
+              Authorization: `Bearer ${TOKEN}`,
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((resp) => {
+              if (resp.success) {
+                toast.success("Evidencia Guardada", { autoClose: 2000 });
+                setTimeout(() => window.location.reload(), 2000);
+              } else {
+                alert(resp.message);
+                toast.error("Error al subir la evidencia");
+              }
+            });
+        } else {
+          toast.error("Error al subir la evidencia");
+        }
+      });
+  };
 
   return (
     <>
@@ -108,7 +156,7 @@ export default function CameraForModal({ onClose, reservation }) {
                   className="rounded-t-xl w-[300px] h-[400px] object-cover"
                 />
                 <button
-                  onClick={""}
+                  onClick={uploadImage}
                   className="text-center text-[#2B2E4A] text-[16px] p-[8px] bg-[#F2F2F2] w-full rounded-b-xl active:bg-[#2B2E4A] active:text-[#F2F2F2] transition"
                 >
                   Subir fotografía
