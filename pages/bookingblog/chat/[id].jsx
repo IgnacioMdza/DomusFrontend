@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import BookingBlogDropdownMenu from "@/components/BookingBlogDropdownMenu";
 import BookingBlogNavMenu from "@/components/BookingBlogNavMenu";
 import { messagesData } from "@/data/messagesData";
@@ -84,6 +85,9 @@ export default function Chat() {
 
   return (
     <main className="h-screen">
+      <Head>
+        <title>{`Bitácora - Communicación`}</title>
+      </Head>
       <ToastContainer
         position="top-center"
         autoClose={5000}

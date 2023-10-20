@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import Head from "next/head";
 import { locations } from "@/data/locations";
 import { bank } from "@/data/bank";
 
@@ -279,6 +280,9 @@ export default function HomeRegister() {
 
   return (
     <div className="mt-32 mb-24">
+      <Head>
+        <title>{`Domus - Registra tu Alojamiento`}</title>
+      </Head>
       <div className="bg-[#FF6868] py-4 text-center">
         <h1 className="text-white text-3xl font-semibold  font-[Raleway]">
           Agregar Alojamiento

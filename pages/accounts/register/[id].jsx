@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -14,7 +15,7 @@ export default function CompleteRegister() {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [picture, setPicture] = useState(null);
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const {
     register,
     handleSubmit,
@@ -22,20 +23,20 @@ export default function CompleteRegister() {
   } = useForm();
   const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
 
-  useEffect(()=> {
+  useEffect(() => {
     const pathId = router.query.id;
     if (pathId && token) {
       fetch(`${urlFetch}/users/${pathId}`)
         .then((resp) => resp.json())
         .then((resp) => {
-          if(resp.data.isInfoCompleted === true){
-            router.push('/')
+          if (resp.data.isInfoCompleted === true) {
+            router.push("/");
           } else {
-            setUser(resp.data)
+            setUser(resp.data);
           }
-        })
+        });
     }
-  },[router, router.query.id, token, urlFetch])
+  }, [router, router.query.id, token, urlFetch]);
 
   useEffect(() => {
     const pathId = router.query.id;
@@ -105,89 +106,92 @@ export default function CompleteRegister() {
 
   return (
     <main className="mt-[114px] mb-[24px] min-h-[calc(100vh-90px)]">
-    { token && user &&
-      <>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-        {/* <div className="bg-[#FF6868] py-4 text-center">
+      <Head>
+        <title>{`Domus - Completa tu Registro`}</title>
+      </Head>
+      {token && user && (
+        <>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+          {/* <div className="bg-[#FF6868] py-4 text-center">
           <h1 className="text-white text-[28px] font-medium font-[Raleway]">
             Completar Registro
           </h1>
         </div> */}
-        <div className="lg:flex lg:justify-center">
-          <div className="mx-4 rounded-2xl lg:max-w-7xl bg-white shadow-xl">
-            <div className="bg-[#FF6868] py-4 text-center rounded-t-2xl">
-              <h1 className="text-white text-[20px] md:text-[24px] lg:text-[28px] font-medium font-[Raleway]">
-                Completar Registro
-              </h1>
-            </div>
-            <div className="p-[24px]">
-              <div className="border-b-[2px] border-[#FF6868]">
-                <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
-                  Información General
-                </h2>
+          <div className="lg:flex lg:justify-center">
+            <div className="mx-4 rounded-2xl lg:max-w-7xl bg-white shadow-xl">
+              <div className="bg-[#FF6868] py-4 text-center rounded-t-2xl">
+                <h1 className="text-white text-[20px] md:text-[24px] lg:text-[28px] font-medium font-[Raleway]">
+                  Completar Registro
+                </h1>
               </div>
-              <div className="lg:flex lg:items-start md:items-center lg:w-full">
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
-                >
-                  <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
-                    {picture ? (
-                      <Image
-                        loader={imageLoader}
-                        alt="Pet Picture"
-                        src={URL.createObjectURL(picture)}
-                        width={200}
-                        height={200}
-                        className="h-full w-full object-cover rounded-full"
-                      />
-                    ) : (
-                      <div className="h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40">
-                        <p className="text-center text-slate-400 font-light mt-[8px]">
-                          Aún no has cargado una imagen
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  <div className="pb-4 w-full">
-                    <label
-                      forlabel="image"
-                      className="block mb-2 text-lg font-medium"
-                    >
-                      Subir imagen:
-                    </label>
-                    <div className="flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg">
-                      <input
-                        type="file"
-                        accept=".png, .jpg, .jpeg"
-                        className="cursor-pointer p-[8px]"
-                        {...register("picture", {
-                          required: {
-                            value: true,
-                            message: "Subir imagen es requerido",
-                          },
-                          onChange: (e) => setPicture(e.target.files[0]),
-                        })}
-                      />
+              <div className="p-[24px]">
+                <div className="border-b-[2px] border-[#FF6868]">
+                  <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
+                    Información General
+                  </h2>
+                </div>
+                <div className="lg:flex lg:items-start md:items-center lg:w-full">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
+                  >
+                    <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
+                      {picture ? (
+                        <Image
+                          loader={imageLoader}
+                          alt="Pet Picture"
+                          src={URL.createObjectURL(picture)}
+                          width={200}
+                          height={200}
+                          className="h-full w-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <div className="h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40">
+                          <p className="text-center text-slate-400 font-light mt-[8px]">
+                            Aún no has cargado una imagen
+                          </p>
+                        </div>
+                      )}
                     </div>
-                    {errors.picture && (
-                      <span className="text-red-500">
-                        {errors.picture.message}
-                      </span>
-                    )}
-                  </div>
-                  {/* <div className="flex justify-center items-center hover:scale-[102%] w-fit mx-auto my-[20px] hover:shadow-lg rounded-full transition">
+                    <div className="pb-4 w-full">
+                      <label
+                        forlabel="image"
+                        className="block mb-2 text-lg font-medium"
+                      >
+                        Subir imagen:
+                      </label>
+                      <div className="flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg">
+                        <input
+                          type="file"
+                          accept=".png, .jpg, .jpeg"
+                          className="cursor-pointer p-[8px]"
+                          {...register("picture", {
+                            required: {
+                              value: true,
+                              message: "Subir imagen es requerido",
+                            },
+                            onChange: (e) => setPicture(e.target.files[0]),
+                          })}
+                        />
+                      </div>
+                      {errors.picture && (
+                        <span className="text-red-500">
+                          {errors.picture.message}
+                        </span>
+                      )}
+                    </div>
+                    {/* <div className="flex justify-center items-center hover:scale-[102%] w-fit mx-auto my-[20px] hover:shadow-lg rounded-full transition">
                     <svg
                       width="168"
                       height="168"
@@ -232,457 +236,464 @@ export default function CompleteRegister() {
                       />
                     </svg>
                   </div> */}
-                  <div className="sm:flex sm:justify-between sm:gap-[16px] lg:justify-start lg:gap-[56px] w-full items-center">
-                    <div className="pb-4 sm:w-1/2">
-                      <label
-                        forlabel="name"
-                        className="block mb-2 text-lg font-medium"
-                      >
-                        Nombre(s):
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                          <svg
-                            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle
-                              cx="12"
-                              cy="6"
-                              r="4"
-                              stroke="#1C274C"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
-                              stroke="#1C274C"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                            />
-                            <path
-                              d="M12 13C14.6083 13 16.8834 13.8152 18.0877 15.024M15.5841 20.4366C14.5358 20.7944 13.3099 21 12 21C8.13401 21 5 19.2091 5 17C5 15.6407 6.18652 14.4398 8 13.717"
-                              stroke="#1C274C"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        </div>
-                        <input
-                          type="text"
-                          className=" rounded-lg w-full pl-10 p-3 border-[1px] border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                          placeholder="Ingresa tu Nombre"
-                          {...register("name", {
-                            required: {
-                              value: true,
-                              message: "El campo Nombre es requerido",
-                            },
-                          })}
-                        />
-                      </div>
-                      {errors.name && (
-                        <span className="text-red-500">
-                          {errors.name.message}
-                        </span>
-                      )}
-                    </div>
-                    <div className="pb-4 sm:w-1/2">
-                      <label
-                        forlabel="lastname"
-                        className="block mb-2 text-lg font-medium"
-                      >
-                        Apellido(s):
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
-                        <input
-                          type="text"
-                          className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                          placeholder="Ingresa tu Apellido"
-                          {...register("lastname", {
-                            required: {
-                              value: true,
-                              message: "El campo Apellido es requerido",
-                            },
-                          })}
-                        />
-                      </div>
-                      {errors.lastname && (
-                        <span className="text-red-500">
-                          {errors.lastname.message}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="sm:flex sm:justify-center sm:gap-4 lg:flex lg:justify-start lg:gap-14 ">
-                    <div className="pb-4 w-full">
-                      <label
-                        forlabel="phone"
-                        className="block mb-2 text-lg font-medium"
-                      >
-                        Celular:
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                          <svg
-                            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                            fill="currentColor"
-                            viewBox="-1 0 19 19"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M16.5 9.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8zm-4.778-4.845a.803.803 0 0 0-.8-.8H6.077a.803.803 0 0 0-.8.8v9.692a.802.802 0 0 0 .8.8h4.845a.802.802 0 0 0 .8-.8zM6.077 5.912h4.845v7.266H6.077zm1.103-.99a.4.4 0 0 1 .4-.4h1.84a.4.4 0 0 1 0 .8H7.58a.4.4 0 0 1-.4-.4zm1.715 9.24a.394.394 0 1 1-.394-.394.394.394 0 0 1 .394.394z" />
-                          </svg>
-                          <p className="pl-[4px]">+52</p>
-                        </div>
-                        <input
-                          type="number"
-                          name="phone"
-                          className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                          placeholder="xxxxxxxxxx"
-                          {...register("phone", {
-                            required: {
-                              value: true,
-                              message: "El campo Celular es requerido",
-                            },
-                            minLength: {
-                              value: 10,
-                              message: "Mínimo 10 caracteres",
-                            },
-                            maxLength: {
-                              value: 10,
-                              message: "Máximo 10 caracteres",
-                            },
-                            pattern: {
-                              value: /^[0-9]{1,10}$/,
-                              message: "Número inválido",
-                            },
-                          })}
-                        />
-                      </div>
-                      {errors.phone && (
-                        <span className="text-red-500">
-                          {errors.phone.message}
-                        </span>
-                      )}
-                    </div>
-                    <div className="pb-4 w-full">
-                      <label
-                        forlabel="birthday"
-                        className="block mb-2 text-lg font-medium"
-                      >
-                        Fecha de Nacimiento:
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
-                            />
-                          </svg>
-                        </div>
-                        <input
-                          type="date"
-                          name="birthday"
-                          className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                          placeholder="Ingresa tu Nombre"
-                          {...register("birthday", {
-                            required: {
-                              value: true,
-                              message: "El campo Fecha es requerido",
-                            },
-                            validate: (value) => {
-                              const birthDate = new Date(value);
-                              const currentDate = new Date();
-                              const age =
-                                currentDate.getFullYear() -
-                                birthDate.getFullYear();
-                              return age >= 18 || "Debes de ser mayor de edad";
-                            },
-                          })}
-                        />
-                      </div>
-                      {errors.birthday && (
-                        <span className="text-red-500">
-                          {errors.birthday.message}
-                        </span>
-                      )}
-                    </div>
-                    <div className="w-full sm:w-full">
-                      <label
-                        forlabel="sex"
-                        className="block mb-2 text-lg font-medium"
-                      >
-                        Sexo:
-                      </label>
-                      <select
-                        id="sex"
-                        className="rounded-lg w-full p-3 border-[1px] border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                        {...register("sex", {
-                          required: {
-                            value: true,
-                            message: "Selecciona un campo",
-                          },
-                        })}
-                      >
-                        <option value="">Seleccionar</option>
-                        <option value="Hombre">Hombre</option>
-                        <option value="Mujer">Mujer</option>
-                        <option value="Otro">Otro</option>
-                      </select>
-                      {errors.sex && (
-                        <span className="text-red-500">{errors.sex.message}</span>
-                      )}
-                    </div>
-                    {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
-                  </div>
-                  <div className="pt-4">
-                    <label
-                      htmlFor="aboutMe"
-                      className="block mb-2 text-lg font-medium"
-                    >
-                      Acerca de mí{" "}
-                    </label>
-                    <textarea
-                      id="aboutMe"
-                      rows="6"
-                      className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                      placeholder={`- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n300 a 400 caracteres`}
-                      {...register("aboutMe", {
-                        required: {
-                          value: true,
-                          message: "El campo es requerido",
-                        },
-                        minLength: {
-                          value: 300,
-                          message: "Mínimo 300 caracteres",
-                        },
-                        maxLength: {
-                          value: 400,
-                          message: "Máximo 500 caracteres",
-                        },
-                      })}
-                    ></textarea>
-                  </div>
-                  {errors.aboutMe && (
-                    <span className="text-red-500">{errors.aboutMe.message}</span>
-                  )}
-                  <div>
-                    <div className="border-b-[2px] border-[#FF6868] pt-4">
-                      <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
-                        Contacto de Emergencia
-                      </h2>
-                    </div>
-                  </div>
-                  <div className="lg:flex lg:items-center pt-4 gap-[36px]">
-                    <p className="text-lg lg:w-64 text-justify font-light">
-                      La información de este contacto servirá únicamente para
-                      cuando tu anfitrión/cliente intente localizarte por algún
-                      asunto relacionado a las mascotas y no sea posible lograrlo.
-                    </p>
-                    <div>
-                      <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
-                        <div className="pb-4  sm:w-full">
-                          <label
-                            forlabel="emergencyContactName"
-                            className="block mb-2 text-lg font-medium"
-                          >
-                            Nombre:
-                          </label>
-                          <div className="relative">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                              <svg
-                                className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <circle
-                                  cx="12"
-                                  cy="6"
-                                  r="4"
-                                  stroke="#1C274C"
-                                  strokeWidth="1.5"
-                                />
-                                <path
-                                  d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
-                                  stroke="#1C274C"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                />
-                                <path
-                                  d="M12 13C14.6083 13 16.8834 13.8152 18.0877 15.024M15.5841 20.4366C14.5358 20.7944 13.3099 21 12 21C8.13401 21 5 19.2091 5 17C5 15.6407 6.18652 14.4398 8 13.717"
-                                  stroke="#1C274C"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                />
-                              </svg>
-                            </div>
-                            <input
-                              type="text"
-                              name="emergencyContactName"
-                              className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                              placeholder="Ingresa tu Nombre"
-                              {...register("emergencyContactName", {
-                                required: {
-                                  value: true,
-                                  message: "El campo Nombre es requerido",
-                                },
-                              })}
-                            />
+                    <div className="sm:flex sm:justify-between sm:gap-[16px] lg:justify-start lg:gap-[56px] w-full items-center">
+                      <div className="pb-4 sm:w-1/2">
+                        <label
+                          forlabel="name"
+                          className="block mb-2 text-lg font-medium"
+                        >
+                          Nombre(s):
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                            <svg
+                              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <circle
+                                cx="12"
+                                cy="6"
+                                r="4"
+                                stroke="#1C274C"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
+                                stroke="#1C274C"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                              />
+                              <path
+                                d="M12 13C14.6083 13 16.8834 13.8152 18.0877 15.024M15.5841 20.4366C14.5358 20.7944 13.3099 21 12 21C8.13401 21 5 19.2091 5 17C5 15.6407 6.18652 14.4398 8 13.717"
+                                stroke="#1C274C"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                              />
+                            </svg>
                           </div>
-                          {errors.emergencyContactName && (
-                            <span className="text-red-500">
-                              {errors.emergencyContactName.message}
-                            </span>
-                          )}
-                        </div>
-                        <div className="pb-4  sm:w-full">
-                          <label
-                            forlabel="emergencyContactLastname"
-                            className="block mb-2 text-lg font-medium"
-                          >
-                            Apellido(s):
-                          </label>
-                          <div className="relative">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
-                            <input
-                              type="text"
-                              name="lastName"
-                              className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                              placeholder="Ingresa tu Apellido"
-                              {...register("emergencyContactLastname", {
-                                required: {
-                                  value: true,
-                                  message: "El campo Apellido es requerido",
-                                },
-                              })}
-                            />
-                          </div>
-                          {errors.emergencyContactLastname && (
-                            <span className="text-red-500">
-                              {errors.emergencyContactLastname.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14 ">
-                        <div className="pb-4 sm:w-full">
-                          <label
-                            forlabel="emergencyContactPhone"
-                            className="block mb-2 text-lg font-medium"
-                          >
-                            Celular:
-                          </label>
-                          <div className="relative">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                              <svg
-                                className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                fill="currentColor"
-                                viewBox="-1 0 19 19"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path d="M16.5 9.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8zm-4.778-4.845a.803.803 0 0 0-.8-.8H6.077a.803.803 0 0 0-.8.8v9.692a.802.802 0 0 0 .8.8h4.845a.802.802 0 0 0 .8-.8zM6.077 5.912h4.845v7.266H6.077zm1.103-.99a.4.4 0 0 1 .4-.4h1.84a.4.4 0 0 1 0 .8H7.58a.4.4 0 0 1-.4-.4zm1.715 9.24a.394.394 0 1 1-.394-.394.394.394 0 0 1 .394.394z" />
-                              </svg>
-                              <p className="pl-[4px]">+52</p>
-                            </div>
-                            <input
-                              type="number"
-                              name="emergencyContactPhone"
-                              className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                              placeholder="xxxxxxxxxx"
-                              {...register("emergencyContactPhone", {
-                                required: {
-                                  value: true,
-                                  message: "El campo Celular es requerido",
-                                },
-                                minLength: {
-                                  value: 10,
-                                  message: "Mínimo 10 caracteres",
-                                },
-                                maxLength: {
-                                  value: 10,
-                                  message: "Máximo 10 caracteres",
-                                },
-                                pattern: {
-                                  value: /^[0-9]{1,10}$/,
-                                  message: "Número inválido",
-                                },
-                              })}
-                            />
-                          </div>
-                          {errors.emergencyContactPhone && (
-                            <span className="text-red-500">
-                              {errors.emergencyContactPhone.message}
-                            </span>
-                          )}
-                        </div>
-                        <div className=" w-full">
-                          <label
-                            forlabel="emergencyContactRelationship"
-                            className="block mb-2 text-lg font-medium"
-                          >
-                            Parentesco:
-                          </label>
-                          <select
-                            id="emergencyContactRelationship"
-                            className="rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            {...register("emergencyContactRelationship", {
+                          <input
+                            type="text"
+                            className=" rounded-lg w-full pl-10 p-3 border-[1px] border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            placeholder="Ingresa tu Nombre"
+                            {...register("name", {
                               required: {
                                 value: true,
-                                message: "Selecciona un campo",
+                                message: "El campo Nombre es requerido",
                               },
                             })}
-                          >
-                            <option value="">Seleccionar</option>
-                            <option value="Primo/a">Primo/a</option>
-                            <option value="Hermano/a">Hermano/a</option>
-                            <option value="Tío/a">Tío/a</option>
-                            <option value="Mamá">Mamá</option>
-                            <option value="Papá">Papá</option>
-                            <option value="Amigo/a">Amigo/a</option>
-                            <option value="Otro">Otro</option>
-                          </select>
-                          {errors.emergencyContactRelationship && (
-                            <span className="text-red-500">
-                              {errors.emergencyContactRelationship.message}
-                            </span>
-                          )}
+                          />
+                        </div>
+                        {errors.name && (
+                          <span className="text-red-500">
+                            {errors.name.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="pb-4 sm:w-1/2">
+                        <label
+                          forlabel="lastname"
+                          className="block mb-2 text-lg font-medium"
+                        >
+                          Apellido(s):
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
+                          <input
+                            type="text"
+                            className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            placeholder="Ingresa tu Apellido"
+                            {...register("lastname", {
+                              required: {
+                                value: true,
+                                message: "El campo Apellido es requerido",
+                              },
+                            })}
+                          />
+                        </div>
+                        {errors.lastname && (
+                          <span className="text-red-500">
+                            {errors.lastname.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="sm:flex sm:justify-center sm:gap-4 lg:flex lg:justify-start lg:gap-14 ">
+                      <div className="pb-4 w-full">
+                        <label
+                          forlabel="phone"
+                          className="block mb-2 text-lg font-medium"
+                        >
+                          Celular:
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                            <svg
+                              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                              fill="currentColor"
+                              viewBox="-1 0 19 19"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path d="M16.5 9.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8zm-4.778-4.845a.803.803 0 0 0-.8-.8H6.077a.803.803 0 0 0-.8.8v9.692a.802.802 0 0 0 .8.8h4.845a.802.802 0 0 0 .8-.8zM6.077 5.912h4.845v7.266H6.077zm1.103-.99a.4.4 0 0 1 .4-.4h1.84a.4.4 0 0 1 0 .8H7.58a.4.4 0 0 1-.4-.4zm1.715 9.24a.394.394 0 1 1-.394-.394.394.394 0 0 1 .394.394z" />
+                            </svg>
+                            <p className="pl-[4px]">+52</p>
+                          </div>
+                          <input
+                            type="number"
+                            name="phone"
+                            className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            placeholder="xxxxxxxxxx"
+                            {...register("phone", {
+                              required: {
+                                value: true,
+                                message: "El campo Celular es requerido",
+                              },
+                              minLength: {
+                                value: 10,
+                                message: "Mínimo 10 caracteres",
+                              },
+                              maxLength: {
+                                value: 10,
+                                message: "Máximo 10 caracteres",
+                              },
+                              pattern: {
+                                value: /^[0-9]{1,10}$/,
+                                message: "Número inválido",
+                              },
+                            })}
+                          />
+                        </div>
+                        {errors.phone && (
+                          <span className="text-red-500">
+                            {errors.phone.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="pb-4 w-full">
+                        <label
+                          forlabel="birthday"
+                          className="block mb-2 text-lg font-medium"
+                        >
+                          Fecha de Nacimiento:
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+                              />
+                            </svg>
+                          </div>
+                          <input
+                            type="date"
+                            name="birthday"
+                            className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            placeholder="Ingresa tu Nombre"
+                            {...register("birthday", {
+                              required: {
+                                value: true,
+                                message: "El campo Fecha es requerido",
+                              },
+                              validate: (value) => {
+                                const birthDate = new Date(value);
+                                const currentDate = new Date();
+                                const age =
+                                  currentDate.getFullYear() -
+                                  birthDate.getFullYear();
+                                return (
+                                  age >= 18 || "Debes de ser mayor de edad"
+                                );
+                              },
+                            })}
+                          />
+                        </div>
+                        {errors.birthday && (
+                          <span className="text-red-500">
+                            {errors.birthday.message}
+                          </span>
+                        )}
+                      </div>
+                      <div className="w-full sm:w-full">
+                        <label
+                          forlabel="sex"
+                          className="block mb-2 text-lg font-medium"
+                        >
+                          Sexo:
+                        </label>
+                        <select
+                          id="sex"
+                          className="rounded-lg w-full p-3 border-[1px] border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                          {...register("sex", {
+                            required: {
+                              value: true,
+                              message: "Selecciona un campo",
+                            },
+                          })}
+                        >
+                          <option value="">Seleccionar</option>
+                          <option value="Hombre">Hombre</option>
+                          <option value="Mujer">Mujer</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+                        {errors.sex && (
+                          <span className="text-red-500">
+                            {errors.sex.message}
+                          </span>
+                        )}
+                      </div>
+                      {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
+                    </div>
+                    <div className="pt-4">
+                      <label
+                        htmlFor="aboutMe"
+                        className="block mb-2 text-lg font-medium"
+                      >
+                        Acerca de mí{" "}
+                      </label>
+                      <textarea
+                        id="aboutMe"
+                        rows="6"
+                        className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                        placeholder={`- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n300 a 400 caracteres`}
+                        {...register("aboutMe", {
+                          required: {
+                            value: true,
+                            message: "El campo es requerido",
+                          },
+                          minLength: {
+                            value: 300,
+                            message: "Mínimo 300 caracteres",
+                          },
+                          maxLength: {
+                            value: 400,
+                            message: "Máximo 500 caracteres",
+                          },
+                        })}
+                      ></textarea>
+                    </div>
+                    {errors.aboutMe && (
+                      <span className="text-red-500">
+                        {errors.aboutMe.message}
+                      </span>
+                    )}
+                    <div>
+                      <div className="border-b-[2px] border-[#FF6868] pt-4">
+                        <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
+                          Contacto de Emergencia
+                        </h2>
+                      </div>
+                    </div>
+                    <div className="lg:flex lg:items-center pt-4 gap-[36px]">
+                      <p className="text-lg lg:w-64 text-justify font-light">
+                        La información de este contacto servirá únicamente para
+                        cuando tu anfitrión/cliente intente localizarte por
+                        algún asunto relacionado a las mascotas y no sea posible
+                        lograrlo.
+                      </p>
+                      <div>
+                        <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
+                          <div className="pb-4  sm:w-full">
+                            <label
+                              forlabel="emergencyContactName"
+                              className="block mb-2 text-lg font-medium"
+                            >
+                              Nombre:
+                            </label>
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <svg
+                                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle
+                                    cx="12"
+                                    cy="6"
+                                    r="4"
+                                    stroke="#1C274C"
+                                    strokeWidth="1.5"
+                                  />
+                                  <path
+                                    d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
+                                    stroke="#1C274C"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                  />
+                                  <path
+                                    d="M12 13C14.6083 13 16.8834 13.8152 18.0877 15.024M15.5841 20.4366C14.5358 20.7944 13.3099 21 12 21C8.13401 21 5 19.2091 5 17C5 15.6407 6.18652 14.4398 8 13.717"
+                                    stroke="#1C274C"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              </div>
+                              <input
+                                type="text"
+                                name="emergencyContactName"
+                                className=" rounded-lg w-full pl-10 p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="Ingresa tu Nombre"
+                                {...register("emergencyContactName", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo Nombre es requerido",
+                                  },
+                                })}
+                              />
+                            </div>
+                            {errors.emergencyContactName && (
+                              <span className="text-red-500">
+                                {errors.emergencyContactName.message}
+                              </span>
+                            )}
+                          </div>
+                          <div className="pb-4  sm:w-full">
+                            <label
+                              forlabel="emergencyContactLastname"
+                              className="block mb-2 text-lg font-medium"
+                            >
+                              Apellido(s):
+                            </label>
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
+                              <input
+                                type="text"
+                                name="lastName"
+                                className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="Ingresa tu Apellido"
+                                {...register("emergencyContactLastname", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo Apellido es requerido",
+                                  },
+                                })}
+                              />
+                            </div>
+                            {errors.emergencyContactLastname && (
+                              <span className="text-red-500">
+                                {errors.emergencyContactLastname.message}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14 ">
+                          <div className="pb-4 sm:w-full">
+                            <label
+                              forlabel="emergencyContactPhone"
+                              className="block mb-2 text-lg font-medium"
+                            >
+                              Celular:
+                            </label>
+                            <div className="relative">
+                              <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <svg
+                                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                  fill="currentColor"
+                                  viewBox="-1 0 19 19"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path d="M16.5 9.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8zm-4.778-4.845a.803.803 0 0 0-.8-.8H6.077a.803.803 0 0 0-.8.8v9.692a.802.802 0 0 0 .8.8h4.845a.802.802 0 0 0 .8-.8zM6.077 5.912h4.845v7.266H6.077zm1.103-.99a.4.4 0 0 1 .4-.4h1.84a.4.4 0 0 1 0 .8H7.58a.4.4 0 0 1-.4-.4zm1.715 9.24a.394.394 0 1 1-.394-.394.394.394 0 0 1 .394.394z" />
+                                </svg>
+                                <p className="pl-[4px]">+52</p>
+                              </div>
+                              <input
+                                type="number"
+                                name="emergencyContactPhone"
+                                className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                placeholder="xxxxxxxxxx"
+                                {...register("emergencyContactPhone", {
+                                  required: {
+                                    value: true,
+                                    message: "El campo Celular es requerido",
+                                  },
+                                  minLength: {
+                                    value: 10,
+                                    message: "Mínimo 10 caracteres",
+                                  },
+                                  maxLength: {
+                                    value: 10,
+                                    message: "Máximo 10 caracteres",
+                                  },
+                                  pattern: {
+                                    value: /^[0-9]{1,10}$/,
+                                    message: "Número inválido",
+                                  },
+                                })}
+                              />
+                            </div>
+                            {errors.emergencyContactPhone && (
+                              <span className="text-red-500">
+                                {errors.emergencyContactPhone.message}
+                              </span>
+                            )}
+                          </div>
+                          <div className=" w-full">
+                            <label
+                              forlabel="emergencyContactRelationship"
+                              className="block mb-2 text-lg font-medium"
+                            >
+                              Parentesco:
+                            </label>
+                            <select
+                              id="emergencyContactRelationship"
+                              className="rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                              {...register("emergencyContactRelationship", {
+                                required: {
+                                  value: true,
+                                  message: "Selecciona un campo",
+                                },
+                              })}
+                            >
+                              <option value="">Seleccionar</option>
+                              <option value="Primo/a">Primo/a</option>
+                              <option value="Hermano/a">Hermano/a</option>
+                              <option value="Tío/a">Tío/a</option>
+                              <option value="Mamá">Mamá</option>
+                              <option value="Papá">Papá</option>
+                              <option value="Amigo/a">Amigo/a</option>
+                              <option value="Otro">Otro</option>
+                            </select>
+                            {errors.emergencyContactRelationship && (
+                              <span className="text-red-500">
+                                {errors.emergencyContactRelationship.message}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="pt-6 flex justify-between items-center gap-[32px]">
-                    <Link
-                      href="/"
-                      type="button"
-                      className="px-6 py-3 text-center w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold  sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0 hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
-                    >
-                      Cancelar
-                    </Link>
-                    <button
-                      type="submit"
-                      className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg"
-                    >
-                      Ingresar
-                    </button>
-                  </div>
-                </form>
+                    <div className="pt-6 flex justify-between items-center gap-[32px]">
+                      <Link
+                        href="/"
+                        type="button"
+                        className="px-6 py-3 text-center w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold  sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0 hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
+                      >
+                        Cancelar
+                      </Link>
+                      <button
+                        type="submit"
+                        className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg"
+                      >
+                        Ingresar
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </>
-    }
+        </>
+      )}
     </main>
   );
 }
