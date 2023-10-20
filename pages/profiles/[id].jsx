@@ -6,6 +6,7 @@ import { Button, Rating } from "@mui/material";
 
 import ReviewCard from "@/components/ReviewCard";
 import BookingCard from "@/components/BookingCard";
+import NewHouseCard from "@/components/NewHouseCard";
 import PetsSection from "@/components/PetsSection";
 import HomeSection from "@/components/HomeSection";
 
@@ -153,9 +154,11 @@ export default function ClientProfile() {
                 {userData?.type === "client" ? (
                   <PetsSection data={userData.pets} idMatch={idMatch} />
                 ) : null}
-                {userData?.type === "host" ? (
+                {userData?.type === "host" && userData.accommodation ? (
                   <HomeSection homeData={userData.accommodation} />
-                ) : null}
+                ) : (
+                  <NewHouseCard />
+                )}
               </div>
             </div>
             <div

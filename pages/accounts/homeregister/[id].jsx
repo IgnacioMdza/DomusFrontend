@@ -111,7 +111,6 @@ export default function HomeRegister() {
     isNaN(price4) ? (price4 = num) : price4;
 
     const dataObject = {
-      picture: images,
       hosting: {
         amount: data.amount,
         dog: {
@@ -134,7 +133,7 @@ export default function HomeRegister() {
         },
       },
       description:
-        data.description === "" ? (data.description = "N/D") : data.description,
+        data.description === "" ? (data.description = "N/A") : data.description,
       checkIn: data.checkIn,
       checkOut: data.checkOut,
       amenities: ListAmenities,
@@ -158,6 +157,42 @@ export default function HomeRegister() {
       },
     };
     console.log(dataObject);
+    if (images.length === 0) return;
+    const formData = new FormData();
+    formData.append("data", dataObject);
+    formData.append("folder", "accommodations");
+    images.forEach((image, index) => {
+      formData.append(`image_${index}`, image);
+    });
+
+    fetch(
+      `${urlFetch}/accommodation/${JSON.parse(atob(token.split(".")[1])).id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.success) {
+          toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
+          setTimeout(
+            () =>
+              router.push(
+                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+              ),
+            2000
+          );
+        } else {
+          toast.error("Error al crear el alojamiento");
+        }
+      })
+      .catch(() => {
+        alert("falló el fetch");
+      });
   };
 
   // useEffect(() => {
@@ -423,7 +458,7 @@ export default function HomeRegister() {
                               <div className="flex " key={imagen.index}>
                                 <div className="">
                                   <button
-                                    className="position-absolute px-2 text-white bg-[#FF6868] mt-4"
+                                    className="position-absolute px-2 mb-2 text-white bg-[#FF6868] mt-4"
                                     onClick={deleteImg.bind(this, imagen.index)}
                                   >
                                     x
@@ -446,8 +481,8 @@ export default function HomeRegister() {
                       <div className="md:w-full">
                         <div className=" my-5 text-lg font-medium">
                           <h4>
-                            Qué tipo de mascotas recibirás en tu alojamiento
-                            (puede ser más de uno)?:
+                            ¿Qué tipo de mascotas recibirás en tu alojamiento?
+                            <small>{` (Pueden ser ambos)`}</small>:
                           </h4>
                           <div className="flex justify-start items-center gap-3 pt-4">
                             <div className="flex items-center">
@@ -482,7 +517,12 @@ export default function HomeRegister() {
                           </div>
                         </div>
                         <div className=" my-5 text-lg font-medium">
-                          <h4>Tamaño (puede ser más de uno):</h4>
+                          <h4>
+                            Tamaño{" "}
+                            <small>{` (Puede ser más de uno. Los gatos son tamaño
+                            chico por default)`}</small>
+                            :
+                          </h4>
                           <div className="flex justify-start items-center gap-3 pt-4">
                             <div className="flex items-center">
                               <label htmlFor="" className="mr-2 ">
@@ -526,7 +566,7 @@ export default function HomeRegister() {
                             forlabel="lastName"
                             className="block mb-2 text-lg font-medium"
                           >
-                            Cuántas mascotas podrías cuidar simultáneamente?:
+                            ¿Cuántas mascotas podrías cuidar simultáneamente?:
                           </label>
                           <select
                             className="rounded-lg w-full p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
@@ -646,7 +686,7 @@ export default function HomeRegister() {
                               htmlFor="message"
                               className="block mb-2 text-lg font-medium"
                             >
-                              Habitan mascotas en el sitio?
+                              ¿Habitan mascotas en el sitio?
                             </label>
                             <div className="flex justify-center items-center gap-1 mb-2 pl-10">
                               <p>Marcar</p>
@@ -663,12 +703,12 @@ export default function HomeRegister() {
                             id="message"
                             rows="6"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            placeholder="100 - 200 caracteres. -¿Cuál es su temperamento? -¿Qué le gusta hacer? -¿Se lleva bien con otros animales?"
+                            placeholder={`- ¿Cómo es su temperamento?\n- ¿Qué le gusta hacer?\n- ¿Se lleva bien con otros animales?\n30 - 200 caracteres.`}
                             disabled={!textareaActive}
                             {...register("description", {
                               minLength: {
-                                value: 100,
-                                message: "Mínimo 100 caracteres",
+                                value: 30,
+                                message: "Mínimo 30 caracteres",
                               },
                               maxLength: {
                                 value: 200,
@@ -687,30 +727,24 @@ export default function HomeRegister() {
                             htmlFor="message"
                             className="block mb-2 text-lg font-medium"
                           >
-                            Amenidades:
+                            Amenidades
                             <small>
                               {" "}
-                              (Separa tu amenidad con un punto al final.)
+                              (Separa tus amenidades con un punto al final de
+                              cada una)
                             </small>
+                            :
                           </label>
 
                           <textarea
                             id="message"
                             rows="6"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            placeholder="Describe las particularidades que hacen de tu alojamiento un lugar ideal para las mascotas (jardin, etc...)"
+                            placeholder={`Describe las particularidades que hacen de tu alojamiento un lugar ideal para las mascotas.\n\nEjemplo:\nTengo un patio amplio. La casa tiene doble puerta por lo que estarán muy seguros. Dormirá en un colchón para mascotas. Etc.`}
                             {...register("amenities", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
-                              },
-                              minLength: {
-                                value: 100,
-                                message: "Mínimo 100 caracteres",
-                              },
-                              maxLength: {
-                                value: 200,
-                                message: "Máximo 200 caracteres",
                               },
                             })}
                           ></textarea>
@@ -725,30 +759,24 @@ export default function HomeRegister() {
                             htmlFor="message"
                             className="block mb-2 text-lg font-medium"
                           >
-                            Restricciones:
+                            Restricciones
                             <small>
                               {" "}
-                              (Separa tu restricción con un punto al final.)
+                              (Separa tus restricciones con un punto al final de
+                              cada una)
                             </small>
+                            :
                           </label>
 
                           <textarea
                             id="message"
                             rows="6"
                             className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                            placeholder="Describe las limitaciones que tendrán las mascotas hospedadas en tu alojamiento."
+                            placeholder={`Describe las limitaciones que tendrán las mascotas hospedadas en tu alojamiento.\n\nEjemplo:\nNo se pueden subir a los muebles. No podré pasearlos por la cantidad de mascotas a los alrededores. Etc.`}
                             {...register("restrictions", {
                               required: {
                                 value: true,
                                 message: "El campo es requerido",
-                              },
-                              minLength: {
-                                value: 100,
-                                message: "Mínimo 100 caracteres",
-                              },
-                              maxLength: {
-                                value: 200,
-                                message: "Máximo 200 caracteres",
                               },
                             })}
                           ></textarea>
@@ -1025,15 +1053,13 @@ export default function HomeRegister() {
                             <textarea
                               rows="6"
                               className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                              placeholder="Ejemplo. -¿Color de la casa? -¿Color de la puerta / portón? -¿Algún negocio cercano?"
+                              placeholder={
+                                "Ejemplo:\n- ¿Color de la casa?\n- ¿Color de la puerta / portón?\n- ¿Algún negocio cercano?"
+                              }
                               {...register("references", {
                                 required: {
                                   value: true,
                                   message: "El campo es requerido",
-                                },
-                                minLength: {
-                                  value: 100,
-                                  message: "Mínimo 100 caracteres",
                                 },
                                 maxLength: {
                                   value: 200,
