@@ -71,23 +71,24 @@ export default function HomeRegister() {
   const [check5, setCheck5] = useState(false);
 
   const onSubmit = (data) => {
-    // const amenities = data.amenities;
-    // const stringAmenities = amenities.replace(/ /g, "");
-    // const ListAmenities = stringAmenities.split(".");
-
-    // const restrictions = data.restrictions;
-    // const stringRestrictions = restrictions.replace(/ /g, "");
-    // const ListRestrictions = stringRestrictions.split(".");
-
     const amenities = data.amenities;
     const stringAmenities = amenities.split(".");
     const ListAmenities = stringAmenities.map((p) => p.trim());
+    const clearAmenidades = ListAmenities.filter(Boolean);
+    const arrayAmenidades = clearAmenidades.map((clear) =>
+      clear.replace(/(\r\n|\n|\r)/gm, "")
+    );
 
-    const restrictions = data.amenities;
+    const restrictions = data.restrictions;
     const stringRestrictions = restrictions.split(".");
     const ListRestrictions = stringRestrictions.map((p) => p.trim());
+    const clearRestrictions = ListRestrictions.filter(Boolean);
+    const arrayRestrictions = clearRestrictions.map((clear) =>
+      clear.replace(/(\r\n|\n|\r)/gm, "")
+    );
 
     let clabe = parseInt(data.clabe);
+    let amount = parseInt(data.amount);
     let externalNumber = parseInt(data.externalNumber);
     let internalNumber = parseInt(data.internalNumber);
     let postalCode = parseInt(data.postalCode);
@@ -103,7 +104,7 @@ export default function HomeRegister() {
     isNaN(internalNumber) ? (internalNumber = num) : internalNumber;
     isNaN(postalCode) ? (postalCode = num) : postalCode;
     isNaN(number) ? (number = num) : number;
-    isNaN(clabe) ? (clabe = num) : clabe;
+    isNaN(amount) ? (amount = num) : amount;
 
     isNaN(price1) ? (price1 = num) : price1;
     isNaN(price2) ? (price2 = num) : price2;
@@ -112,7 +113,7 @@ export default function HomeRegister() {
 
     const dataObject = {
       hosting: {
-        amount: data.amount,
+        amount: amount,
         dog: {
           small: {
             isHosted: check,
@@ -132,12 +133,13 @@ export default function HomeRegister() {
           price: price4,
         },
       },
+      hasPet: textareaActive,
       description:
         data.description === "" ? (data.description = "N/A") : data.description,
       checkIn: data.checkIn,
       checkOut: data.checkOut,
-      amenities: ListAmenities,
-      restrictions: ListRestrictions,
+      amenities: arrayAmenidades,
+      restrictions: arrayRestrictions,
       address: {
         street: data.street,
         externalNumber: externalNumber,
