@@ -5,6 +5,7 @@ import component from "/public/images/seccion_beneficios_1.png";
 import check from "/public/icons/check.png";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -23,6 +24,9 @@ export default function Home() {
   }, []);
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px]">
+      <Head>
+        <title>Domus - Inicio</title>
+      </Head>
       <section
         id="hero"
         className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
@@ -132,25 +136,26 @@ export default function Home() {
             className="lg:px-[16px] object-cover w-full max-w-[1260px] mb-[16px] sm:mb-[28px] lg:absolute lg:m-auto top-0 bottom-0 start-0 end-0 z-0 max-h-full"
           ></Image>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px] sm:gap-[28px] lg:gap-[40px]">
-            {reviews && reviews.map((item, index) => {
-              return (
-                <ReviewCard
-                  key={index}
-                  authorImage={item.sender.picture}
-                  authorName={`${item.sender.name} ${item.sender.lastname}`}
-                  reviewDate={item.date
-                    .split("T")[0]
-                    .split("-")
-                    .reverse()
-                    .join("/")}
-                  value={item.rate}
-                  review={item.comment}
-                  anfitrionName={`${item.receiver.name} ${item.receiver.lastname}`}
-                  renderReceiver={true}
-                  cardNumber={index + 1}
-                />
-              );
-            })}
+            {reviews &&
+              reviews.map((item, index) => {
+                return (
+                  <ReviewCard
+                    key={index}
+                    authorImage={item.sender.picture}
+                    authorName={`${item.sender.name} ${item.sender.lastname}`}
+                    reviewDate={item.date
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                    value={item.rate}
+                    review={item.comment}
+                    anfitrionName={`${item.receiver.name} ${item.receiver.lastname}`}
+                    renderReceiver={true}
+                    cardNumber={index + 1}
+                  />
+                );
+              })}
           </div>
         </div>
       </section>

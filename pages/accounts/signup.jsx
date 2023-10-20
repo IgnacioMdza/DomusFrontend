@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -33,7 +34,10 @@ export default function Register() {
   };
 
   return (
-    <main className='mt-[90px] px-[16px] sm:pt-[40px] sm:pb-[40px] pt-[20px] pb-[20px] min-h-[calc(100vh-90px)]'>
+    <main className="mt-[90px] px-[16px] sm:pt-[40px] sm:pb-[40px] pt-[20px] pb-[20px] min-h-[calc(100vh-90px)]">
+      <Head>
+        <title>Domus - Regístrate</title>
+      </Head>
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
         <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[20px] sm:rounded-b-[24px]">
           <div className="flex justify-center">
@@ -82,7 +86,7 @@ export default function Register() {
             </svg>
           </div>
           <p className="text-[32px] sm:text-[36px] font-[Raleway] font-semibold">
-            Registrate en
+            Regístrate en
           </p>
           <p className=" font-bold text-[36px] font-[Raleway] sm:text-[40px] ">
             Domus.com.mx
@@ -93,7 +97,10 @@ export default function Register() {
           className="px-4 sm:px-10 pb-[16px] pt-[40px] sm:pt-[48px] font-[Nunito] font-medium"
         >
           <div className="pb-4">
-            <label forlabel="NickName" className="block mb-2 text-lg font-medium">
+            <label
+              forlabel="NickName"
+              className="block mb-2 text-lg font-medium"
+            >
               Nickname:
             </label>
             <div className="relative">
@@ -205,7 +212,10 @@ export default function Register() {
             )}
           </div> */}
           <div>
-            <label forlabel="password" className="block mb-2 text-lg font-medium">
+            <label
+              forlabel="password"
+              className="block mb-2 text-lg font-medium"
+            >
               Contraseña:
             </label>
             <div className="relative">
@@ -262,9 +272,9 @@ export default function Register() {
                 className=" rounded-lg w-full pl-10 p-3 border-[1px] border-slate-200 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
                 placeholder="Ingresa tu Contraseña"
                 {...register("password_repeat", {
-                  required:{
+                  required: {
                     value: true,
-                    message: 'El campo password es requerido'
+                    message: "El campo password es requerido",
                   },
                   validate: (value) =>
                     value === password.current || "La contraseña no coincide",
@@ -278,7 +288,9 @@ export default function Register() {
             )}
           </div>
           <div>
-            <label className="block  text-lg font-medium">Registrarse como:</label>
+            <label className="block  text-lg font-medium">
+              Registrarse como:
+            </label>
             <div className="flex justify-center items-center gap-[48px] pt-2">
               <div className="flex items-center">
                 <label htmlFor="default-radio-1" className="mr-2">
@@ -296,7 +308,7 @@ export default function Register() {
                     },
                   })}
                 />
-              </div>          
+              </div>
               <div className="flex items-center">
                 <label htmlFor="default-radio-1" className="mr-2 ">
                   Anfitrión
@@ -317,8 +329,8 @@ export default function Register() {
             </div>
           </div>
           {errors.radio && (
-              <p className="text-red-500">{errors.radio.message}</p>
-            )}
+            <p className="text-red-500">{errors.radio.message}</p>
+          )}
           <div className="pt-[40px] sm:pt-[48px] text-center">
             <button
               type="submit"

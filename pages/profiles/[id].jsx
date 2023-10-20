@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button, Rating } from "@mui/material";
@@ -73,8 +74,14 @@ export default function ClientProfile() {
         pauseOnHover
         theme="dark"
       />
+      <Head>
+        <title>{`Domus - Perfil`}</title>
+      </Head>
       {userData && userData.isInfoCompleted && (
         <>
+          <Head>
+            <title>{`Domus - Perfil ${userData.name}`}</title>
+          </Head>
           <section
             id="top"
             className="items-start flex flex-col lg:flex-row gap-10"
