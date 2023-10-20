@@ -73,7 +73,7 @@ export default function ClientProfile() {
         pauseOnHover
         theme="dark"
       />
-      {userData && (
+      {userData && userData.isInfoCompleted && (
         <>
           <section
             id="top"
