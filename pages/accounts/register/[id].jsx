@@ -688,7 +688,7 @@ export default function CompleteRegister() {
                         type="submit"
                         className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg"
                       >
-                        Ingresar
+                        Guardar
                       </button>
                     </div>
                   </form>

@@ -58,11 +58,11 @@ export default function Login() {
             <div className="px-2">
               <div className="flex justify-center ">
                 <Image
-                  src={"/images/huella-mobile.png"}
+                  src={"/images/huella-signin.png"}
                   alt="Huella Mobile"
                   height={200}
                   width={200}
-                  className="w-[100px] sm:w-[150px]"
+                  className="w-[100px] sm:w-[160px]"
                 ></Image>
               </div>
               <div className="sm:pb-10">
