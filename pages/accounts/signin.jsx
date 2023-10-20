@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,7 +10,7 @@ import { useRouter } from "next/router";
 
 export default function Login() {
   const [user, setUser] = useState({});
-  const router = useRouter()
+  const router = useRouter();
 
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -47,6 +48,9 @@ export default function Login() {
 
   return (
     <main className="min-h-[calc(100vh-90px)] flex mt-[90px] p-[20px]">
+      <Head>
+        <title>Domus - Inicia Sesión</title>
+      </Head>
       <ToastContainer />
       <div className="w-full m-auto rounded-xl max-w-[400px] sm:max-w-[580px] md:max-w-[620px] lg:max-w-[700px] sm:px-0 sm:flex sm:items-center sm:justify-center">
         <div className="sm:flex lg:w-full bg-white shadow-xl px-0 sm:py-0 rounded-xl">
@@ -58,12 +62,15 @@ export default function Login() {
                   alt="Huella Mobile"
                   height={200}
                   width={200}
-                  className='w-[100px] sm:w-[150px]'
+                  className="w-[100px] sm:w-[150px]"
                 ></Image>
               </div>
               <div className="sm:pb-10">
                 <h1 className="text-3xl sm:text-4xl font-normal sm:font-medium text-center border-y-[1px] border-[#E91E63] sm:border-white py-[12px] mt-8 text-[#FF6868] sm:text-white font-[Raleway]">
-                  Bienvenido a <span className="text-[#FF6868] sm:text-[#E91E63] font-semibold sm:font-bold">DOMUS</span>
+                  Bienvenido a{" "}
+                  <span className="text-[#FF6868] sm:text-[#E91E63] font-semibold sm:font-bold">
+                    DOMUS
+                  </span>
                 </h1>
               </div>
             </div>

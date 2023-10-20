@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import BookingBlogDropdownMenu from "@/components/BookingBlogDropdownMenu";
 import BookingBlogNavMenu from "@/components/BookingBlogNavMenu";
 import { messagesData } from "@/data/messagesData";
@@ -84,6 +85,9 @@ export default function Chat() {
 
   return (
     <main className="h-screen">
+      <Head>
+        <title>{`Bitácora - Communicación`}</title>
+      </Head>
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -113,8 +117,9 @@ export default function Chat() {
           <section className="max-w-[1024px] mx-auto lg:py-[12px] h-[calc(100%-224px)] md:h-[calc(100%-248px)] lg:h-[calc(100%-256px)]">
             <div className="bg-white h-full lg:rounded-xl p-[12px] md:p-[16px] flex flex-col gap-[16px]">
               <div className="h-4/5 bg-[#F2F2F2] rounded-md md:rounded-xl p-[12px] md:p-[16px] overflow-y-auto flex flex-col gap-[16px]">
-                {reservation.comments
-                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                {
+                  reservation.comments
+                  .sort((a, b) => new Date(a.date) - new Date(b.date))
                   .map((item, index) => {
                     return (
                       <>
@@ -138,11 +143,13 @@ export default function Chat() {
                                 <p className="text-[#F2F2F2] font-[nunito]">
                                   {item.message}
                                 </p>
-                                {index === 0 && (
-                                  <p className="text-[#66d43e] text-[12px] text-center border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full">
-                                    Mensaje más reciente
-                                  </p>
-                                )}
+                                {
+                                  index === (reservation.comments.length - 1) && (
+                                    <p className="text-[#66d43e] text-[10px] text-center border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full">
+                                      Mensaje más reciente
+                                    </p>
+                                  )
+                                }
                               </div>
                             </>
                           ) : (
@@ -164,18 +171,21 @@ export default function Chat() {
                                 <p className="text-[#F2F2F2] font-[nunito]">
                                   {item.message}
                                 </p>
-                                {index === 0 && (
-                                  <p className="text-[#66d43e] text-[12px] border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full">
-                                    Mensaje más reciente
-                                  </p>
-                                )}
+                                {
+                                  index === (reservation.comments.length - 1) && (
+                                    <p className="text-[#66d43e] text-[12px] border-[1px] border-[#66d43e] px-[12px] py-[2px] rounded-full">
+                                      Mensaje más reciente
+                                    </p>
+                                  )
+                                }
                               </div>
                             </>
                           )}
                         </div>
                       </>
                     );
-                  })}
+                  })
+                }
               </div>
               <form
                 className="h-1/5 flex gap-[16px] items-center"

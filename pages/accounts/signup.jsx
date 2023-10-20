@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -39,6 +40,9 @@ export default function Register() {
 
   return (
     <main className="mt-[90px] px-[16px] sm:pt-[40px] sm:pb-[40px] pt-[20px] pb-[20px] min-h-[calc(100vh-90px)]">
+      <Head>
+        <title>Domus - Regístrate</title>
+      </Head>
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
         <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[20px] sm:rounded-b-[24px]">
           <div className="flex justify-center">
@@ -87,7 +91,7 @@ export default function Register() {
             </svg>
           </div>
           <p className="text-[32px] sm:text-[36px] font-[Raleway] font-semibold">
-            Registrate en
+            Regístrate en
           </p>
           <p className=" font-bold text-[36px] font-[Raleway] sm:text-[40px] ">
             Domus.com.mx

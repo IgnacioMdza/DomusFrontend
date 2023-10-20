@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +30,7 @@ export default function PetRegister() {
       router.push("/");
       return;
     }
-    if(pathId && token){
+    if (pathId && token) {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       const pathId = router.query.id;
       if (tokenInfo.id != pathId || tokenInfo.userType != "client") {
@@ -37,7 +38,7 @@ export default function PetRegister() {
       } else {
         setToken(token);
       }
-    } 
+    }
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
@@ -88,6 +89,9 @@ export default function PetRegister() {
     <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]"></main>
   ) : (
     <main className="mt-[110px] md:mt-32 min-h-[calc(100vh-90px)]">
+      <Head>
+        <title>Domus - Registra tu Mascota</title>
+      </Head>
       <ToastContainer
         position="top-center"
         autoClose={5000}

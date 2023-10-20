@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { BrowserView, MobileView, isBrowser, isMobile, browserName } from 'react-device-detect';
 import Mobile from "/public/icons/mobile.svg";
 
-export default function CameraForModal({onClose}){
+export default function CameraForModal({onClose, reservation}){
     const [image, setImage] = useState(null)
     const handleFileInput = useRef(null)
 
@@ -57,19 +57,32 @@ export default function CameraForModal({onClose}){
             <div className='p-[20px] md:p-[16px] w-[342px] h-fit flex flex-col gap-[8px] bg-white rounded-2xl overflow-auto'>
                 <div className='flex w-full justify-between h-fit'>
                     <h1 className='text-[32px] font-[Raleway] font-semibold text-[#2B2E4A]'>Cámara</h1>
-                    <button className='group text-xl flex text-[20px] font-[nunito] h-full md:py-[8px] items-center my-auto gap-[6px] text-[#2B2E4A]' onClick={() => onClose()
-                    }><XMark className='fill-[#2B2E4A] group-hover:fill-[#FF7068] w-[32px] h-[32px] transition'/></button>
+                    <button 
+                        className='group text-xl flex text-[20px] font-[nunito] h-full md:py-[8px] items-center my-auto gap-[6px] text-[#2B2E4A]' 
+                        onClick={() => onClose()}
+                    >
+                        <XMark className='fill-[#2B2E4A] group-hover:fill-[#FF7068] w-[32px] h-[32px] transition'/>
+                    </button>
                 </div>
-                {(isBrowser || browserName === 'Brave') &&
+                {
+                    (isBrowser || browserName === 'Brave') &&
                     <div className='border border-[#2B2E4A] rounded-xl p-[20px]'>
                         <Mobile className='w-[32px] h-[32px] fill-[#2B2E4A] mx-auto mb-[20px]'/>
-                        <p className="max-w-[300px] text-center text-[16px] text-[#2B2E4A] rounded-xl">Ingresa desde tu celular (O en su caso, a un navegador distinto a Brave) para capturar las fotografías de evidencia.</p>
+                        <p className="max-w-[300px] text-center text-[16px] text-[#2B2E4A] rounded-xl">
+                            Ingresa desde tu celular (O en su caso, a un navegador distinto a Brave) para capturar las fotografías de evidencia.
+                        </p>
                     </div>
                 }
-                {isMobile && browserName !== 'Brave' &&
+                {
+                    isMobile && browserName !== 'Brave' &&
                     <div className='flex flex-col gap-[8px] items-center'>
                         <h1>{browserName}</h1>
-                        <button onClick={handleClick} className='text-[16px] text-[#2B2E4A] border border-[#2B2E4A] bg-[#F2F2F2] w-full p-[8px] active:bg-[#2B2E4A] active:text-[#F2F2F2] rounded-xl transition'>Capturar fotografía</button>
+                        <button 
+                            onClick={handleClick} 
+                            className='text-[16px] text-[#2B2E4A] border border-[#2B2E4A] bg-[#F2F2F2] w-full p-[8px] active:bg-[#2B2E4A] active:text-[#F2F2F2] rounded-xl transition'
+                        >
+                            Capturar fotografía
+                        </button>
                         <label>
                             <input
                             style={{ display: "none" }}
@@ -81,10 +94,16 @@ export default function CameraForModal({onClose}){
                             />
                         </label>
                         {/* {imageObject && <img src={imageObject.imagePreview} />} */}
-                        {image && 
+                        {
+                            image && 
                             <div className='flex flex-col items-center border border-[#2B2E4A] rounded-xl'>
                                 <img src={URL.createObjectURL(image)} alt="upload image" className="rounded-t-xl w-[300px] h-[400px] object-cover"/>
-                                <button className='text-center text-[#2B2E4A] text-[16px] p-[8px] bg-[#F2F2F2] w-full rounded-b-xl active:bg-[#2B2E4A] active:text-[#F2F2F2] transition'>Subir fotografía</button>
+                                <button 
+                                    onClick={''}
+                                    className='text-center text-[#2B2E4A] text-[16px] p-[8px] bg-[#F2F2F2] w-full rounded-b-xl active:bg-[#2B2E4A] active:text-[#F2F2F2] transition'
+                                >
+                                    Subir fotografía
+                                </button>
                             </div>
                         }
                     </div>
