@@ -45,7 +45,7 @@ export default function DayEvidence(props) {
     <card>
       <div className="bg-white rounded-[10px] mb-8 shadow-lg">
         <button
-          className="bg-[#2B2E4A] rounded-[10px] w-full py-3 px-6 flex items-center justify-between mb-10"
+          className="bg-[#2B2E4A] rounded-[10px] w-full py-3 px-6 flex items-center justify-between mb-10 hover:bg-[#222438] transition duration-500"
           onClick={DropDown}
         >
           <div className="flex gap-[12px] md:gap-6 items-center">
@@ -83,7 +83,10 @@ export default function DayEvidence(props) {
                 "flex flex-col p-[16px] md:py-[20px] md:px-[14px] bg-[#F2F2F2] border border-[#ab3131] items-center gap-3 rounded-[10px]"}
               `}
             >
-              <button className="w-[125px] h-[125px] sm:w-[160px] sm:h-[160px] flex justify-center items-center bg-white rounded-[10px] shadow-lg" onClick={() => setShowModal1(true)}>
+              <button 
+                className="w-[125px] h-[125px] sm:w-[160px] sm:h-[160px] flex justify-center items-center bg-white rounded-[10px] shadow-lg" 
+                onClick={() => setShowModal1(true)}
+              >
                 {props.evidencePerDay.first.url === "" 
                 ?
                   <p className='text-[16px]'>N / A</p>
@@ -113,7 +116,10 @@ export default function DayEvidence(props) {
               }
             </div>
             <Modal isVisible={showModal1} onClose={() => setShowModal1(false)}>
-              <PhotoForModal onClose={() => setShowModal1(false)} photo={props.evidencePerDay.first}/>
+              <PhotoForModal 
+                onClose={() => setShowModal1(false)} 
+                photo={props.evidencePerDay.first}
+              />
             </Modal>
           </div>
           <div className="w-[150px] sm:w-[220px] md:w-[200px] lg:w-[220px] m-auto">
@@ -130,7 +136,10 @@ export default function DayEvidence(props) {
                 "flex flex-col p-[16px] md:py-[20px] md:px-[14px] bg-[#F2F2F2] border border-[#ab3131] items-center gap-3 rounded-[10px]"}
               `}
             >
-              <button className="w-[125px] h-[125px] sm:w-[160px] sm:h-[160px] flex justify-center items-center bg-white rounded-[10px] shadow-lg" onClick={() => setShowModal2(true)}>
+              <button 
+                className="w-[125px] h-[125px] sm:w-[160px] sm:h-[160px] flex justify-center items-center bg-white rounded-[10px] shadow-lg" 
+                onClick={() => setShowModal2(true)}
+              >
                 {props.evidencePerDay.second.url === "" 
                 ?
                   <p className='text-[16px]'>N / A</p>
@@ -160,7 +169,10 @@ export default function DayEvidence(props) {
               }
             </div>
             <Modal isVisible={showModal2} onClose={() => setShowModal2(false)}>
-              <PhotoForModal onClose={() => setShowModal2(false)} photo={props.evidencePerDay.second}/>
+              <PhotoForModal 
+                onClose={() => setShowModal2(false)} 
+                photo={props.evidencePerDay.second}
+              />
             </Modal>
           </div>
           <div className="col-span-2 md:col-span-1 w-[150px] sm:w-[220px] md:w-[200px] lg:w-[220px] m-auto">
@@ -177,8 +189,12 @@ export default function DayEvidence(props) {
                 "flex flex-col p-[16px] md:py-[20px] md:px-[14px] bg-[#F2F2F2] border border-[#ab3131] items-center gap-3 rounded-[10px]"}
               `}
             >
-              <button className="w-[125px] h-[125px] sm:w-[160px] sm:h-[160px] flex justify-center items-center bg-white rounded-[10px] shadow-lg" onClick={() => setShowModal3(true)}>
-                {props.evidencePerDay.third.url === "" 
+              <button 
+                className="w-[125px] h-[125px] sm:w-[160px] sm:h-[160px] flex justify-center items-center bg-white rounded-[10px] shadow-lg" 
+                onClick={() => setShowModal3(true)}
+              >
+                {
+                props.evidencePerDay.third.url === "" 
                 ?
                   <p className='text-[16px]'>N / A</p>
                 : 
@@ -207,7 +223,10 @@ export default function DayEvidence(props) {
               }
             </div>
             <Modal isVisible={showModal3} onClose={() => setShowModal3(false)}>
-              <PhotoForModal onClose={() => setShowModal3(false)} photo={props.evidencePerDay.third}/>
+              <PhotoForModal 
+                onClose={() => setShowModal3(false)} 
+                photo={props.evidencePerDay.third}
+              />
             </Modal>
           </div>
         </div>
