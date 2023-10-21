@@ -4,6 +4,8 @@ import Link from "next/link";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Register() {
   const { user, setUser } = useState();
@@ -33,7 +35,13 @@ export default function Register() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        if (res.success) {
+          toast.success("Usuario creado con éxito", { autoClose: 2000 });
+          setTimeout(() => router.push(`/accounts/signin`), 2000);
+        } else {
+          toast.error(res.message), { autoClose: 2000 };
+          setTimeout(() => router.push(`/accounts/signin`), 4000);
+        }
         // if (res.success) router.push("/accounts/confirm");
       });
   };
@@ -43,6 +51,18 @@ export default function Register() {
       <Head>
         <title>Domus - Regístrate</title>
       </Head>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
         <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[20px] sm:rounded-b-[24px]">
           <div className="flex justify-center">

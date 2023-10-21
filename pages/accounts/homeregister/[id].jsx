@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import Head from "next/head";
 import { locations } from "@/data/locations";
 import { bank } from "@/data/bank";
 import { useRouter } from "next/router";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -134,8 +137,7 @@ export default function HomeRegister() {
         },
       },
       hasPet: textareaActive,
-      description:
-        data.description === "" ? (data.description = "N/A") : data.description,
+      description: data.description === "" ? "N/A" : "",
       checkIn: data.checkIn,
       checkOut: data.checkOut,
       amenities: arrayAmenidades,
@@ -159,9 +161,12 @@ export default function HomeRegister() {
       },
     };
     console.log(dataObject);
-    if (images.length === 0) return;
+    if (images.length === 0) {
+      toast.error("Tienes que cargar las imágenes!");
+      return;
+    }
     const formData = new FormData();
-    formData.append("data", dataObject);
+    formData.append("data", JSON.stringify(dataObject));
     formData.append("folder", "accommodations");
     images.forEach((image, index) => {
       formData.append(`image_${index}`, image);
@@ -181,19 +186,16 @@ export default function HomeRegister() {
       .then((response) => {
         if (response.success) {
           toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
-          setTimeout(
-            () =>
-              router.push(
-                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
-              ),
-            2000
-          );
+          // setTimeout(
+          //   () =>
+          //     router.push(
+          //       `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+          //     ),
+          //   2000
+          // );
         } else {
-          toast.error("Error al crear el alojamiento");
+          toast.error(`${response.message}`);
         }
-      })
-      .catch(() => {
-        alert("falló el fetch");
       });
   };
 
@@ -356,6 +358,21 @@ export default function HomeRegister() {
 
   return (
     <main className="min-h-[calc(100vh)]">
+      <Head>
+        <title>Domus - Registra tu Alojamiento</title>
+      </Head>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {token && user && (
         <>
           <div className="mt-32 mb-24">
