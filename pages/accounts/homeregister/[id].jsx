@@ -90,12 +90,10 @@ export default function HomeRegister() {
       clear.replace(/(\r\n|\n|\r)/gm, "")
     );
 
-    let clabe = parseInt(data.clabe);
     let amount = parseInt(data.amount);
     let externalNumber = parseInt(data.externalNumber);
     let internalNumber = parseInt(data.internalNumber);
     let postalCode = parseInt(data.postalCode);
-    let number = parseInt(data.number);
 
     let price1 = parseInt(data.price1);
     let price2 = parseInt(data.price2);
@@ -106,7 +104,7 @@ export default function HomeRegister() {
     isNaN(externalNumber) ? (externalNumber = num) : externalNumber;
     isNaN(internalNumber) ? (internalNumber = num) : internalNumber;
     isNaN(postalCode) ? (postalCode = num) : postalCode;
-    isNaN(number) ? (number = num) : number;
+
     isNaN(amount) ? (amount = num) : amount;
 
     isNaN(price1) ? (price1 = num) : price1;
@@ -115,6 +113,7 @@ export default function HomeRegister() {
     isNaN(price4) ? (price4 = num) : price4;
 
     const dataObject = {
+      owner: JSON.parse(atob(token.split(".")[1])).id,
       hosting: {
         amount: amount,
         dog: {
@@ -155,9 +154,9 @@ export default function HomeRegister() {
       },
       bankAccount: {
         name: data.name,
-        number: number,
+        number: data.number,
         bank: data.bank,
-        clabe: clabe,
+        clabe: data.clabe,
       },
     };
     console.log(dataObject);
@@ -597,12 +596,12 @@ export default function HomeRegister() {
                             })}
                           >
                             <option value="">--Selecciona un numero--</option>
-                            <option value="uno">1</option>
-                            <option value="dos">2</option>
-                            <option value="tres">3</option>
-                            <option value="cuatro">4</option>
-                            <option value="cinco">5</option>
-                            <option value="otro">otro</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            {/* <option value="otro">otro</option> */}
                           </select>
                           {errors.amount && (
                             <span className="text-red-500">
