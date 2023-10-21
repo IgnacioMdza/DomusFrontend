@@ -16,7 +16,7 @@ export default function Pets({ reservation }) {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       if (
         tokenInfo.id === reservation.data.client._id ||
-        tokenInfo.id === reservation.data.host._id
+        tokenInfo.id === reservation.data.host
       ) {
         setUser(tokenInfo);
       } else {

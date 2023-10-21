@@ -86,7 +86,11 @@ export default function PetRegister() {
   };
 
   return !token ? (
-    <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]"></main>
+    <main className="mt-[114px] mb-[24px] h-[calc(100vh-90px)]">
+      <Head>
+        <title>Domus - Registra tu Mascota</title>
+      </Head>
+    </main>
   ) : (
     <main className="mt-[110px] md:mt-32 min-h-[calc(100vh-90px)]">
       <Head>

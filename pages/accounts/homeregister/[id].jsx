@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import Head from "next/head";
 import { locations } from "@/data/locations";
 import { bank } from "@/data/bank";
 import { useRouter } from "next/router";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -87,12 +90,10 @@ export default function HomeRegister() {
       clear.replace(/(\r\n|\n|\r)/gm, "")
     );
 
-    let clabe = parseInt(data.clabe);
     let amount = parseInt(data.amount);
     let externalNumber = parseInt(data.externalNumber);
     let internalNumber = parseInt(data.internalNumber);
     let postalCode = parseInt(data.postalCode);
-    let number = parseInt(data.number);
 
     let price1 = parseInt(data.price1);
     let price2 = parseInt(data.price2);
@@ -103,7 +104,7 @@ export default function HomeRegister() {
     isNaN(externalNumber) ? (externalNumber = num) : externalNumber;
     isNaN(internalNumber) ? (internalNumber = num) : internalNumber;
     isNaN(postalCode) ? (postalCode = num) : postalCode;
-    isNaN(number) ? (number = num) : number;
+
     isNaN(amount) ? (amount = num) : amount;
 
     isNaN(price1) ? (price1 = num) : price1;
@@ -112,6 +113,7 @@ export default function HomeRegister() {
     isNaN(price4) ? (price4 = num) : price4;
 
     const dataObject = {
+      owner: JSON.parse(atob(token.split(".")[1])).id,
       hosting: {
         amount: amount,
         dog: {
@@ -134,8 +136,7 @@ export default function HomeRegister() {
         },
       },
       hasPet: textareaActive,
-      description:
-        data.description === "" ? (data.description = "N/A") : data.description,
+      description: data.description === "" ? "N/A" : "",
       checkIn: data.checkIn,
       checkOut: data.checkOut,
       amenities: arrayAmenidades,
@@ -153,15 +154,18 @@ export default function HomeRegister() {
       },
       bankAccount: {
         name: data.name,
-        number: number,
+        number: data.number,
         bank: data.bank,
-        clabe: clabe,
+        clabe: data.clabe,
       },
     };
     console.log(dataObject);
-    if (images.length === 0) return;
+    if (images.length === 0) {
+      toast.error("Tienes que cargar las imágenes!");
+      return;
+    }
     const formData = new FormData();
-    formData.append("data", dataObject);
+    formData.append("data", JSON.stringify(dataObject));
     formData.append("folder", "accommodations");
     images.forEach((image, index) => {
       formData.append(`image_${index}`, image);
@@ -181,19 +185,16 @@ export default function HomeRegister() {
       .then((response) => {
         if (response.success) {
           toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
-          setTimeout(
-            () =>
-              router.push(
-                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
-              ),
-            2000
-          );
+          // setTimeout(
+          //   () =>
+          //     router.push(
+          //       `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+          //     ),
+          //   2000
+          // );
         } else {
-          toast.error("Error al crear el alojamiento");
+          toast.error(`${response.message}`);
         }
-      })
-      .catch(() => {
-        alert("falló el fetch");
       });
   };
 
@@ -356,6 +357,21 @@ export default function HomeRegister() {
 
   return (
     <main className="min-h-[calc(100vh)]">
+      <Head>
+        <title>Domus - Registra tu Alojamiento</title>
+      </Head>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {token && user && (
         <>
           <div className="mt-32 mb-24">
@@ -580,12 +596,12 @@ export default function HomeRegister() {
                             })}
                           >
                             <option value="">--Selecciona un numero--</option>
-                            <option value="uno">1</option>
-                            <option value="dos">2</option>
-                            <option value="tres">3</option>
-                            <option value="cuatro">4</option>
-                            <option value="cinco">5</option>
-                            <option value="otro">otro</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            {/* <option value="otro">otro</option> */}
                           </select>
                           {errors.amount && (
                             <span className="text-red-500">
