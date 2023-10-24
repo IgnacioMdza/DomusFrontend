@@ -162,11 +162,13 @@ export default function ClientProfile() {
                   {userData?.type === "client" ? (
                     <PetsSection data={userData.pets} idMatch={idMatch} />
                   ) : null}
-                  {userData?.type === "host" && userData.accommodation ? (
-                    <HomeSection homeData={userData.accommodation} />
-                  ) : (
-                    <NewHouseCard />
-                  )}
+                  {userData?.type === "host" ? (
+                    userData.accommodation ? (
+                      <HomeSection homeData={userData.accommodation} />
+                    ) : (
+                      <NewHouseCard />
+                    )
+                  ) : null}
                 </div>
               </div>
               <div

@@ -18,10 +18,11 @@ export default function Register() {
   } = useForm();
   const router = useRouter();
   const password = useRef({});
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   password.current = watch("password", "");
 
   const onSubmit = (data) => {
-    fetch(`http://localhost:8080/users`, {
+    fetch(`${BASE_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
