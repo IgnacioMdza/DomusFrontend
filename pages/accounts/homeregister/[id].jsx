@@ -57,7 +57,24 @@ export default function HomeRegister() {
     }
   }, [router.query.id, router]);
 
-  const [images, setimages] = useState([]);
+  const [images, setImages] = useState([]);
+  const [currentFiles, setCurrentFiles] = useState([]);
+
+  useEffect(() => {
+    if (currentFiles) {
+      const newList = images;
+      for (const file of currentFiles) {
+        newList.push(file);
+      }
+      setImages(newList);
+    }
+    setCurrentFiles(null);
+  }, [images, currentFiles]);
+
+  const deleteFileFromList = (index) => {
+    images.splice(index, 1);
+    setImages([...images]);
+  };
 
   const [isOpen, setIsOpen] = useState([]);
   const [isOpenCheck, setIsOpenCheck] = useState([]);
@@ -136,7 +153,7 @@ export default function HomeRegister() {
         },
       },
       hasPet: textareaActive,
-      description: data.description === "" ? "N/A" : "",
+      description: data.description === "" || !textareaActive ? "N/A" : "",
       checkIn: data.checkIn,
       checkOut: data.checkOut,
       amenities: arrayAmenidades,
@@ -154,7 +171,7 @@ export default function HomeRegister() {
       },
       bankAccount: {
         name: data.name,
-        number: data.number,
+        number: parseInt(data.number),
         bank: data.bank,
         clabe: data.clabe,
       },
@@ -185,6 +202,7 @@ export default function HomeRegister() {
       .then((response) => {
         if (response.success) {
           toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
+          console.log("api resp -->", response);
           // setTimeout(
           //   () =>
           //     router.push(
@@ -301,59 +319,59 @@ export default function HomeRegister() {
     }
   };
 
-  const changeInput = (e) => {
-    //esto es el indice que se le dará a cada imagen, a partir del indice de la ultima foto
-    let indexImg;
+  // const changeInput = (e) => {
+  //   //esto es el indice que se le dará a cada imagen, a partir del indice de la ultima foto
+  //   let indexImg;
 
-    //aquí evaluamos si ya hay imagenes antes de este input, para saber en dónde debe empezar el index del proximo array
-    if (images.length > 0) {
-      indexImg = images[images.length - 1].index + 1;
-    } else {
-      indexImg = 0;
-    }
+  //   //aquí evaluamos si ya hay imagenes antes de este input, para saber en dónde debe empezar el index del proximo array
+  //   if (images.length > 0) {
+  //     indexImg = images[images.length - 1].index + 1;
+  //   } else {
+  //     indexImg = 0;
+  //   }
 
-    let newImgsToState = readmultifiles(e, indexImg);
-    let newImgsState = [...images, ...newImgsToState];
-    setimages(newImgsState);
+  //   let newImgsToState = readmultifiles(e, indexImg);
+  //   let newImgsState = [...images, ...newImgsToState];
+  //   setimages(newImgsState);
 
-    console.log(newImgsState);
-  };
+  //   console.log(newImgsState);
+  // };
 
-  function readmultifiles(e, indexInicial) {
-    const files = e.currentTarget.files;
+  // function readmultifiles(e, indexInicial) {
+  //   const files = e.currentTarget.files;
 
-    //el array con las imagenes nuevas
-    const arrayImages = [];
+  //   //el array con las imagenes nuevas
+  //   const arrayImages = [];
 
-    Object.keys(files).forEach((i) => {
-      const file = files[i];
+  //   Object.keys(files).forEach((i) => {
+  //     const file = files[i];
 
-      let url = URL.createObjectURL(file);
+  //     let url = URL.createObjectURL(file);
 
-      //console.log(file);
-      arrayImages.push({
-        index: indexInicial,
-        name: file.name,
-        url,
-        file,
-      });
+  //     //console.log(file);
+  //     arrayImages.push({
+  //       index: indexInicial,
+  //       name: file.name,
+  //       url,
+  //       file,
+  //     });
 
-      indexInicial++;
-    });
+  //     indexInicial++;
+  //   });
 
-    //despues de haber concluido el ciclo retornamos las nuevas imagenes
-    return arrayImages;
-  }
+  //   //despues de haber concluido el ciclo retornamos las nuevas imagenes
+  //   return arrayImages;
+  // }
 
-  function deleteImg(indice) {
-    //console.log("borrar img " + indice);
+  // function deleteImg(indice) {
+  //   //console.log("borrar img " + indice);
 
-    const newImgs = images.filter(function (element) {
-      return element.index !== indice;
-    });
-    console.log(newImgs);
-    setimages(newImgs);
-  }
+  //   const newImgs = images.filter(function (element) {
+  //     return element.index !== indice;
+  //   });
+  //   console.log(newImgs);
+  //   setimages(newImgs);
+  // }
 
   return (
     <main className="min-h-[calc(100vh)]">
@@ -460,7 +478,9 @@ export default function HomeRegister() {
                                 className="text-[#2A2D49]"
                                 accept=".png, .jpg, .jpeg"
                                 multiple
-                                onChange={changeInput}
+                                onChange={(e) =>
+                                  setCurrentFiles(e.target.files)
+                                }
                               />
                             </div>
                             {errors.imag && (
@@ -471,19 +491,19 @@ export default function HomeRegister() {
                           </label>
 
                           {/* VIEW IMAGES */}
-                          <div className="flex flex-row gap-2 flex-wrap">
-                            {images.map((imagen) => (
-                              <div className="flex " key={imagen.index}>
+                          <div className="flex flex-row gap-2 flex-wrap justify-center">
+                            {images.map((image, index) => (
+                              <div className="flex " key={index}>
                                 <div className="">
                                   <button
                                     className="position-absolute px-2 mb-2 text-white bg-[#FF6868] mt-4"
-                                    onClick={deleteImg.bind(this, imagen.index)}
+                                    onClick={() => deleteFileFromList(index)}
                                   >
                                     x
                                   </button>
                                   <div className="">
                                     <Image
-                                      src={imagen.url}
+                                      src={URL.createObjectURL(image)}
                                       width={100}
                                       height={100}
                                       className="border border-5 w-max-80 h-auto"
