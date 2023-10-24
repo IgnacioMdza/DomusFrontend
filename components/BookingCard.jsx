@@ -114,7 +114,7 @@ export default function BookingCard2({
   }
   return (
     <main
-      className={`${borderStyle} block md:flex md:gap-8 lg:block p-5 rounded-[10px] w-[95%] m-auto bg-white hover:scale-[102%] hover:shadow-xl`}
+      className={`${borderStyle} block md:flex md:gap-8 p-5 rounded-[10px] w-full m-auto bg-[#F2F2F2] shadow-lg border transition`}
     >
       {/* <div
         id="DO NOT ERASE - NO BORRAR ESTE DIV"
@@ -126,7 +126,7 @@ export default function BookingCard2({
         src={cardUserImage}
         width={140}
         height={110}
-        className="object-cover hidden md:inline lg:hidden"
+        className="object-cover h-full hidden md:inline rounded-full aspect-square"
       />
       <div className="text-left w-full flex flex-col justify-between">
         <div>
