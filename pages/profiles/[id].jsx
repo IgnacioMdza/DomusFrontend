@@ -135,11 +135,11 @@ export default function ClientProfile() {
                       {userData.aboutMe}
                     </p>
                     {idMatch &&
-                      <div className='bg-white w-full flex flex-col items-center rounded-xl shadow-xl border'>
+                      <div className='bg-white w-full flex flex-col items-center rounded-xl shadow-lg border hover:shadow-xl transition'>
                         <button 
                         onClick={() => setIsOpen((prev) => !prev)}
                         href='Bookingblog' 
-                        className='w-full py-[16px] px-[16px] flex gap-[20px] items-center place-content-center rounded-xl active:bg-[#F2F2F2]'>
+                        className='w-full py-[16px] px-[16px] flex gap-[20px] items-center place-content-center rounded-xl'>
                             <p className='text-[20px] lg:text-[24px] font-[nunito] text-[#2B2E4A]'>Reservaciones</p>
                             {!isOpen ? <i className='fa fa-caret-down text-[#2B2E4A] text-[24px]'></i> : <i className='fa fa-caret-up text-[#2B2E4A] text-[24px]'></i>}
                         </button>
