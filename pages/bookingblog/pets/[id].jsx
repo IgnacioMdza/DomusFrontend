@@ -55,9 +55,8 @@ export default function Pets({ reservation }) {
 
 export async function getServerSideProps(context) {
   const id = context.params.id;
-  const response = await fetch(
-    `http://localhost:8080/reservations/all/${id}?find=pet`
-  );
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${BASE_URL}/reservations/all/${id}?find=pet`);
   if (response.status === 200) {
     const reservation = await response.json();
     if (
