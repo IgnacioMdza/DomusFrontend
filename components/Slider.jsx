@@ -48,7 +48,7 @@ export default function Slider(data) {
                 src={item}
                 width={300}
                 height={300}
-                className="block h-[300px] w-[300px] object-cover"
+                className="block h-[300px] w-[300px] object-cover rounded-2xl"
               />
             </SwiperSlide>
           );
