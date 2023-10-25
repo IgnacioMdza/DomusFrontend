@@ -214,7 +214,7 @@ export default function ClientProfile() {
                     }
                   </div>
                   <div className="flex flex-col gap-[24px] items-center place-content-start w-2/3 md:w-1/3 lg:w-[30%] mx-auto sm:px-[32px] md:p-0 lg:p-[24px] xl:p-[32px]">
-                    <div className='w-full flex item-center place-content-center rounded-full border-[6px] border-white'>
+                    <div className='w-full flex item-center place-content-center rounded-full border-[6px] border-white shadow-lg'>
                       <Image
                         loader={imageLoader}
                         unoptimized

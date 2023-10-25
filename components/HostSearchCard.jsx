@@ -109,7 +109,7 @@ export default function HostSearchCard({isLanding}) {
                             render={({ field }) => (
                                 <DatePicker
                                     label="Fecha de entrada"
-                                    value={field.value}
+                                    value={field.value || null}
                                     onChange={field.onChange}
                                     minDate={dayjs()}
                                     maxDate={watch('endDate') && watch('endDate').subtract(1,"day")}
@@ -136,7 +136,7 @@ export default function HostSearchCard({isLanding}) {
                             render={({ field }) => (
                                 <DatePicker
                                     label="Fecha de salida"
-                                    value={field.value}
+                                    value={field.value || null}
                                     onChange={field.onChange}
                                     minDate={watch('initialDate') ? watch('initialDate').add(1,"day") : dayjs().add(1,"day")}
                                     className={` ${isLanding ? 'w-full bg-[#F2F2F2]' : 'w-full'}`}

@@ -65,7 +65,7 @@ export default function Register() {
         theme="dark"
       />
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
-        <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[20px] sm:rounded-b-[24px]">
+        <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[12px] sm:rounded-b-[16px]">
           <div className="flex justify-center">
             <svg
               className="sm:w-32 sm:h-24 w-28 h-20"

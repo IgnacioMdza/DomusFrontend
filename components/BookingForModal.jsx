@@ -27,8 +27,14 @@ export default function BookingForModal({
         onClose,
         userClient,
         hostId,
-        authToken
+        authToken,
+        checkIn,
+        checkOut,
+        pettype,
+        petsize
     }){
+
+
 
     const [mascota, setMascota] = useState('')
     const [initialDate, setInitialDate] = useState(dayjs(initialDay))
@@ -47,15 +53,37 @@ export default function BookingForModal({
 
     function handleSubmit(event) {
         event.preventDefault();
+        
         if (mascota) {
+
+            const checkInNumberHour = parseInt(checkIn.split(' ')[0].split(':')[0])
+            const checkInPeriod = checkIn.split(' ')[1]
+            const checkInMinutes = parseInt(checkIn.split(' ')[0].split(':')[1])
+            let checkInHour;
+            if(checkInPeriod === 'am' || checkInNumberHour === 12){
+                checkInHour = checkInNumberHour
+            } else {
+                checkInHour = checkInNumberHour + 12
+            }
+
+            const checkOutNumberHour = parseInt(checkOut.split(' ')[0].split(':')[0])
+            const checkOutPeriod = checkOut.split(' ')[1]
+            const checkOutMinutes = parseInt(checkOut.split(' ')[0].split(':')[1])
+            let checkOutHour;
+            if(checkOutPeriod === 'am' || checkOutNumberHour === 12){
+                checkOutHour = checkOutNumberHour
+            } else {
+                checkOutHour = checkOutNumberHour + 12
+            }
+
             fetch(`${urlFetch}/reservations`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}`},
                 body: JSON.stringify({
                     client: userClient._id,
                     host: hostId,
-                    startDate: initialDate,
-                    finishDate: endDate,
+                    startDate: initialDate.set('hour', checkInHour).set('minute', checkInMinutes),
+                    finishDate: endDate.set('hour', checkOutHour).set('minute', checkOutMinutes),
                     pet: [mascota],
                     status: 'pending',
                     cost:{
@@ -101,11 +129,19 @@ export default function BookingForModal({
                             >
                                 <div className='flex gap-[32px] flex-wrap justify-between'>
                                     { userClient && userClient.pets.map((item, index) => {
-                                        return(
-                                            <>
-                                                <FormControlLabel key={index} value={item._id} control={<Radio />} label={item.name} />
-                                            </>
-                                        )
+                                        if(pettype === 'Gato'){
+                                            return(
+                                                item.type === pettype ?
+                                                    <FormControlLabel key={index} value={item._id} control={<Radio />} label={item.name} />
+                                                    :
+                                                    <FormControlLabel key={index} value="disabled" disabled control={<Radio />} label={item.name} />
+                                        )} else if(pettype === 'Perro'){
+                                            return(
+                                                item.type === pettype && item.size === petsize ?
+                                                    <FormControlLabel key={index} value={item._id} control={<Radio />} label={item.name} />
+                                                    :
+                                                    <FormControlLabel key={index} value="disabled" disabled control={<Radio />} label={item.name} />
+                                        )}
                                     })}
                                 </div>
                             </RadioGroup>
@@ -156,6 +192,14 @@ export default function BookingForModal({
                             <div className='w-full flex flex-col items-center font-light font-[nunito] text-[16px] gap-[8px]'>
                                 <p>Información General</p>
                                 <div className='h-[1px] w-full bg-[#2B2E4A]'></div>
+                                <div className='flex justify-between w-full border px-[6px] rounded-lg border-[#2B2E4A]'>
+                                    <p className="font-[Nunito] text-[14px] text-center sm:text-start lg:text-center xl:text-start">
+                                    Check-In: <span>{checkIn}</span>
+                                    </p>
+                                    <p className="font-[Nunito] text-[14px] text-centersm:text-start lg:text-center xl:text-start">
+                                    Check-Out: <span>{checkOut}</span>
+                                    </p>
+                                </div>
                                 <div className='flex justify-between text-[14px] w-full'>
                                     <p>Anfitrión</p>
                                     <p>{hostName}</p>
