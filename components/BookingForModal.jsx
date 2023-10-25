@@ -53,20 +53,24 @@ export default function BookingForModal({
 
     function handleSubmit(event) {
         event.preventDefault();
-        
+    
         if (mascota) {
 
             const checkInNumberHour = parseInt(checkIn.split(' ')[0].split(':')[0])
             const checkInPeriod = checkIn.split(' ')[1]
             const checkInMinutes = parseInt(checkIn.split(' ')[0].split(':')[1])
             let checkInHour;
-            if(checkInPeriod === 'am' && checkInNumberHour !== 12){
+            if(checkInPeriod === 'am' 
+            && checkInNumberHour !== 12){
                 checkInHour = checkInNumberHour
-            } else if(checkInPeriod === 'am' && checkInNumberHour === 12){
+            } else if(checkInPeriod === 'am' 
+            && checkInNumberHour === 12){
                 checkInHour = checkInNumberHour - 12
-            } else if(checkInPeriod === 'pm' && checkInNumberHour !== 12){
+            } else if(checkInPeriod === 'pm' 
+            && checkInNumberHour !== 12){
                 checkInHour = checkInNumberHour + 12
-            } else if(checkInPeriod === 'pm' && checkInNumberHour === 12){
+            } else if(checkInPeriod === 'pm' 
+            && checkInNumberHour === 12){
                 checkInHour = checkInNumberHour 
             }
 
@@ -74,13 +78,17 @@ export default function BookingForModal({
             const checkOutPeriod = checkOut.split(' ')[1]
             const checkOutMinutes = parseInt(checkOut.split(' ')[0].split(':')[1])
             let checkOutHour;
-            if(checkOutPeriod === 'am' && checkOutNumberHour !== 12){
+            if(checkOutPeriod === 'am' 
+            && checkOutNumberHour !== 12){
                 checkOutHour = checkOutNumberHour
-            } else if(checkOutPeriod === 'am' && checkOutNumberHour === 12){
+            } else if(checkOutPeriod === 'am' 
+            && checkOutNumberHour === 12){
                 checkOutHour = checkOutNumberHour - 12
-            } else if(checkOutPeriod === 'pm' && checkOutNumberHour !== 12){
+            } else if(checkOutPeriod === 'pm' 
+            && checkOutNumberHour !== 12){
                 checkOutHour = checkOutNumberHour + 12
-            } else if(checkOutPeriod === 'pm' && checkOutNumberHour === 12){
+            } else if(checkOutPeriod === 'pm' 
+            && checkOutNumberHour === 12){
                 checkOutHour = checkOutNumberHour 
             }
 

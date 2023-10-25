@@ -27,7 +27,7 @@ export default function HostCard({
             setUserClient(response.data);
         })
     }
-  },[client?.id, client])
+  },[client?.id, client, BASE_URL])
 
   useEffect(() => {
     if (pettype === 'Gato'){
