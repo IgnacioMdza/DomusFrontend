@@ -89,6 +89,7 @@ export default function BookingCard2({
   }
 
   function changeStatus(newStatus) {
+    toast.success("Actualizando Estatus", { autoClose: 2000 });
     const token = localStorage.getItem("token");
     fetch(`${BASE_URL}/reservations/${reservationId}/status`, {
       method: "PATCH",
@@ -101,8 +102,18 @@ export default function BookingCard2({
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.success) {
-          toast.success("Estatus actualizado", { autoClose: 2000 });
-          setTimeout(() => router.reload(), 2000);
+          fetch(`${BASE_URL}/mailNotifications/${reservationId}`, {
+            method: "POST",
+          })
+            .then((resp) => resp.json())
+            .then((resp) => {
+              if (resp.success) {
+                toast.success("Estatus actualizado", { autoClose: 2000 });
+                setTimeout(() => router.reload(), 2000);
+              } else {
+                toast.error("Error al enviar las notificaciones");
+              }
+            });
         } else {
           toast.error("Error al actualizar el estatus");
         }
