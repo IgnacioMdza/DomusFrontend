@@ -32,38 +32,62 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
   const impuestos = (tarifaDomus + priceByDays) * 0.16;
   const totalPrice = priceByDays + tarifaDomus + impuestos;
 
+  let checkInFormated = ''
+  const checkInHourNumber = parseInt(checkIn.split(":")[0])
+  if(checkInHourNumber === 12){
+    checkInFormated = checkIn + ' pm' 
+  } else if (checkInHourNumber < 12){
+    checkInFormated = checkIn + ' am'
+  } else if(checkInHourNumber > 12){
+    const hours = (parseInt(checkIn.split(":")[0]) - 12).toString()
+    const minutes = checkIn.split(":")[1]
+    checkInFormated = hours + ':' + minutes + ' pm'
+  }
+
+  let checkOutFormated = ''
+  const checkOutHourNumber = parseInt(checkOut.split(":")[0])
+  if(checkOutHourNumber === 12){
+    checkInheckOutFormated = checkOut + ' pm' 
+  } else if (checkOutHourNumber < 12){
+    checkOutFormated = checkOut + ' am'
+  } else if(checkOutHourNumber > 12){
+    const hours = (parseInt(checkOut.split(":")[0]) -12).toString()
+    const minutes = checkOut.split(":")[1]
+    checkOutFormated = hours + ':' + minutes + ' pm'
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
     if (mascota) {
       toast.success("Creando reservación", { autoClose: 2000 });
-      const checkInNumberHour = parseInt(checkIn.split(" ")[0].split(":")[0]);
-      const checkInPeriod = checkIn.split(" ")[1];
+      // const checkInNumberHour = parseInt(checkIn.split(" ")[0].split(":")[0]);
+      // const checkInPeriod = checkIn.split(" ")[1];
       const checkInMinutes = parseInt(checkIn.split(" ")[0].split(":")[1]);
-      let checkInHour;
-      if (checkInPeriod === "am" && checkInNumberHour !== 12) {
-        checkInHour = checkInNumberHour;
-      } else if (checkInPeriod === "am" && checkInNumberHour === 12) {
-        checkInHour = checkInNumberHour - 12;
-      } else if (checkInPeriod === "pm" && checkInNumberHour !== 12) {
-        checkInHour = checkInNumberHour + 12;
-      } else if (checkInPeriod === "pm" && checkInNumberHour === 12) {
-        checkInHour = checkInNumberHour;
-      }
+      let checkInHour = parseInt(checkIn.split(":")[0])
+      // if (checkInPeriod === "am" && checkInNumberHour !== 12) {
+      //   checkInHour = checkInNumberHour;
+      // } else if (checkInPeriod === "am" && checkInNumberHour === 12) {
+      //   checkInHour = checkInNumberHour - 12;
+      // } else if (checkInPeriod === "pm" && checkInNumberHour !== 12) {
+      //   checkInHour = checkInNumberHour + 12;
+      // } else if (checkInPeriod === "pm" && checkInNumberHour === 12) {
+      //   checkInHour = checkInNumberHour;
+      // }
 
-      const checkOutNumberHour = parseInt(checkOut.split(" ")[0].split(":")[0]);
-      const checkOutPeriod = checkOut.split(" ")[1];
+      // const checkOutNumberHour = parseInt(checkOut.split(" ")[0].split(":")[0]);
+      // const checkOutPeriod = checkOut.split(" ")[1];
       const checkOutMinutes = parseInt(checkOut.split(" ")[0].split(":")[1]);
-      let checkOutHour;
-      if (checkOutPeriod === "am" && checkOutNumberHour !== 12) {
-        checkOutHour = checkOutNumberHour;
-      } else if (checkOutPeriod === "am" && checkOutNumberHour === 12) {
-        checkOutHour = checkOutNumberHour - 12;
-      } else if (checkOutPeriod === "pm" && checkOutNumberHour !== 12) {
-        checkOutHour = checkOutNumberHour + 12;
-      } else if (checkOutPeriod === "pm" && checkOutNumberHour === 12) {
-        checkOutHour = checkOutNumberHour;
-      }
+      let checkOutHour = parseInt(checkOut.split(":")[0]);
+      // if (checkOutPeriod === "am" && checkOutNumberHour !== 12) {
+      //   checkOutHour = checkOutNumberHour;
+      // } else if (checkOutPeriod === "am" && checkOutNumberHour === 12) {
+      //   checkOutHour = checkOutNumberHour - 12;
+      // } else if (checkOutPeriod === "pm" && checkOutNumberHour !== 12) {
+      //   checkOutHour = checkOutNumberHour + 12;
+      // } else if (checkOutPeriod === "pm" && checkOutNumberHour === 12) {
+      //   checkOutHour = checkOutNumberHour;
+      // }
 
       fetch(`${urlFetch}/reservations`, {
         method: "POST",
@@ -183,10 +207,10 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
                 <div className="h-[1px] w-full bg-[#2B2E4A]"></div>
                 <div className="flex justify-between w-full border px-[6px] rounded-lg border-[#2B2E4A]">
                   <p className="font-[Nunito] text-[14px] text-center sm:text-start lg:text-center xl:text-start">
-                    Check-In: <span>{checkIn}</span>
+                    Check-In: <span>{checkInFormated}</span>
                   </p>
                   <p className="font-[Nunito] text-[14px] text-centersm:text-start lg:text-center xl:text-start">
-                    Check-Out: <span>{checkOut}</span>
+                    Check-Out: <span>{checkOutFormated}</span>
                   </p>
                 </div>
                 <div className="flex justify-between text-[14px] w-full">

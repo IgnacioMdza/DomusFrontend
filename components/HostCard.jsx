@@ -41,7 +41,31 @@ export default function HostCard({
     } else {
       setNightPetPrice('')
     }
+    
   },[hostAndHouse.hosting.cat.price, hostAndHouse.hosting.dog.big.price, hostAndHouse.hosting.dog.medium.price, hostAndHouse.hosting.dog.small.price, nightPetPrice, petsize, pettype])
+
+  let checkInFormated = ''
+  const checkInHourNumber = parseInt(hostAndHouse.checkIn.split(":")[0])
+  if(checkInHourNumber === 12){
+    checkInFormated = hostAndHouse.checkIn + ' pm' 
+  } else if (checkInHourNumber < 12){
+    checkInFormated = hostAndHouse.checkIn + ' am'
+  } else if(checkInHourNumber > 12){
+    const hours = (parseInt(hostAndHouse.checkIn.split(":")[0]) - 12).toString()
+    const minutes = hostAndHouse.checkIn.split(":")[1]
+    checkInFormated = hours + ':' + minutes + ' pm'
+  }
+  let checkOutFormated = ''
+  const checkOutHourNumber = parseInt(hostAndHouse.checkOut.split(":")[0])
+  if(checkOutHourNumber === 12){
+    checkOutFormated = hostAndHouse.checkOut + ' pm' 
+  } else if (checkOutHourNumber < 12){
+    checkOutFormated = hostAndHouse.checkOut + ' am'
+  } else if(checkOutHourNumber > 12){
+    const hours = (parseInt(hostAndHouse.checkOut.split(":")[0]) -12).toString()
+    const minutes = hostAndHouse.checkOut.split(":")[1]
+    checkOutFormated = hours + ':' + minutes + ' pm'
+  }
 
   return (
     <>
@@ -73,10 +97,10 @@ export default function HostCard({
           </div>
           <div className='flex gap-[20px] items-center place-content-center lg:place-content-start'>
             <p className="font-[Nunito] text-[14px] text-center font-semibold sm:text-start lg:text-center xl:text-start border px-[6px] rounded-lg border-[#2B2E4A]">
-              Check-In: <span className='font-normal'>{hostAndHouse.checkIn}</span>
+              Check-In: <span className='font-normal'>{checkInFormated}</span>
             </p>
             <p className="font-[Nunito] text-[14px] text-center font-semibold sm:text-start lg:text-center xl:text-start border px-[6px] rounded-lg border-[#2B2E4A]">
-              Check-Out: <span className='font-normal'>{hostAndHouse.checkOut}</span>
+              Check-Out: <span className='font-normal'>{checkOutFormated}</span>
             </p>
           </div>
           <p className="text-justify text-[14px font-[Nunito] text-[#2B2E4A] md:text-[16px]">
