@@ -1,14 +1,32 @@
 import SearchCard from "@/components/SearchCard";
+import HostSearchCard from "@/components/HostSearchCard";
 import ReviewCard from "@/components/ReviewCard";
 import component from "/public/images/seccion_beneficios_1.png";
 import check from "/public/icons/check.png";
-import { reviewsData } from "@/data/reviewsData";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [pageToken, setPageToken] = useState(false);
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const token = localStorage.getItem("token");
+    if (token) setPageToken(token);
+    fetch(`${BASE_URL}/reviews/forIndexPage?qty=6&minRate=4`)
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setReviews(resp.data);
+      });
+  }, []);
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px]">
+      <Head>
+        <title>Domus - Inicio</title>
+      </Head>
       <section
         id="hero"
         className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
@@ -35,7 +53,7 @@ export default function Home() {
             </p>
           </div>
           <div className="md:relative top-[-40px] lg:static">
-            <SearchCard />
+            <HostSearchCard isLanding={true} />
           </div>
         </div>
       </section>
@@ -43,7 +61,10 @@ export default function Home() {
         id="quienes_somos"
         className="mt-14 md:mt-4 lg:mt-20 max-w-[1536px] mx-auto"
       >
-        <h2 className="text-[#e91e63] font-[Raleway] text-[40px] font-medium md:text-[48px] mb-[15px] leading-none text-center pb-3">
+        <h2
+          id="qs"
+          className="text-[#e91e63] font-[Raleway] text-[40px] font-medium md:text-[48px] mb-[15px] leading-none text-center pb-3  pt-[100px] mt-[-100px]"
+        >
           ¿Quiénes somos?
         </h2>
         <p className="text-[22px] mb-[30px] text-center">
@@ -114,40 +135,24 @@ export default function Home() {
             width={2000}
             className="lg:px-[16px] object-cover w-full max-w-[1260px] mb-[16px] sm:mb-[28px] lg:absolute lg:m-auto top-0 bottom-0 start-0 end-0 z-0 max-h-full"
           ></Image>
-          <div className="flex flex-col gap-[16px] sm:gap-[28px] lg:gap-[40px] w-full lg:w-6/12">
-            {reviewsData
-              .filter(
-                (item, index) => index === 0 || index === 1 || index === 2
-              )
-              .map((item, index) => {
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px] sm:gap-[28px] lg:gap-[40px]">
+            {reviews &&
+              reviews.map((item, index) => {
                 return (
                   <ReviewCard
                     key={index}
-                    authorImage={item.authorImage}
-                    authorName={item.authorName}
-                    reviewDate={item.reviewDate}
-                    value={item.value}
-                    review={item.review}
-                    anfitrionName={item.anfitrionName}
-                  />
-                );
-              })}
-          </div>
-          <div className="hidden lg:flex flex-col gap-[16px] sm:gap-[28px] lg:gap-[40px] lg:w-6/12">
-            {reviewsData
-              .filter(
-                (item, index) => index === 3 || index === 4 || index === 5
-              )
-              .map((item, index) => {
-                return (
-                  <ReviewCard
-                    key={index}
-                    authorImage={item.authorImage}
-                    authorName={item.authorName}
-                    reviewDate={item.reviewDate}
-                    value={item.value}
-                    review={item.review}
-                    anfitrionName={item.anfitrionName}
+                    authorImage={item.sender.picture}
+                    authorName={`${item.sender.name} ${item.sender.lastname}`}
+                    reviewDate={item.date
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
+                    value={item.rate}
+                    review={item.comment}
+                    anfitrionName={`${item.receiver.name} ${item.receiver.lastname}`}
+                    renderReceiver={true}
+                    cardNumber={index + 1}
                   />
                 );
               })}
@@ -173,7 +178,9 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white"
+              className={`text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#2B2E4A] active:text-[#F2F2F2] hover:bg-white ${
+                pageToken ? "pointer-events-none bg-slate-300" : null
+              }`}
             >
               REGISTRARSE COMO ANFITRIÓN
             </Link>
@@ -191,13 +198,16 @@ export default function Home() {
             </p>
             <Link
               href="/accounts/signup"
-              className="text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#FF7068] hover:bg-white"
+              className={`text-[16px] md:text-[20px] lg:text-[16px] xl:text-[20px] font-bold text-[#2B2E4A] bg-[#F2F2F2] w-full text-center py-[12px] rounded-full shadow-lg hover:shadow-none lg:hover:scale-105 transition active:bg-[#FF7068] hover:bg-white ${
+                pageToken ? "pointer-events-none bg-slate-300" : null
+              }`}
             >
               REGISTRARSE COMO CLIENTE
             </Link>
           </div>
           <div className="h-1/2 flex w-full pb-[25px] lg:py-[40px] px-[16px] md:px-[70px] lg:px-[32px] xl:p-[48px]">
             <Image
+              priority
               src={"/images/seccion_registrarse_gato.png"}
               alt="signup_image"
               height={500}
@@ -205,6 +215,7 @@ export default function Home() {
               className="object-scale-down w-1/2"
             ></Image>
             <Image
+              priority
               src={"/images/seccion_registrarse_perro.png"}
               alt="signup_image"
               height={500}

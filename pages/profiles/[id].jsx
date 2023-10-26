@@ -1,181 +1,303 @@
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { Button, Rating } from "@mui/material";
+
+import BarsMenu from '/public/icons/bars-menu.svg'
+import XMark from "/public/icons/xmark.svg";
 
 import ReviewCard from "@/components/ReviewCard";
 import BookingCard from "@/components/BookingCard";
+import NewHouseCard from "@/components/NewHouseCard";
 import PetsSection from "@/components/PetsSection";
 import HomeSection from "@/components/HomeSection";
 
-import { reviewsData } from "@/data/reviewsData";
 import { bookingsData } from "@/data/bookingsData";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const imageLoader = ({ src, width, quality }) => {
-  return `https://i.pinimg.com/${src}`;
+  return `${src}`;
 };
 
 export default function ClientProfile() {
   const router = useRouter();
-  const id = router.query.id;
-  // Hacer el fetch aquí
+  const [userData, setUserData] = useState(false);
+  const [idMatch, setIdMatch] = useState(false);
+  const [bookingsFilter, setBookingsFilter] = useState("all");
+  const [isOpen, setIsOpen] = useState(false)
 
-  const user_type = id;
-  let bookingBg = "";
-  user_type === "client" ? (bookingBg = "#2B2E4A") : (bookingBg = "#FF7068");
-
-  const [height, setHeight] = useState(0);
-  const elementRef = useRef();
-  const bookingsDiv = useRef();
-
+  function notFeature() {
+    toast.success(
+      "Esta característica aún no está disponible, pero lo estará pronto 😉",
+      { autoClose: 2000 }
+    );
+  }
+  const URL = process.env.NEXT_PUBLIC_BASE_URL;
   useEffect(() => {
-    setHeight(elementRef.current.offsetHeight);
-    if (height - 143 > 0) {
-      console.log(height);
-      bookingsDiv.current.classList.value += ` min-h-[${
-        height - 143
-      }px] max-h-[${height - 143}px]`;
+    const pathId = router.query.id;
+    if (pathId) {
+      const token = localStorage.getItem("token");
+      let tokenInfo = {};
+      if (token) {
+        tokenInfo = JSON.parse(atob(token.split(".")[1]));
+      }
+      setIdMatch(pathId === tokenInfo?.id);
+
+      fetch(`${URL}/users/${pathId}`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.success) {
+            setUserData(resp.data);
+          } else {
+            router.push("./404");
+          }
+          if (!resp.data?.isInfoCompleted && pathId === tokenInfo.id)
+            router.push(`../accounts/register/${tokenInfo.id}`);
+          else if (!resp.data?.isInfoCompleted) router.push("./404");
+        });
     }
-    console.log(height);
-    console.log(elementRef.current.offsetHeight);
-    console.log(bookingsDiv.current.classList.value);
-  }, [height]);
+  }, [router.query.id, router, URL]);
 
   return (
-    <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px] max-w-screen-2xl flex flex-col gap-10 text-[#2B2E4A]">
-      <section
-        id="top"
-        className="items-start  mt-[100px] flex flex-col lg:flex-row gap-10"
-      >
-        <div
-          id="sibling"
-          ref={elementRef}
-          className="basis-2/3 flex flex-col gap-5"
-        >
-          <div id="general" className="flex flex-col md:flex-row gap-5 mb-3">
-            <div className="text-center flex flex-col gap-3 items-center">
-              <Image
-                loader={imageLoader}
-                alt="Profile Picture"
-                src={"474x/7e/f4/bb/7ef4bbc4f379cd45bc7ee8b3a3d6099b.jpg"}
-                width={200}
-                height={200}
-                className="min-w-[200px] max-w-[200px] min-h-[200px] max-h-[200px] object-cover rounded-full flex-none"
-              />
-              <p className="text-[30px]">⭐⭐⭐⭐⭐</p>
-              <p className="font-bold text-[14px]">
-                Miembro desde:{" "}
-                <span className="font-normal">14/Enero/2021</span>
-              </p>
-            </div>
-            <div id="description" className="w-full">
-              <div className="relative text-center md:text-left">
-                <p className="inline text-[48px] font-[Raleway] font-bold m-auto">
-                  Josefina Trujillo
-                </p>
-                {/* <p>{`Left height is: ${height}px and Right height should be ${
-                  height - 198
-                }px`}</p> */}
-                <Link className="absolute right-0 bottom-0" href={"/"}>
-                  <i className="fa fa-edit text-[25px]"></i>
-                </Link>
+    <>
+      <Head>
+        <title>{`Domus - Perfil`}</title>
+      </Head>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+      <main className='min-h-[calc(100vh-90px)] mt-[90px]'>
+        {userData && userData.isInfoCompleted && (
+          <>
+            <Head>
+              <title>{`Domus - Perfil ${userData.name}`}</title>
+            </Head>
+            <div
+              id="top"
+              className="items-start flex flex-col lg:flex-row gap-10 max-w-[1380px] bg-[#F2F2F2] mx-auto sm:p-[16px] md:p-[24px] xl:p-[32px]"
+            >
+              <div className="flex flex-col gap-[24px]">
+                <section
+                  id="general"
+                  className="flex flex-col-reverse md:flex-row gap-[32px] sm:mb-3 px-[16px] pt-[16px] sm:pt-0 sm:px-0"
+                >
+                  <div id="description" className="w-full md:w-2/3 lg:w-[70%] flex flex-col gap-[24px] items-center align-middle place-content-center">
+                    <div className="w-full relative md:text-left flex flex-col sm:flex-row place-content-center items-center gap-[12px] rounded-full md:p-0 lg:p-[12px] lg:border lg:border-[#2B2E4A] justify-between">
+                      <p className="lg:ms-[12px] text-[28px] md:text-[28px] lg:text-[34px] xl:text-[38px] font-[Raleway] py-[6px] lg:py-0 font-bold text-[#2B2E4A] border border-[#2B2E4A] lg:border-transparent rounded-full w-full text-center lg:text-left">
+                        {`${userData.name} ${userData.lastname}`}
+                      </p>
+                      <div className='bg-[#E91E63] px-[24px] md:px-[16px] lg:px-[24px] rounded-full py-[6px] sm:py-[12px] md:h-full md:py-0 items-center flex '>
+                        <p className="text-[20px] md:text-[18px] lg:text-[22px] font-normal text-[#F2F2F2]">
+                          {userData.type === 'client' ? 'Cliente' : 'Anfitrión'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap justify-between gap-[20px] md:gap-[14px] lg:gap-[20px]">
+                      <p className="font-bold text-[14px] sm:text-[14px] lg:text-[16px]">
+                        Miembro desde:
+                        <span className="font-normal">
+                          {` ${userData.joined
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("-")}`}
+                        </span>
+                      </p>
+                      <p className="font-bold text-[14px] sm:text-[14px] lg:text-[16px]">
+                        Sexo: <span className='font-normal'>{`${userData.sex}`}</span>
+                      </p>
+                      <p className="font-bold text-[14px] sm:text-[14px] lg:text-[16px]">
+                        No. de reservas: <span className='font-normal'>{`${userData.reservations.length}`}</span>
+                      </p>
+                      <button
+                        className={`inline-block ${
+                          idMatch ? "" : "hidden"
+                        }`}
+                        href={"/"}
+                        onClick={(e) => notFeature()}
+                      >
+                        <i className="fa fa-edit text-[16px] sm:text-[22px]"></i>
+                      </button> 
+                    </div>
+                    <p className="text-[16px] md:text-[18px] text-justify">
+                      {userData.aboutMe}
+                    </p>
+                    {idMatch &&
+                      <div className='bg-white w-full flex flex-col items-center rounded-xl shadow-lg border hover:shadow-xl transition'>
+                        <button 
+                        onClick={() => setIsOpen((prev) => !prev)}
+                        href='Bookingblog' 
+                        className='w-full py-[16px] px-[16px] flex gap-[20px] items-center place-content-center rounded-xl'>
+                            <p className='text-[20px] lg:text-[24px] font-[nunito] text-[#2B2E4A]'>Reservaciones</p>
+                            {!isOpen ? <i className='fa fa-caret-down text-[#2B2E4A] text-[24px]'></i> : <i className='fa fa-caret-up text-[#2B2E4A] text-[24px]'></i>}
+                        </button>
+                        { isOpen && 
+                          <>
+                            <select
+                              className="w-[90%] md:w-[50%] font-[20px] rounded-lg h-[40px] px-3 bg-[#F2F2F2] text-[#2B2E4A] border border-[#2B2E4A]"
+                              name="bookingFilter"
+                              id="bookingFilter"
+                              onChange={(e) => setBookingsFilter(e.target.value)}
+                              value={bookingsFilter}
+                            >
+                              <option selected value="all">
+                                Todas
+                              </option>
+                              <option value="pending">Pendiente</option>
+                              <option value="accepted">Aceptada</option>
+                              <option value="refused">Rechazada</option>
+                              <option value="paid">Pagada</option>
+                              <option value="current">En curso</option>
+                              <option value="concluded">Terminada</option>
+                            </select>
+                            <div
+                              className={`flex flex-col gap-[18px] w-full p-[16px] lg:p-[32px]`}
+                            >
+                              {userData.reservations
+                                ?.filter(
+                                  (item) =>
+                                    bookingsFilter === "all" ||
+                                    item.status === bookingsFilter
+                                )
+                                .map((item, index) => {
+                                  return (
+                                    <BookingCard
+                                      key={index}
+                                      reservationId={item._id}
+                                      usertype={userData?.type}
+                                      cardUserName={
+                                        userData.type === "client"
+                                          ? `${item.host.name} ${item.host.lastname}`
+                                          : `${item.client.name} ${item.client.lastname}`
+                                      }
+                                      cardUserId={
+                                        userData.type === "client"
+                                          ? item.host._id
+                                          : item.client._id
+                                      }
+                                      cardUserImage={
+                                        userData.type === "client"
+                                          ? item.host.picture
+                                          : item.client.picture
+                                      }
+                                      startDate={item.startDate
+                                        .split("T")[0]
+                                        .split("-")
+                                        .reverse()
+                                        .join("/")}
+                                      finishDate={item.finishDate
+                                        .split("T")[0]
+                                        .split("-")
+                                        .reverse()
+                                        .join("/")}
+                                      status={item.status}
+                                      cost={item.cost?.total}
+                                    />
+                                  );
+                                })}
+                            </div>
+                          </>
+                        }
+                        </div>
+                    }
+                  </div>
+                  <div className="flex flex-col gap-[24px] items-center place-content-start w-2/3 md:w-1/3 lg:w-[30%] mx-auto sm:px-[32px] md:p-0 lg:p-[24px] xl:p-[32px]">
+                    <div className='w-full flex item-center place-content-center rounded-full border-[6px] border-white shadow-lg'>
+                      <Image
+                        loader={imageLoader}
+                        unoptimized
+                        priority
+                        alt="Profile Picture"
+                        src={userData.picture}
+                        width={450}
+                        height={450}
+                        className="w-full aspect-square object-cover rounded-full"
+                      />
+                    </div>
+                    <Rating
+                      readOnly
+                      value={userData.rate}
+                      precision={0.5}
+                      size="large"
+                      className="scale-[105%] sm:scale-[115%]"
+                    />
+                  </div>
+                </section>
+                <section>
+                  <div className="flex justify-between items-center align-middle">
+                    {/* <p className="font-bold text-[32px] text-[#2B2E4A]">
+                      {userData?.type === "client" ? "Mascotas" : null}
+                      {userData?.type === "host" ? "Alojamiento" : null}
+                    </p> */}
+                    {/* <button
+                      className={`inline-block ${
+                        idMatch ? "" : "hidden"
+                      }`}
+                      onClick={(e) => notFeature()}
+                    >
+                      <i className="fa fa-edit text-[25px]"></i>
+                    </button> */}
+                  </div>
+                  {/* <div className="w-full border-t-[2px] border-[#2B2E4A] mb-[32px]"></div> */}
+                  {userData?.type === "client" ? (
+                    <PetsSection data={userData.pets} idMatch={idMatch} />
+                  ) : null}
+                  {userData?.type === "host" && (
+                    <HomeSection homeData={userData.accommodation} idMatch={idMatch}/>
+                  )}
+                  {/* {userData?.type === "host" && !userData.accommodation && (
+                    <NewHouseCard />
+                  )} */}
+                </section>
+                <section id="bottom" className="px-[16px] sm:px-0">
+                  <p className="ms-0 sm:ms-[20px] md:ms-[24px] lg:ms-[28px] font-medium text-[32px] text-[#2B2E4A] text-center border border-[#2B2E4A] rounded-xl px-[16px] w-fit mb-[8px]">
+                    Reseñas
+                  </p>
+                  <div className="w-full border-t-[2px] border-[#2B2E4A] mb-[28px]"></div>
+                  {
+                  userData.reviews.length === 0 &&
+                    <p className='text-center w-full text-[20px]'>Aún no hay reseñas</p>
+                  }
+                  <div className="grid grid-cols- lg:grid-cols-2 gap-5 mb-5 ">
+                    {userData.reviews.map((item, index) => {
+                      if (index > 5) return null;
+                      return (
+                        <ReviewCard
+                          key={index}
+                          authorImage={item.sender.picture}
+                          authorName={`${item.sender.name} ${item.sender.lastname}`}
+                          reviewDate={item.date
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")}
+                          value={item.rate}
+                          review={item.comment}
+                          anfitrionName={`${item.receiver.name} ${item.receiver.lastname}`}
+                          rederReceiver={false}
+                          cardNumber={index + 1}
+                        />
+                      );
+                    })}
+                  </div>
+                </section>
               </div>
-
-              <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-              <p className="text-[20px] text-center md:text-justify">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur.
-              </p>
             </div>
-          </div>
-          <div>
-            <div className="relative">
-              <p className="font-bold text-[35px]">
-                {user_type === "client" ? "Mascotas" : "Alojamiento"}
-              </p>
-              <Link className="absolute right-0 bottom-0" href={"/"}>
-                <i className="fa fa-edit text-[25px]"></i>
-              </Link>
-            </div>
-            <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-            {user_type === "client" ? <PetsSection /> : <HomeSection />}
-          </div>
-        </div>
-        <div
-          className={`w-full basis-1/3 text-center px-5 bg-[${bookingBg}] lg:rounded-[10px] py-6`}
-        >
-          <p className="text-white text-[40px] font-[Raleway] mb-4">Reservas</p>
-          <select
-            className="w-[300px] lg:w-[75%] font-[20px] rounded-[10px] h-[40px] px-3 mb-10"
-            name="bookingFilter"
-            id="bookingFilter"
-          >
-            <option value="all">Todas</option>
-            <option value="pending">Pendiente</option>
-            <option value="accepted">Aceptada</option>
-            <option value="rejected">Rechazada</option>
-            <option value="paid">Pagada</option>
-            <option value="ongoing">En curso</option>
-            <option value="finished">Terminada</option>
-          </select>
-          <div
-            ref={bookingsDiv}
-            className={`flex flex-col gap-3 pt-1 overflow-y-scroll `}
-          >
-            {bookingsData.map((item, index) => {
-              return (
-                <BookingCard key={index} usertype={user_type} data={item} />
-              );
-            })}
-          </div>
-        </div>
-      </section>
-      <section id="bottom" className="">
-        <p className="font-bold text-[35px]">Reseñas</p>
-        <div className="w-full border-t-4 border-[#FF7068] mb-8"></div>
-        <div className="flex flex-row gap-5">
-          <div className="flex flex-col gap-3">
-            {reviewsData
-              .filter(
-                (item, index) => index === 3 || index === 4 || index === 5
-              )
-              .map((item, index) => {
-                return (
-                  <ReviewCard
-                    key={index}
-                    authorImage={item.authorImage}
-                    authorName={item.authorName}
-                    reviewDate={item.reviewDate}
-                    value={item.value}
-                    review={item.review}
-                  />
-                );
-              })}
-          </div>
-          <div className="hidden lg:flex flex-col gap-3">
-            {reviewsData
-              .filter(
-                (item, index) => index === 0 || index === 1 || index === 2
-              )
-              .map((item, index) => {
-                return (
-                  <ReviewCard
-                    key={index}
-                    authorImage={item.authorImage}
-                    authorName={item.authorName}
-                    reviewDate={item.reviewDate}
-                    value={item.value}
-                    review={item.review}
-                  />
-                );
-              })}
-          </div>
-        </div>
-      </section>
-    </main>
+          </>
+        )}
+      </main>
+    </>
   );
 }
