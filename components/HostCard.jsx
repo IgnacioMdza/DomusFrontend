@@ -17,17 +17,17 @@ export default function HostCard({
   const [showModal, setShowModal] = useState(false);
   const [nightPetPrice, setNightPetPrice] = useState('')
   const [userClient, setUserClient] = useState('')
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     if(client){
-    fetch(`http://localhost:8080/users/${client?.id}`)
+    fetch(`${BASE_URL}/users/${client?.id}`)
     .then(response => response.json())
         .then(response => {
             setUserClient(response.data);
-            console.log(response.data)
         })
     }
-  },[client?.id, client])
+  },[client?.id, client, BASE_URL])
 
   useEffect(() => {
     if (pettype === 'Gato'){
@@ -41,7 +41,6 @@ export default function HostCard({
     } else {
       setNightPetPrice('')
     }
-    console.log(nightPetPrice)
   },[hostAndHouse.hosting.cat.price, hostAndHouse.hosting.dog.big.price, hostAndHouse.hosting.dog.medium.price, hostAndHouse.hosting.dog.small.price, nightPetPrice, petsize, pettype])
 
   return (
@@ -72,9 +71,14 @@ export default function HostCard({
               </p>
             </div>
           </div>
-          <p className="font-[Nunito] text-[14px] text-center sm:text-start lg:text-center xl:text-start">
-            Fecha del {initialDate} al {endDate}
-          </p>
+          <div className='flex gap-[20px] items-center place-content-center lg:place-content-start'>
+            <p className="font-[Nunito] text-[14px] text-center font-semibold sm:text-start lg:text-center xl:text-start border px-[6px] rounded-lg border-[#2B2E4A]">
+              Check-In: <span className='font-normal'>{hostAndHouse.checkIn}</span>
+            </p>
+            <p className="font-[Nunito] text-[14px] text-center font-semibold sm:text-start lg:text-center xl:text-start border px-[6px] rounded-lg border-[#2B2E4A]">
+              Check-Out: <span className='font-normal'>{hostAndHouse.checkOut}</span>
+            </p>
+          </div>
           <p className="text-justify text-[14px font-[Nunito] text-[#2B2E4A] md:text-[16px]">
             {hostAndHouse.owner.aboutMe.length > 245 && hostAndHouse.owner.aboutMe.slice(0, 245)}...
           </p>
@@ -98,6 +102,10 @@ export default function HostCard({
           <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
             <BookingForModal
               clientId={client?.id}
+              checkIn={hostAndHouse.checkIn}
+              checkOut={hostAndHouse.checkOut}
+              pettype={pettype}
+              petsize={petsize}
               hostName={hostAndHouse.owner.name + ' ' + hostAndHouse.owner.lastname}
               location={hostAndHouse.address.city + ', ' + hostAndHouse.address.state}
               home={hostAndHouse.address.street + ' #' + hostAndHouse.address.externalNumber + ', ' + hostAndHouse.address.neighbourhood}

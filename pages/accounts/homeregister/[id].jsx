@@ -415,13 +415,13 @@ export default function HomeRegister() {
                     <div className="md:flex">
                       <div className="flex justify-center flex-col sm:flex-row items-center pt-10 lg:px-10 text-center gap-4 sm:gap-2 sm:items-start md:flex-col md:justify-start md:items-center md:gap-5">
                         <div className="flex flex-col justify-center items-center">
-                          <div className=" border-4 rounded-full w-[240px] h-[240px] flex justify-center items-center border-[#e91e62]">
+                          <div className="rounded-full w-[240px] h-[240px] flex justify-center items-center shadow-lg bg-[#F2F2F2] border border-[#c1c1c1]">
                             <Image
-                              src="/images/camera_dog.jpeg"
+                              src="/images/seccion_home.png"
                               alt="camera_pic"
                               width={220}
-                              height={20}
-                              className="object-cover rounded-full"
+                              height={220}
+                              className="w-fit h-fit object-cover aspect-square rounded-full"
                             />
                           </div>
                           <p className="md:pt-4">
