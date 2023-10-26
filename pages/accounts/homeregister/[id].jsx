@@ -624,13 +624,16 @@ export default function HomeRegister() {
                                 </div>
                                 <input
                                   type="time"
+                                  //step="1800"
+                                  min="05:00"
+                                  max="23:00"
                                   className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                                   placeholder="Ingresa tu Nombre"
                                   {...register("checkIn", {
                                     required: {
                                       value: true,
                                       message: "Campo requerido",
-                                    },
+                                    } 
                                   })}
                                 />
                               </div>
@@ -666,6 +669,9 @@ export default function HomeRegister() {
                                 </div>
                                 <input
                                   type="time"
+                                  //step="1800"
+                                  min="05:00"
+                                  max="23:00"
                                   name="date"
                                   className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868]  bg-[#F2F2F2]"
                                   placeholder="Ingresa tu Nombre"
@@ -673,7 +679,7 @@ export default function HomeRegister() {
                                     required: {
                                       value: true,
                                       message: "Campo requerido",
-                                    },
+                                    }                                   
                                   })}
                                 />
                               </div>
@@ -683,8 +689,9 @@ export default function HomeRegister() {
                                 </span>
                               )}
                             </div>
-                          </div>
+                          </div>      
                         </div>
+                        <p>[Se permiten horas de 5:00 am a 11:00 pm con intervalos de media hora]</p>
                         <div className="pt-4">
                           <div className="flex justify-start justify-items-center  items-center pb-2">
                             <label

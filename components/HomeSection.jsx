@@ -3,7 +3,7 @@ import NewHouseCard from "./NewHouseCard";
 import Image from "next/image";
 
 export default function HomeSection(data) {
-  console.log("data", data);
+
   function definePetSizes() {
     let sizesString = "";
     if (data.homeData.hosting.cat || data.homeData.hosting.dog.small.isHosted)
@@ -13,6 +13,31 @@ export default function HomeSection(data) {
     const petSize = sizesString.replace(",", "");
     return petSize;
   }
+
+  let checkInFormated = ''
+  const checkInHourNumber = parseInt(data.homeData.checkIn.split(":")[0])
+  if(checkInHourNumber === 12){
+    checkInFormated = data.homeData.checkIn + ' pm' 
+  } else if (checkInHourNumber < 12){
+    checkInFormated = data.homeData.checkIn + ' am'
+  } else if(checkInHourNumber > 12){
+    const hours = (parseInt(data.homeData.checkIn.split(":")[0]) - 12).toString()
+    const minutes = data.homeData.checkIn.split(":")[1]
+    checkInFormated = hours + ':' + minutes + ' pm'
+  }
+
+  let checkOutFormated = ''
+  const checkOutHourNumber = parseInt(data.homeData.checkOut.split(":")[0])
+  if(checkOutHourNumber === 12){
+    checkOutFormated = data.homeData.checkOut + ' pm' 
+  } else if (checkOutHourNumber < 12){
+    checkOutFormated = data.homeData.checkOut + ' am'
+  } else if(checkOutHourNumber > 12){
+    const hours = (parseInt(data.homeData.checkOut.split(":")[0]) -12).toString()
+    const minutes = data.homeData.checkOut.split(":")[1]
+    checkOutFormated = hours + ':' + minutes + ' pm'
+  }
+
   return (
     <div className='bg-[#2B2E4A] sm:rounded-2xl p-[16px] sm:p-[20px] md:p-[24px] lg:p-[28px] text-[#2B2E4A]'>
       <p className='text-[#F2F2F2] text-[28px] sm:text-[32px] md:text-[28px] lg:text-[32px] font-semibold sm:font-bold mb-[28px] border w-fit px-[16px] rounded-xl'>
@@ -33,10 +58,10 @@ export default function HomeSection(data) {
           </div>
           <div className='flex justify-between px-[6px] sm:px-[12px] md:px-[20px] font-light  w-full rounded-lg mb-[20px] text-[16px] md:text-[20px] bg-[#FF7068] text-white'>
               <p className="font-[Nunito] text-center sm:text-start lg:text-center xl:text-start">
-              Check-In: <span>{data.homeData.checkIn}</span>
+              Check-In: <span>{checkInFormated}</span>
               </p>
               <p className="font-[Nunito] text-centersm:text-start lg:text-center xl:text-start">
-              Check-Out: <span>{data.homeData.checkOut}</span>
+              Check-Out: <span>{checkOutFormated}</span>
               </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-[12px] text-[20px] p-[12px] md:p-[20px] bg-[#F2F2F2] rounded-[10px] font-bold justify-between">
