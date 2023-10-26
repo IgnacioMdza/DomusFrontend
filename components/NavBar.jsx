@@ -35,14 +35,14 @@ export default function NavBar() {
   function onclick() {
     const rem = localStorage.removeItem("token");
     setUser();
-    router.pathname === "/" ? router.reload() : router.push("/");
+    window.location.replace(`/`);
+    // router.pathname === "/" ? router.reload() : router.push("/");
   }
 
   function goToProfile(profileId) {
     console.log("href", window.location.href);
-    window.location.href.includes(`/profiles/${profileId}`)
-      ? null
-      : window.location.replace(`/profiles/${profileId}`);
+    window.location.href.includes(`/profiles/${profileId}`) ? null : router.push(`/profiles/${profileId}`);
+    // : window.location.replace(`/profiles/${profileId}`);
   }
 
   return (
@@ -104,29 +104,13 @@ export default function NavBar() {
                   </Link>
                 </li>
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
-                  <button
-                    onClick={(e) => goToProfile(user._id)}
-                    className="text-dark flex items-center gap-[10px]"
-                    aria-current="page"
-                  >
-                    <p >perfil</p>
-                    <Image
-                    unoptimized
-                    loader={imageLoader}
-                    src={user.picture}
-                    width={100}
-                    height={100}
-                    alt="Domus Logo"
-                    className="w-10 h-10 object-cover rounded-full"
-                  ></Image>
+                  <button onClick={(e) => goToProfile(user._id)} className="text-dark flex items-center gap-[10px]" aria-current="page">
+                    <p>perfil</p>
+                    <Image unoptimized loader={imageLoader} src={user.picture} width={100} height={100} alt="Domus Logo" className="w-10 h-10 object-cover rounded-full"></Image>
                   </button>
                 </li>
                 <li className=" ml-0">
-                  <button
-                    type="submit"
-                    onClick={onclick}
-                    className="text-dark text-center hover:text-[#e91e63] transition duration-300"
-                  >
+                  <button type="submit" onClick={onclick} className="text-dark text-center hover:text-[#e91e63] transition duration-300">
                     Cerrar Sesión
                   </button>
                 </li>
@@ -145,35 +129,12 @@ export default function NavBar() {
         >
           <span className="sr-only">Open main menu</span>
           {!isOpen ? (
-            <svg
-              className="block h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+            <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           ) : (
-            <svg
-              className="block h-6 w-6 stroke-[#FF6868] hover:stroke-white"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg className="block h-6 w-6 stroke-[#FF6868] hover:stroke-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           )}
         </button>
@@ -184,43 +145,23 @@ export default function NavBar() {
             {!user?._id ? (
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
                 <li>
-                  <Link
-                    onClick={() => setIsOpen(!isOpen)}
-                    href={"/"}
-                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                    aria-current="page"
-                    id="pepe"
-                  >
+                  <Link onClick={() => setIsOpen(!isOpen)} href={"/"} className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white " aria-current="page" id="pepe">
                     Home
                     <i className="fa fa-home ml-3"></i>
                   </Link>
                 </li>
                 <li>
-                  <a
-                    onClick={() => setIsOpen(!isOpen)}
-                    href={"/#qs"}
-                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                    aria-current="page"
-                  >
+                  <a onClick={() => setIsOpen(!isOpen)} href={"/#qs"} className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white " aria-current="page">
                     Nosotros
                   </a>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => setIsOpen(!isOpen)}
-                    href="/accounts/signup"
-                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                    aria-current="page"
-                  >
+                  <Link onClick={() => setIsOpen(!isOpen)} href="/accounts/signup" className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white " aria-current="page">
                     Únete a nuestra comunidad
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => setIsOpen(!isOpen)}
-                    href="/accounts/signin"
-                    className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white "
-                  >
+                  <Link onClick={() => setIsOpen(!isOpen)} href="/accounts/signin" className="text-dark block py-2 px-5 rounded-full hover:bg-[#2B2E4A] hover:text-white ">
                     Ingresar
                   </Link>
                 </li>
@@ -247,29 +188,13 @@ export default function NavBar() {
                   </li>
                 )}
                 <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
-                  <button
-                    onClick={(e) => goToProfile(user._id)}
-                    className="text-dark "
-                    aria-current="page"
-                  >
+                  <button onClick={(e) => goToProfile(user._id)} className="text-dark " aria-current="page">
                     perfil
                   </button>
-                  <Image
-                    unoptimized
-                    loader={imageLoader}
-                    src={user.picture}
-                    width={100}
-                    height={100}
-                    alt="Domus Logo"
-                    className="w-10 h-10 object-cover rounded-full"
-                  ></Image>
+                  <Image unoptimized loader={imageLoader} src={user.picture} width={100} height={100} alt="Domus Logo" className="w-10 h-10 object-cover rounded-full"></Image>
                 </li>
                 <li className=" ml-0">
-                  <button
-                    type="submit"
-                    onClick={onclick}
-                    className="text-dark text-center"
-                  >
+                  <button type="submit" onClick={onclick} className="text-dark text-center">
                     Cerrar Sesión
                   </button>
                 </li>
