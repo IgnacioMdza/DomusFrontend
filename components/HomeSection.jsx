@@ -31,6 +31,14 @@ export default function HomeSection(data) {
           <div className=" mb-10">
             <Slider pictures={data.homeData.picture} />
           </div>
+          <div className='flex justify-between px-[6px] sm:px-[12px] md:px-[20px] font-light  w-full rounded-lg mb-[20px] text-[16px] md:text-[20px] bg-[#FF7068] text-white'>
+              <p className="font-[Nunito] text-center sm:text-start lg:text-center xl:text-start">
+              Check-In: <span>{data.homeData.checkIn}</span>
+              </p>
+              <p className="font-[Nunito] text-centersm:text-start lg:text-center xl:text-start">
+              Check-Out: <span>{data.homeData.checkOut}</span>
+              </p>
+          </div>
           <div className="flex flex-col sm:flex-row gap-[12px] text-[20px] p-[12px] md:p-[20px] bg-[#F2F2F2] rounded-[10px] font-bold justify-between">
             <div className="flex flex-col gap-[12px] sm:gap-7 basis-1/3">
               <p className="h-fit sm:h-[55px] text-[16px] md:text-[18px] lg:text-[20px]">
