@@ -17,11 +17,20 @@ export default function Home() {
     const token = localStorage.getItem("token");
     if (token) setPageToken(token);
     fetch(`${BASE_URL}/reviews/forIndexPage?qty=6&minRate=4`)
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         setReviews(resp.data);
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   }, []);
+
   return (
     <main className="p-[12px] md:p-[24px] lg:p-[32px] xl:p-[40px]">
       <Head>

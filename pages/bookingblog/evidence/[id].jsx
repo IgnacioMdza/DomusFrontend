@@ -42,7 +42,12 @@ export default function Evidence() {
     const reservationId = router.query.id;
     if (user && reservationId) {
       fetch(`${urlFetch}/reservations/all/${reservationId}?find=evidence`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (
             (user.id === resp.data.client._id || user.id === resp.data.host) &&
@@ -54,6 +59,9 @@ export default function Evidence() {
           } else {
             router.push("/404");
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [router, user, urlFetch]);

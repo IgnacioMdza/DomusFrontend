@@ -65,7 +65,12 @@ export default function PetRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         if (response.success) {
           toast.success("Mascota creada con éxito", { autoClose: 2000 });
@@ -74,8 +79,8 @@ export default function PetRegister() {
           toast.error("Error al crear mascota");
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 

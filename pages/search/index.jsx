@@ -19,10 +19,18 @@ export default function Search() {
     setSearchQuery({ state, city, pettype, petsize, initialdate, enddate });
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     fetch(`${BASE_URL}/accommodation?state=${state}&city=${city}&pettype=${pettype}&petsize=${petsize}`)
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         setAccommodationsList(response.data);
         console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   }, [router.query]);
 

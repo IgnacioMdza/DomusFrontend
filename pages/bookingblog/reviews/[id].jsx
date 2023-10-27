@@ -21,9 +21,17 @@ export default function Reviews() {
     const token = localStorage.getItem("token");
     setUserInfo(JSON.parse(atob(token.split(".")[1])));
     fetch(`${BASE_URL}/reservations/all/${reservationId}?find=reviews`)
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         setReservationData(resp.data);
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   }, [router.query.id]);
 

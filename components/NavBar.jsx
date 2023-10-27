@@ -21,13 +21,21 @@ export default function NavBar() {
     if (token) {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       fetch(`${URL}/users/${tokenInfo.id}`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (resp.success) {
             setUser(resp.data);
           } else {
             router.push("/404");
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [router]);

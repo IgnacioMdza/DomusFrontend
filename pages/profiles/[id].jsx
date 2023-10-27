@@ -44,7 +44,12 @@ export default function ClientProfile() {
       setIdMatch(pathId === tokenInfo?.id);
 
       fetch(`${URL}/users/${pathId}`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (resp.success) {
             setUserData(resp.data);
@@ -53,6 +58,9 @@ export default function ClientProfile() {
           }
           if (!resp.data?.isInfoCompleted && pathId === tokenInfo.id) router.push(`../accounts/register/${tokenInfo.id}`);
           else if (!resp.data?.isInfoCompleted) router.push("./404");
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [router.query.id, router, URL]);

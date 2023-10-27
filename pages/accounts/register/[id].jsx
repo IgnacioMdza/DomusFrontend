@@ -27,13 +27,21 @@ export default function CompleteRegister() {
     const pathId = router.query.id;
     if (pathId && token) {
       fetch(`${urlFetch}/users/${pathId}`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (resp.data.isInfoCompleted === true) {
             router.push("/");
           } else {
             setUser(resp.data);
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [router, router.query.id, token, urlFetch]);
@@ -87,7 +95,12 @@ export default function CompleteRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         console.log("response: ", response);
         if (response.success) {
@@ -97,8 +110,8 @@ export default function CompleteRegister() {
           toast.error("Error al actualizar el usuario");
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 

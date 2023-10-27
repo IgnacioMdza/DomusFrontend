@@ -89,13 +89,23 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           fetch(`${BASE_URL}/mailNotifications/${reservationId}`, {
             method: "POST",
           })
-            .then((resp) => resp.json())
+            .then((resp) => {
+              if (!resp.ok) {
+                throw new Error('Respuesta no exitosa');
+              }
+              return resp.json();
+            })
             .then((resp) => {
               if (resp.success) {
                 toast.success("Estatus actualizado", { autoClose: 2000 });
@@ -103,10 +113,16 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
               } else {
                 toast.error("Error al enviar las notificaciones");
               }
+            })
+            .catch((error) => {
+              console.error('Error en la solicitud:', error);
             });
         } else {
           toast.error("Error al actualizar el estatus");
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   }
 

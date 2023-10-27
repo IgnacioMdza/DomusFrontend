@@ -28,13 +28,21 @@ export default function HomeRegister() {
     const pathId = router.query.id;
     if (pathId && token) {
       fetch(`${urlFetch}/users/${pathId}`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (!resp.data.accommodation) {
             setUser(resp.data);
           } else {
             router.push(`/profiles/${pathId}`);
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [router, router.query.id, token, urlFetch]);
@@ -192,7 +200,12 @@ export default function HomeRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         if (response.success) {
           toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
@@ -200,6 +213,9 @@ export default function HomeRegister() {
         } else {
           toast.error(`${response.message}`);
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 

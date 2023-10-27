@@ -69,7 +69,12 @@ export default function CameraForModal({ onClose, reservation }) {
       body: formData,
       headers: { Authorization: `Bearer ${TOKEN}` },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           fetch(`${BASE_URL}/reservations/${reservation._id}/evidence`, {
@@ -84,7 +89,12 @@ export default function CameraForModal({ onClose, reservation }) {
               "Content-Type": "application/json",
             },
           })
-            .then((resp) => resp.json())
+            .then((resp) => {
+              if (!resp.ok) {
+                throw new Error('Respuesta no exitosa');
+              }
+              return resp.json();
+            })
             .then((resp) => {
               if (resp.success) {
                 toast.success("Evidencia Guardada", { autoClose: 2000 });
@@ -93,10 +103,16 @@ export default function CameraForModal({ onClose, reservation }) {
                 alert(resp.message);
                 toast.error("Error al subir la evidencia");
               }
+            })
+            .catch((error) => {
+              console.error('Error en la solicitud:', error);
             });
         } else {
           toast.error("Error al subir la evidencia");
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 

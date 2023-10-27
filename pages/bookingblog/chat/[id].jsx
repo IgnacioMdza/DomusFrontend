@@ -37,7 +37,12 @@ export default function Chat() {
     const reservationId = router.query.id;
     if (user && reservationId) {
       fetch(`${urlFetch}/reservations/all/${reservationId}?find=comunication`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (
             (user.id === resp.data.client._id ||
@@ -50,6 +55,9 @@ export default function Chat() {
           } else {
             router.push("/404");
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [router, user, urlFetch, reload]);
@@ -67,7 +75,12 @@ export default function Chat() {
         date: new Date(),
       }),
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         if (response.success) {
           toast.success("Mensaje enviado", { autoClose: 200 });
@@ -78,8 +91,8 @@ export default function Chat() {
           toast.error("Error al enviar mensaje");
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 

@@ -13,9 +13,17 @@ export default function HostCard({ hostName, auth, initialDate, endDate, hostAnd
   useEffect(() => {
     if (client) {
       fetch(`${BASE_URL}/users/${client?.id}`)
-        .then((response) => response.json())
+        .then((resp) => {
+          if (!resp.ok) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((response) => {
           setUserClient(response.data);
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
         });
     }
   }, [client?.id, client, BASE_URL]);

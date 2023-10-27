@@ -34,7 +34,12 @@ export default function Login() {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           localStorage.setItem("token", resp.token);
@@ -43,6 +48,9 @@ export default function Login() {
         } else {
           toast.error(resp.message);
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 

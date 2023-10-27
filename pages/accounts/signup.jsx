@@ -35,7 +35,12 @@ export default function Register() {
         type: data.radio,
       }),
     })
-      .then((res) => res.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((res) => {
         if (res.success) {
           setTimeout(() => toast.success("Usuario creado con éxito", { autoClose: 5000 }), 1500);
@@ -44,6 +49,9 @@ export default function Register() {
           setTimeout(() => toast.error(res.message, { autoClose: 5000 }), 1500);
           setTimeout(() => router.push(`/accounts/signup`), 6000);
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   };
 
