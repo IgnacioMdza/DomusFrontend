@@ -3,12 +3,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import CheckoutForm from "@/components/CheckoutForm";
 import { useRouter } from "next/router";
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export default function App(props) {
   const [clientSecret, setClientSecret] = useState("");
@@ -60,13 +59,14 @@ export default function App(props) {
 
   return (
     <main className="mt-[90px] bg-[#FF7068]">
+      <Head>
+        <title>{`Realiza tu pago`}</title>
+      </Head>
       <section className="max-w-[1024px] mx-auto px-[24px] flex flex-col gap-[24px] place-content-center items-center min-h-[calc(100vh-90px)]">
         {clientSecret && (
           <div className="w-full lg:w-3/5 flex flex-col bg-[#F8F8F8] p-[24px] rounded-xl shadow-xl border-1 border-white">
             <div className="flex justify-between items-center">
-              <h1 className="text-[32px] font-[Raleway] font-semibold text-[#FF7068]">
-                Reserva
-              </h1>
+              <h1 className="text-[32px] font-[Raleway] font-semibold text-[#FF7068]">Reserva</h1>
               <Link
                 href={`/profiles/${client?.id}`}
                 className="text-[16px] text-white bg-[#FF7068] px-[12px] py-[6px] rounded-full border border-[#FF7068] hover:shadow-md hover:scale-[102%] hover:bg-[#F2F2F2] transition hover:text-[#FF7068]"
@@ -75,15 +75,13 @@ export default function App(props) {
               </Link>
             </div>
             <p>
-              Del {new Date(bookingData.startDate).toDateString()} al{" "}
-              {new Date(bookingData.finishDate).toDateString()}
+              Del {new Date(bookingData.startDate).toDateString()} al {new Date(bookingData.finishDate).toDateString()}
             </p>
             <div className="flex flex-col gap-[4px] rounded-lg lg:p-[8px]">
               <div className="flex justify-between lg:text-[14px] w-full">
                 <p>Noches agendadas</p>
                 <p>
-                  {bookingData.cost.nights} x ${bookingData.cost.costPerNight} :
-                  ${bookingData.cost.nights * bookingData.cost.costPerNight}
+                  {bookingData.cost.nights} x ${bookingData.cost.costPerNight} : ${bookingData.cost.nights * bookingData.cost.costPerNight}
                 </p>
               </div>
               <div className="flex justify-between lg:text-[14px] w-full">

@@ -7,3 +7,13 @@ Main {
   font-family: "Nunito";
   margin: auto;
 }
+
+.remove-arrow::-webkit-inner-spin-button,
+.remove-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.remove-arrow {
+  appearance: none;
+  -moz-appearance: textfield;
+}
