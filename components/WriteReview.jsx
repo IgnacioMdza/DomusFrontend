@@ -50,7 +50,7 @@ export default function WriteReview({
   }
 
   return (
-    <main className="rounded-[20px] bg-white p-[20px] flex flex-col text-center w-[460px] gap-3 min-h-[300px] max-h-[300px]">
+    <main className="rounded-[20px] bg-white p-[20px] flex flex-col text-center w-full sm:w-[460px] gap-3 min-h-[300px] max-h-[300px]">
       <ToastContainer
         position="top-center"
         autoClose={5000}
