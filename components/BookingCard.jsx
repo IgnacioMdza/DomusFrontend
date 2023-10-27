@@ -79,7 +79,7 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
   }
 
   function changeStatus(newStatus) {
-    toast.success("Actualizando Estatus", { autoClose: 2000 });
+    toast.info("Actualizando Estatus", { autoClose: 2000 });
     const token = localStorage.getItem("token");
     fetch(`${BASE_URL}/reservations/${reservationId}/status`, {
       method: "PATCH",
@@ -126,7 +126,10 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
             <button onClick={(e) => goToProfile(cardUserId)}>
               <p className="hover:underline text-[24px] font-[Raleway] inline-block">{nameText}</p>
             </button>
-            <p className="text-[24px] font-semibold text-right inline-block">${cost}</p>
+            <p className="text-[24px] font-semibold text-right inline-block">
+              ${cost}
+              <span className="text-[16px]"> MXN</span>
+            </p>
           </div>
           <p className="text-[14px] font-light">Ent: {startDate}</p>
           <p className="text-[14px] font-light">Sal: {finishDate}</p>

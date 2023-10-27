@@ -91,22 +91,18 @@ export default function HomeRegister() {
   const [check5, setCheck5] = useState(false);
 
   const onSubmit = (data) => {
-    toast.success("Guardando tu alojamiento...", { autoClose: 2000 });
+    toast.info("Guardando tu alojamiento...", { autoClose: 2000 });
     const amenities = data.amenities;
     const stringAmenities = amenities.split(".");
     const ListAmenities = stringAmenities.map((p) => p.trim());
     const clearAmenidades = ListAmenities.filter(Boolean);
-    const arrayAmenidades = clearAmenidades.map((clear) =>
-      clear.replace(/(\r\n|\n|\r)/gm, "")
-    );
+    const arrayAmenidades = clearAmenidades.map((clear) => clear.replace(/(\r\n|\n|\r)/gm, ""));
 
     const restrictions = data.restrictions;
     const stringRestrictions = restrictions.split(".");
     const ListRestrictions = stringRestrictions.map((p) => p.trim());
     const clearRestrictions = ListRestrictions.filter(Boolean);
-    const arrayRestrictions = clearRestrictions.map((clear) =>
-      clear.replace(/(\r\n|\n|\r)/gm, "")
-    );
+    const arrayRestrictions = clearRestrictions.map((clear) => clear.replace(/(\r\n|\n|\r)/gm, ""));
 
     let amount = parseInt(data.amount);
     let externalNumber = parseInt(data.externalNumber);
@@ -154,8 +150,7 @@ export default function HomeRegister() {
         },
       },
       hasPet: textareaActive,
-      description:
-        data.description === "" || !textareaActive ? "N/A" : data.description,
+      description: data.description === "" || !textareaActive ? "N/A" : data.description,
       checkIn: data.checkIn,
       checkOut: data.checkOut,
       amenities: arrayAmenidades,
@@ -190,27 +185,18 @@ export default function HomeRegister() {
       formData.append(`image_${index}`, image);
     });
 
-    fetch(
-      `${urlFetch}/accommodation/${JSON.parse(atob(token.split(".")[1])).id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    )
+    fetch(`${urlFetch}/accommodation/${JSON.parse(atob(token.split(".")[1])).id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
       .then((response) => response.json())
       .then((response) => {
         if (response.success) {
           toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
-          setTimeout(
-            () =>
-              router.push(
-                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
-              ),
-            2000
-          );
+          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error(`${response.message}`);
         }
@@ -379,82 +365,39 @@ export default function HomeRegister() {
       <Head>
         <title>Domus - Registra tu Alojamiento</title>
       </Head>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       {token && user && (
         <>
           <div className="mt-32 mb-24">
             <div className="bg-[#FF6868] py-4 text-center">
-              <h1 className="text-white text-3xl font-semibold  font-[Raleway]">
-                Agregar Alojamiento
-              </h1>
+              <h1 className="text-white text-3xl font-semibold  font-[Raleway]">Agregar Alojamiento</h1>
             </div>
 
             <div className="lg:flex lg:justify-center">
               <div className="border-[2px] py-4 mx-4 px-2 rounded-lg mt-10 lg:max-w-7xl bg-white drop-shadow-xl  font-[Nunito] font-medium">
                 <div className="border-b-[2px] border-[#FF6868]">
-                  <h2 className="text-2xl py-2 ">
-                    Características del Alojamiento
-                  </h2>
+                  <h2 className="text-2xl py-2 ">Características del Alojamiento</h2>
                 </div>
                 <div className=" md:items-center md:w-full">
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="px-2 pt-3  md:m-auto m-auto "
-                  >
+                  <form onSubmit={handleSubmit(onSubmit)} className="px-2 pt-3  md:m-auto m-auto ">
                     <div className="md:flex">
                       <div className="flex justify-center flex-col sm:flex-row items-center pt-10 lg:px-10 text-center gap-4 sm:gap-2 sm:items-start md:flex-col md:justify-start md:items-center md:gap-5">
                         <div className="flex flex-col justify-center items-center">
                           <div className="rounded-full w-[240px] h-[240px] flex justify-center items-center shadow-lg bg-[#F2F2F2] border border-[#c1c1c1]">
-                            <Image
-                              src="/images/seccion_home.png"
-                              alt="camera_pic"
-                              width={220}
-                              height={220}
-                              className="w-fit h-fit object-cover aspect-square rounded-full"
-                            />
+                            <Image src="/images/seccion_home.png" alt="camera_pic" width={220} height={220} className="w-fit h-fit object-cover aspect-square rounded-full" />
                           </div>
-                          <p className="md:pt-4">
-                            Te recomendamos agregar al menos 5 fotografías
-                            diferentes de tu alojamiento
-                          </p>
+                          <p className="md:pt-4">Te recomendamos agregar al menos 5 fotografías diferentes de tu alojamiento</p>
                         </div>
 
                         <div className="md:max-w-[360px] md:px-5">
                           <br></br>
                           {/* INPUT IMAGES */}
                           <label className="">
-                            <p className="bg-[#2F2E43] px-10  text-white rounded-full py-2 text-lg md:text-lg sm:text-sm w-full cursor-pointer">
-                              Selecciona tus imagenes Aquí
-                            </p>
+                            <p className="bg-[#2F2E43] px-10  text-white rounded-full py-2 text-lg md:text-lg sm:text-sm w-full cursor-pointer">Selecciona tus imagenes Aquí</p>
                             <div className="flex sm:min-w-[330px] ">
-                              <input
-                                type="file"
-                                hidden
-                                name="imag"
-                                className="text-[#2A2D49]"
-                                accept=".png, .jpg, .jpeg"
-                                multiple
-                                onChange={(e) =>
-                                  setCurrentFiles(e.target.files)
-                                }
-                              />
+                              <input type="file" hidden name="imag" className="text-[#2A2D49]" accept=".png, .jpg, .jpeg" multiple onChange={(e) => setCurrentFiles(e.target.files)} />
                             </div>
-                            {errors.imag && (
-                              <span className="text-red-500">
-                                {errors.imag.message}
-                              </span>
-                            )}
+                            {errors.imag && <span className="text-red-500">{errors.imag.message}</span>}
                           </label>
 
                           {/* VIEW IMAGES */}
@@ -462,20 +405,11 @@ export default function HomeRegister() {
                             {images.map((image, index) => (
                               <div className="flex " key={index}>
                                 <div className="">
-                                  <button
-                                    className="position-absolute px-2 mb-2 text-white bg-[#FF6868] mt-4"
-                                    onClick={() => deleteFileFromList(index)}
-                                  >
+                                  <button className="position-absolute px-2 mb-2 text-white bg-[#FF6868] mt-4" onClick={() => deleteFileFromList(index)}>
                                     x
                                   </button>
                                   <div className="">
-                                    <Image
-                                      src={URL.createObjectURL(image)}
-                                      width={100}
-                                      height={100}
-                                      className="border border-5 w-max-80 h-auto"
-                                      alt="Imagen dada de alta"
-                                    ></Image>
+                                    <Image src={URL.createObjectURL(image)} width={100} height={100} className="border border-5 w-max-80 h-auto" alt="Imagen dada de alta"></Image>
                                   </div>
                                 </div>
                               </div>
@@ -491,33 +425,17 @@ export default function HomeRegister() {
                           </h4>
                           <div className="flex justify-start items-center gap-3 pt-4">
                             <div className="flex items-center">
-                              <label
-                                htmlFor="default-radio-1"
-                                className="mr-2 "
-                              >
+                              <label htmlFor="default-radio-1" className="mr-2 ">
                                 Perro
                               </label>
-                              <input
-                                type="checkbox"
-                                value="perro"
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                                onChange={hiddenCheck5}
-                              />
+                              <input type="checkbox" value="perro" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onChange={hiddenCheck5} />
                             </div>
 
                             <div className="flex items-center">
-                              <label
-                                htmlFor="default-radio-1"
-                                className="mr-2 "
-                              >
+                              <label htmlFor="default-radio-1" className="mr-2 ">
                                 Gato
                               </label>
-                              <input
-                                type="checkbox"
-                                value="gato"
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                                onChange={hiddenCheck4}
-                              />
+                              <input type="checkbox" value="gato" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onChange={hiddenCheck4} />
                             </div>
                           </div>
                         </div>
@@ -546,31 +464,18 @@ export default function HomeRegister() {
                               <label htmlFor="" className="mr-2 ">
                                 Mediano
                               </label>
-                              <input
-                                type="checkbox"
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                                onChange={hiddenCheck2}
-                                disabled={check4 && check5 ? !check4 : check4}
-                              />
+                              <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onChange={hiddenCheck2} disabled={check4 && check5 ? !check4 : check4} />
                             </div>
                             <div className="flex items-center">
                               <label htmlFor="" className="mr-2 ">
                                 Grande
                               </label>
-                              <input
-                                type="checkbox"
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                                onChange={hiddenCheck3}
-                                disabled={check4 && check5 ? !check4 : check4}
-                              />
+                              <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onChange={hiddenCheck3} disabled={check4 && check5 ? !check4 : check4} />
                             </div>
                           </div>
                         </div>
                         <div>
-                          <label
-                            forlabel="lastName"
-                            className="block mb-2 text-lg font-medium"
-                          >
+                          <label forlabel="lastName" className="block mb-2 text-lg font-medium">
                             ¿Cuántas mascotas podrías cuidar simultáneamente?:
                           </label>
                           <select
@@ -590,19 +495,12 @@ export default function HomeRegister() {
                             <option value="5">5</option>
                             {/* <option value="otro">otro</option> */}
                           </select>
-                          {errors.amount && (
-                            <span className="text-red-500">
-                              {errors.amount.message}
-                            </span>
-                          )}
+                          {errors.amount && <span className="text-red-500">{errors.amount.message}</span>}
                         </div>
                         <div className="sm:flex sm:justify-start sm:gap-10 lg:flex lg:justify-start lg:gap-14 mt-4">
                           <div className="flex justify-around item-center sm:gap-4">
                             <div className="pb-4">
-                              <label
-                                forlabel="datetime"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="datetime" className="block mb-2 text-lg font-medium">
                                 Check In:
                               </label>
                               <div className="relative">
@@ -633,21 +531,14 @@ export default function HomeRegister() {
                                     required: {
                                       value: true,
                                       message: "Campo requerido",
-                                    } 
+                                    },
                                   })}
                                 />
                               </div>
-                              {errors.checkIn && (
-                                <span className="text-red-500">
-                                  {errors.checkIn.message}
-                                </span>
-                              )}
+                              {errors.checkIn && <span className="text-red-500">{errors.checkIn.message}</span>}
                             </div>
                             <div className="pb-4">
-                              <label
-                                forlabel="datetime"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="datetime" className="block mb-2 text-lg font-medium">
                                 Check Out:
                               </label>
                               <div className="relative">
@@ -679,36 +570,23 @@ export default function HomeRegister() {
                                     required: {
                                       value: true,
                                       message: "Campo requerido",
-                                    }                                   
+                                    },
                                   })}
                                 />
                               </div>
-                              {errors.checkOut && (
-                                <span className="text-red-500">
-                                  {errors.checkOut.message}
-                                </span>
-                              )}
+                              {errors.checkOut && <span className="text-red-500">{errors.checkOut.message}</span>}
                             </div>
-                          </div>      
+                          </div>
                         </div>
                         <p>[Se permiten horas de 5:00 am a 11:00 pm con intervalos de media hora]</p>
                         <div className="pt-4">
                           <div className="flex justify-start justify-items-center  items-center pb-2">
-                            <label
-                              htmlFor="message"
-                              className="block mb-2 text-lg font-medium"
-                            >
+                            <label htmlFor="message" className="block mb-2 text-lg font-medium">
                               ¿Habitan mascotas en el sitio?
                             </label>
                             <div className="flex justify-center items-center gap-1 mb-2 pl-10">
                               <p>Marcar</p>
-                              <input
-                                id="default-checkbox"
-                                type="checkbox"
-                                value=""
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
-                                onChange={hiddenText}
-                              />
+                              <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded" onChange={hiddenText} />
                             </div>
                           </div>
                           <textarea
@@ -728,24 +606,12 @@ export default function HomeRegister() {
                               },
                             })}
                           ></textarea>
-                          {errors.description && (
-                            <span className="text-red-500">
-                              {errors.description.message}
-                            </span>
-                          )}
+                          {errors.description && <span className="text-red-500">{errors.description.message}</span>}
                         </div>
                         <div className="pt-4">
-                          <label
-                            htmlFor="message"
-                            className="block mb-2 text-lg font-medium"
-                          >
+                          <label htmlFor="message" className="block mb-2 text-lg font-medium">
                             Amenidades
-                            <small>
-                              {" "}
-                              (Separa tus amenidades con un punto al final de
-                              cada una)
-                            </small>
-                            :
+                            <small> (Separa tus amenidades con un punto al final de cada una)</small>:
                           </label>
 
                           <textarea
@@ -760,24 +626,12 @@ export default function HomeRegister() {
                               },
                             })}
                           ></textarea>
-                          {errors.amenities && (
-                            <span className="text-red-500">
-                              {errors.amenities.message}
-                            </span>
-                          )}
+                          {errors.amenities && <span className="text-red-500">{errors.amenities.message}</span>}
                         </div>
                         <div className="pt-4">
-                          <label
-                            htmlFor="message"
-                            className="block mb-2 text-lg font-medium"
-                          >
+                          <label htmlFor="message" className="block mb-2 text-lg font-medium">
                             Restricciones
-                            <small>
-                              {" "}
-                              (Separa tus restricciones con un punto al final de
-                              cada una)
-                            </small>
-                            :
+                            <small> (Separa tus restricciones con un punto al final de cada una)</small>:
                           </label>
 
                           <textarea
@@ -792,11 +646,7 @@ export default function HomeRegister() {
                               },
                             })}
                           ></textarea>
-                          {errors.restrictions && (
-                            <span className="text-red-500">
-                              {errors.restrictions.message}
-                            </span>
-                          )}
+                          {errors.restrictions && <span className="text-red-500">{errors.restrictions.message}</span>}
                         </div>
                       </div>
                     </div>
@@ -806,21 +656,13 @@ export default function HomeRegister() {
                       </div>
                       <div className="md:flex md:items-start">
                         <div className="flex justify-center items-center pt-10 md:pt-0 md:px-10 sm:pb-5 ">
-                          <Image
-                            src={"/images/direction.png"}
-                            width={500}
-                            height={500}
-                            alt="Dirección"
-                          />
+                          <Image src={"/images/direction.png"} width={500} height={500} alt="Dirección" />
                         </div>
                         <div className="md:pt-5">
                           <div className="sm:flex  sm:items-center">
                             <div className="flex gap-4">
                               <div className="pb-4 pt-4 sm:pt-0 sm:w-full sm:mr-4 sm:pb-0 lg:pb-0">
-                                <label
-                                  forlabel="street"
-                                  className="block mb-2 text-lg font-medium"
-                                >
+                                <label forlabel="street" className="block mb-2 text-lg font-medium">
                                   Calle:
                                 </label>
                                 <div className="relative">
@@ -838,17 +680,10 @@ export default function HomeRegister() {
                                     })}
                                   />
                                 </div>
-                                {errors.street && (
-                                  <span className="text-red-500">
-                                    {errors.street.message}
-                                  </span>
-                                )}
+                                {errors.street && <span className="text-red-500">{errors.street.message}</span>}
                               </div>
                               <div className="pb-4  pt-4 sm:w-52 sm:pb-0 lg:pb-0 sm:pt-0">
-                                <label
-                                  forlabel="exterior"
-                                  className="block mb-2 text-lg font-medium"
-                                >
+                                <label forlabel="exterior" className="block mb-2 text-lg font-medium">
                                   No. Ext:
                                 </label>
                                 <div className="relative">
@@ -866,17 +701,10 @@ export default function HomeRegister() {
                                     })}
                                   />
                                 </div>
-                                {errors.externalNumber && (
-                                  <span className="text-red-500">
-                                    {errors.externalNumber.message}
-                                  </span>
-                                )}
+                                {errors.externalNumber && <span className="text-red-500">{errors.externalNumber.message}</span>}
                               </div>
                               <div className="pb-4 pt-4 sm:w-52 sm:pb-0 lg:pb-0 sm:pt-0">
-                                <label
-                                  forlabel="interior"
-                                  className="block mb-2 text-lg font-medium"
-                                >
+                                <label forlabel="interior" className="block mb-2 text-lg font-medium">
                                   No. Int:
                                 </label>
                                 <div className="relative">
@@ -895,19 +723,12 @@ export default function HomeRegister() {
                                     })}
                                   />
                                 </div>
-                                {errors.internalNumber && (
-                                  <span className="text-red-500">
-                                    {errors.internalNumber.message}
-                                  </span>
-                                )}
+                                {errors.internalNumber && <span className="text-red-500">{errors.internalNumber.message}</span>}
                               </div>
                             </div>
                           </div>
                           <div className="pb-4 sm:pb-0 lg:pb-0">
-                            <label
-                              forlabel="cologne"
-                              className="block mb-2 text-lg font-medium"
-                            >
+                            <label forlabel="cologne" className="block mb-2 text-lg font-medium">
                               Colonia:
                             </label>
                             <div className="relative">
@@ -925,18 +746,11 @@ export default function HomeRegister() {
                                 })}
                               />
                             </div>
-                            {errors.neighbourhood && (
-                              <span className="text-red-500">
-                                {errors.neighbourhood.message}
-                              </span>
-                            )}
+                            {errors.neighbourhood && <span className="text-red-500">{errors.neighbourhood.message}</span>}
                           </div>
                           <div className="sm:flex sm:gap-10 ">
                             <div className="sm:w-full">
-                              <label
-                                forlabel="lastName"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="lastName" className="block mb-2 text-lg font-medium">
                                 Estado:
                               </label>
                               <select
@@ -957,17 +771,10 @@ export default function HomeRegister() {
                                   );
                                 })}
                               </select>
-                              {errors.state && (
-                                <p className="text-[#2B2E4A]">
-                                  {errors.state.message}
-                                </p>
-                              )}
+                              {errors.state && <p className="text-[#2B2E4A]">{errors.state.message}</p>}
                             </div>
                             <div className="pt-4 sm:pt-0 sm:w-full">
-                              <label
-                                forlabel="lastName"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="lastName" className="block mb-2 text-lg font-medium">
                                 Ciudad:
                               </label>
                               <select
@@ -981,9 +788,7 @@ export default function HomeRegister() {
                               >
                                 <option value="">Municipio</option>
                                 {locations
-                                  .filter(
-                                    (item) => item.estado === watch("state")
-                                  )[0]
+                                  .filter((item) => item.estado === watch("state"))[0]
                                   ?.municipios.map((municipio, index) => {
                                     return (
                                       <option key={index} value={municipio}>
@@ -992,19 +797,12 @@ export default function HomeRegister() {
                                     );
                                   })}
                               </select>
-                              {errors.city && (
-                                <p className="text-[#2B2E4A]">
-                                  {errors.city.message}
-                                </p>
-                              )}
+                              {errors.city && <p className="text-[#2B2E4A]">{errors.city.message}</p>}
                             </div>
                           </div>
                           <div className="sm:flex sm:gap-10 sm:mt-5">
                             <div className="pb-4 pt-4 sm:pt-0">
-                              <label
-                                forlabel="street"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="street" className="block mb-2 text-lg font-medium">
                                 C.P:
                               </label>
                               <div className="relative">
@@ -1022,17 +820,10 @@ export default function HomeRegister() {
                                   })}
                                 />
                               </div>
-                              {errors.postalCode && (
-                                <span className="text-red-500">
-                                  {errors.postalCode.message}
-                                </span>
-                              )}
+                              {errors.postalCode && <span className="text-red-500">{errors.postalCode.message}</span>}
                             </div>
                             <div className="pb-4 sm:w-full">
-                              <label
-                                forlabel="street"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="street" className="block mb-2 text-lg font-medium">
                                 Entre calles / Esquina::
                               </label>
                               <div className="relative">
@@ -1048,26 +839,17 @@ export default function HomeRegister() {
                                   })}
                                 />
                               </div>
-                              {errors.streetsNearby && (
-                                <span className="text-red-500">
-                                  {errors.streetsNearby.message}
-                                </span>
-                              )}
+                              {errors.streetsNearby && <span className="text-red-500">{errors.streetsNearby.message}</span>}
                             </div>
                           </div>
                           <div className="pt-4">
-                            <label
-                              htmlFor="message"
-                              className="block mb-2 text-2xl font-medium"
-                            >
+                            <label htmlFor="message" className="block mb-2 text-2xl font-medium">
                               Referencias
                             </label>
                             <textarea
                               rows="6"
                               className=" rounded-lg w-full pl-10 p-3 border-[2px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                              placeholder={
-                                "Ejemplo:\n- ¿Color de la casa?\n- ¿Color de la puerta / portón?\n- ¿Algún negocio cercano?"
-                              }
+                              placeholder={"Ejemplo:\n- ¿Color de la casa?\n- ¿Color de la puerta / portón?\n- ¿Algún negocio cercano?"}
                               {...register("references", {
                                 required: {
                                   value: true,
@@ -1079,11 +861,7 @@ export default function HomeRegister() {
                                 },
                               })}
                             ></textarea>
-                            {errors.references && (
-                              <span className="text-red-500">
-                                {errors.references.message}
-                              </span>
-                            )}
+                            {errors.references && <span className="text-red-500">{errors.references.message}</span>}
                           </div>
                         </div>
                       </div>
@@ -1091,20 +869,14 @@ export default function HomeRegister() {
 
                     <div>
                       <div className="border-b-[2px] border-[#FF6868] pt-4 pb-2">
-                        <h2 className="text-3xl pb-2">
-                          Información financiera
-                        </h2>
+                        <h2 className="text-3xl pb-2">Información financiera</h2>
                       </div>
                     </div>
                     <div className="lg:flex">
                       <div className="pt-4 md:pt-2">
                         <p className="text-lg lg:w-64 lg:mr-16">
-                          Los costos por noche son los que tú recibirás
-                          netamente en tu cuenta bancaria al terminar el
-                          hospedaje de la mascota. Al fijar los precios,
-                          considera que <strong>domus.com.mx</strong> agregará
-                          un porcentaje extra como cargo por impuestos,
-                          comisiones y mantenimiento de la plataforma.
+                          Los costos por noche son los que tú recibirás netamente en tu cuenta bancaria al terminar el hospedaje de la mascota. Al fijar los precios, considera que{" "}
+                          <strong>domus.com.mx</strong> agregará un porcentaje extra como cargo por impuestos, comisiones y mantenimiento de la plataforma.
                         </p>
                       </div>
                       <div className="md:w-full">
@@ -1139,10 +911,7 @@ export default function HomeRegister() {
                                 })}
                               />
                             </th> */}
-                                <th
-                                  scope="row"
-                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                                >
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                   Perro
                                 </th>
                                 <td className="px-6 py-4">Pequeño</td>
@@ -1150,12 +919,7 @@ export default function HomeRegister() {
                                   {" "}
                                   <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                      <svg
-                                        className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
+                                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                           fillRule="evenodd"
                                           clipRule="evenodd"
@@ -1194,10 +958,7 @@ export default function HomeRegister() {
                                 })}
                               />
                             </th> */}
-                                <th
-                                  scope="row"
-                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                                >
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                   Perro
                                 </th>
                                 <td className="px-6 py-4">Mediano</td>
@@ -1205,12 +966,7 @@ export default function HomeRegister() {
                                   {" "}
                                   <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                      <svg
-                                        className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
+                                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                           fillRule="evenodd"
                                           clipRule="evenodd"
@@ -1249,10 +1005,7 @@ export default function HomeRegister() {
                                 })}
                               />
                             </th> */}
-                                <th
-                                  scope="row"
-                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
-                                >
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                   Perro
                                 </th>
                                 <td className="px-6 py-4">Grande</td>
@@ -1260,12 +1013,7 @@ export default function HomeRegister() {
                                   {" "}
                                   <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                      <svg
-                                        className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
+                                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                           fillRule="evenodd"
                                           clipRule="evenodd"
@@ -1304,10 +1052,7 @@ export default function HomeRegister() {
                                 })}
                               />
                             </th> */}
-                                <th
-                                  scope="row"
-                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                                >
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                   Gato
                                 </th>
                                 <td className="px-6 py-4">-----</td>
@@ -1315,12 +1060,7 @@ export default function HomeRegister() {
                                   {" "}
                                   <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                      <svg
-                                        className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
+                                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                           fillRule="evenodd"
                                           clipRule="evenodd"
@@ -1351,10 +1091,7 @@ export default function HomeRegister() {
                         <div>
                           <div className="sm:flex  mt-5 lg:flex sm:gap-10">
                             <div className="pb-4 sm:w-full">
-                              <label
-                                forlabel="card"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="card" className="block mb-2 text-lg font-medium">
                                 Titular de la cuenta:
                               </label>
                               <div className="relative">
@@ -1372,17 +1109,10 @@ export default function HomeRegister() {
                                   })}
                                 />
                               </div>
-                              {errors.name && (
-                                <span className="text-red-500">
-                                  {errors.name.message}
-                                </span>
-                              )}
+                              {errors.name && <span className="text-red-500">{errors.name.message}</span>}
                             </div>
                             <div className="pb-4 sm:w-full">
-                              <label
-                                forlabel="card"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="card" className="block mb-2 text-lg font-medium">
                                 Número de cuenta:
                               </label>
                               <div className="relative">
@@ -1413,19 +1143,12 @@ export default function HomeRegister() {
                                   })}
                                 />
                               </div>
-                              {errors.number && (
-                                <span className="text-red-500">
-                                  {errors.number.message}
-                                </span>
-                              )}
+                              {errors.number && <span className="text-red-500">{errors.number.message}</span>}
                             </div>
                           </div>
                           <div className="sm:flex sm:gap-10">
                             <div className="pb-4 sm:w-full">
-                              <label
-                                forlabel="lastName"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="lastName" className="block mb-2 text-lg font-medium">
                                 Banco:
                               </label>
 
@@ -1446,17 +1169,10 @@ export default function HomeRegister() {
                                   );
                                 })}
                               </select>
-                              {errors.bank && (
-                                <span className="text-red-500">
-                                  {errors.bank.message}
-                                </span>
-                              )}
+                              {errors.bank && <span className="text-red-500">{errors.bank.message}</span>}
                             </div>
                             <div className="pb-4 sm:w-full">
-                              <label
-                                forlabel="card"
-                                className="block mb-2 text-lg font-medium"
-                              >
+                              <label forlabel="card" className="block mb-2 text-lg font-medium">
                                 CLABE interbancaria:
                               </label>
                               <div className="relative">
@@ -1483,11 +1199,7 @@ export default function HomeRegister() {
                                   })}
                                 />
                               </div>
-                              {errors.clabe && (
-                                <span className="text-red-500">
-                                  {errors.clabe.message}
-                                </span>
-                              )}
+                              {errors.clabe && <span className="text-red-500">{errors.clabe.message}</span>}
                             </div>
                           </div>
                         </div>
@@ -1500,10 +1212,7 @@ export default function HomeRegister() {
                       >
                         Cancelar
                       </Link>
-                      <button
-                        type="submit"
-                        className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center transition"
-                      >
+                      <button type="submit" className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center transition">
                         Guardar
                       </button>
                     </div>
