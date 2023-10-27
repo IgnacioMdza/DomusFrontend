@@ -38,7 +38,7 @@ export default function Chat() {
     if (user && reservationId) {
       fetch(`${urlFetch}/reservations/all/${reservationId}?find=comunication`)
         .then((resp) => {
-          if (!resp.ok) {
+          if (!resp) {
             throw new Error('Respuesta no exitosa');
           }
           return resp.json();
@@ -58,6 +58,7 @@ export default function Chat() {
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
+          router.push('/500')
         });
     }
   }, [router, user, urlFetch, reload]);

@@ -45,8 +45,8 @@ export default function ClientProfile() {
 
       fetch(`${URL}/users/${pathId}`)
         .then((resp) => {
-          if (!resp.ok) {
-            throw new Error('Respuesta no exitosa');
+          if(!resp){
+            throw new Error('Respuesta no exitosa')
           }
           return resp.json();
         })
@@ -61,6 +61,7 @@ export default function ClientProfile() {
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
+          router.push('/500')
         });
     }
   }, [router.query.id, router, URL]);

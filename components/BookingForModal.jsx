@@ -108,22 +108,12 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
           },
         }),
       })
-        .then((resp) => {
-          if (!resp.ok) {
-            throw new Error('Respuesta no exitosa');
-          }
-          return resp.json();
-        })
+        .then((response) => response.json())
         .then((response) => {
           console.log("response: ", response);
           if (response.success) {
             fetch(`${urlFetch}/mailNotifications/${response.data._id}`, { method: "POST" })
-              .then((resp) => {
-                if (!resp.ok) {
-                  throw new Error('Respuesta no exitosa');
-                }
-                return resp.json();
-              })
+              .then((resp) => resp.json())
               .then((resp) => {
                 if (resp.success) {
                   toast.success("Reservación creada con éxito", { autoClose: 2000 });
@@ -131,22 +121,15 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
                 } else {
                   toast.error("Error al enviar las notificaciones");
                 }
-              })
-              .catch((error) => {
-                console.error('Error en la solicitud:', error);
               });
           } else {
             toast.error("Error al crear reservación");
           }
-        })
-        .catch((error) => {
-          console.error('Error en la solicitud:', error);
         });
     } else {
       alert("No has seleccionado una mascota");
     }
   }
-  
   return (
     <>
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
