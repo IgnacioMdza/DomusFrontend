@@ -22,6 +22,7 @@ export default function Register() {
   password.current = watch("password", "");
 
   const onSubmit = (data) => {
+    toast.info("Creando usuario", { autoClose: 1500 });
     fetch(`${BASE_URL}/users`, {
       method: "POST",
       headers: {
@@ -37,13 +38,12 @@ export default function Register() {
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {
-          toast.success("Usuario creado con éxito", { autoClose: 2000 });
-          setTimeout(() => router.push(`/accounts/signin`), 2000);
+          setTimeout(() => toast.success("Usuario creado con éxito", { autoClose: 5000 }), 1500);
+          setTimeout(() => router.push("/accounts/confirm"), 6000);
         } else {
-          toast.error(res.message), { autoClose: 2000 };
-          setTimeout(() => router.push(`/accounts/signin`), 4000);
+          setTimeout(() => toast.error(res.message, { autoClose: 5000 }), 1500);
+          setTimeout(() => router.push(`/accounts/signup`), 6000);
         }
-        // if (res.success) router.push("/accounts/confirm");
       });
   };
 
@@ -52,27 +52,11 @@ export default function Register() {
       <Head>
         <title>Domus - Regístrate</title>
       </Head>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
         <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[12px] sm:rounded-b-[16px]">
           <div className="flex justify-center">
-            <svg
-              className="sm:w-32 sm:h-24 w-28 h-20"
-              viewBox="0 0 76 67"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg className="sm:w-32 sm:h-24 w-28 h-20" viewBox="0 0 76 67" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M26.6 18.3009C26.379 17.1124 26.0108 15.9344 25.7162 14.7563C24.8044 11.9364 23.5389 10.6108 21.9499 8.10891C21.4877 7.43394 20.9552 6.80988 20.3613 6.24721C19.6198 5.41579 18.5786 4.91235 17.4663 4.84728C16.354 4.78221 15.2613 5.16085 14.4278 5.90013C12.9547 7.02599 11.7479 8.46243 10.8929 10.1073C8.93608 13.6835 7.73673 16.1026 8.3364 20.2152C8.57972 22.2089 9.29194 24.1166 10.4147 25.7821C11.5375 27.4476 13.0389 28.8235 14.796 29.7971C15.7177 30.3642 16.7512 30.7252 17.8256 30.8552C18.9 30.9853 19.9898 30.8814 21.0202 30.5507C22.0507 30.2199 22.9973 29.6702 23.7952 28.9391C24.5931 28.2081 25.2233 27.3132 25.6426 26.3157C26.8216 23.8183 27.1576 21.0056 26.6 18.3009Z"
                 fill="white"
@@ -93,63 +77,23 @@ export default function Register() {
                 d="M0.656178 40.231C2.22373 45.185 5.17999 48.1616 9.76692 49.3396C14.3539 50.5176 18.3727 47.7093 18.6883 43.0288C18.7924 41.3849 18.5002 39.74 17.8361 38.2325C16.2791 34.6354 13.5122 32.0795 10.4718 29.8181C9.38313 29.004 8.18633 28.3456 6.91588 27.8617C4.3068 26.8099 2.19217 27.7881 1.03492 30.3335C0.108368 32.552 -0.20414 34.9788 0.130154 37.3595C0.26692 38.4324 0.529932 39.5473 0.656178 40.231Z"
                 fill="white"
               />
-              <ellipse
-                cx="48.8571"
-                cy="39.6531"
-                rx="27.1429"
-                ry="27.3469"
-                fill="#2B2E4A"
-                fillOpacity="0.1"
-              />
-              <ellipse
-                cx="44.7857"
-                cy="49.2244"
-                rx="10.8571"
-                ry="10.9388"
-                fill="white"
-                fillOpacity="0.8"
-              />
+              <ellipse cx="48.8571" cy="39.6531" rx="27.1429" ry="27.3469" fill="#2B2E4A" fillOpacity="0.1" />
+              <ellipse cx="44.7857" cy="49.2244" rx="10.8571" ry="10.9388" fill="white" fillOpacity="0.8" />
             </svg>
           </div>
-          <p className="text-[32px] sm:text-[36px] font-[Raleway] font-semibold">
-            Regístrate en
-          </p>
-          <p className=" font-bold text-[36px] font-[Raleway] sm:text-[40px] ">
-            Domus.com.mx
-          </p>
+          <p className="text-[32px] sm:text-[36px] font-[Raleway] font-semibold">Regístrate en</p>
+          <p className=" font-bold text-[36px] font-[Raleway] sm:text-[40px] ">Domus.com.mx</p>
         </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="px-4 sm:px-10 pb-[16px] pt-[40px] sm:pt-[48px] font-[Nunito] font-medium"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="px-4 sm:px-10 pb-[16px] pt-[40px] sm:pt-[48px] font-[Nunito] font-medium">
           <div className="pb-4">
-            <label
-              forlabel="NickName"
-              className="block mb-2 text-lg font-medium"
-            >
+            <label forlabel="NickName" className="block mb-2 text-lg font-medium">
               Nickname:
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="12"
-                    cy="6"
-                    r="4"
-                    stroke="#1C274C"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
-                    stroke="#1C274C"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
+                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="6" r="4" stroke="#1C274C" strokeWidth="1.5" />
+                  <path d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" />
                   <path
                     d="M12 13C14.6083 13 16.8834 13.8152 18.0877 15.024M15.5841 20.4366C14.5358 20.7944 13.3099 21 12 21C8.13401 21 5 19.2091 5 17C5 15.6407 6.18652 14.4398 8 13.717"
                     stroke="#1C274C"
@@ -174,9 +118,7 @@ export default function Register() {
                 })}
               />
             </div>
-            {errors.nickname && (
-              <span className="text-red-500">{errors.nickname.message}</span>
-            )}
+            {errors.nickname && <span className="text-red-500">{errors.nickname.message}</span>}
           </div>
           <div className="pb-4">
             <label forlabel="email" className="block mb-2 text-lg font-medium">
@@ -184,13 +126,7 @@ export default function Register() {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 16"
-                >
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                   <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
                   <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
                 </svg>
@@ -211,9 +147,7 @@ export default function Register() {
                 })}
               />
             </div>
-            {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
-            )}
+            {errors.email && <span className="text-red-500">{errors.email.message}</span>}
           </div>
           {/* <div className="pb-4">
             <label forlabel="code" className="block mb-2 text-lg font-medium">
@@ -238,20 +172,12 @@ export default function Register() {
             )}
           </div> */}
           <div>
-            <label
-              forlabel="password"
-              className="block mb-2 text-lg font-medium"
-            >
+            <label forlabel="password" className="block mb-2 text-lg font-medium">
               Contraseña:
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 50 50"
-                  fill="currentColor"
-                >
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" fill="currentColor">
                   <path d="M25,3c-6.6,0-12,5.4-12,12v5H9c-1.7,0-3,1.3-3,3v24c0,1.7,1.3,3,3,3h32c1.7,0,3-1.3,3-3V23c0-1.7-1.3-3-3-3h-4v-5	C37,8.4,31.6,3,25,3z M25,5c5.6,0,10,4.4,10,10v5H15v-5C15,9.4,19.4,5,25,5z M25,30c1.7,0,3,1.3,3,3c0,0.9-0.4,1.7-1,2.2V38	c0,1.1-0.9,2-2,2s-2-0.9-2-2v-2.8c-0.6-0.5-1-1.3-1-2.2C22,31.3,23.3,30,25,30z" />
                 </svg>
               </div>
@@ -271,25 +197,15 @@ export default function Register() {
                 })}
               />
             </div>
-            {errors.password && (
-              <span className="text-red-500">{errors.password.message}</span>
-            )}
+            {errors.password && <span className="text-red-500">{errors.password.message}</span>}
           </div>
           <div className="pt-4 mb-4">
-            <label
-              forlabel="repitPassword"
-              className="block mb-2 text-lg font-medium"
-            >
+            <label forlabel="repitPassword" className="block mb-2 text-lg font-medium">
               Repetir Contraseña:
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 50 50"
-                  fill="currentColor"
-                >
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" fill="currentColor">
                   <path d="M25,3c-6.6,0-12,5.4-12,12v5H9c-1.7,0-3,1.3-3,3v24c0,1.7,1.3,3,3,3h32c1.7,0,3-1.3,3-3V23c0-1.7-1.3-3-3-3h-4v-5	C37,8.4,31.6,3,25,3z M25,5c5.6,0,10,4.4,10,10v5H15v-5C15,9.4,19.4,5,25,5z M25,30c1.7,0,3,1.3,3,3c0,0.9-0.4,1.7-1,2.2V38	c0,1.1-0.9,2-2,2s-2-0.9-2-2v-2.8c-0.6-0.5-1-1.3-1-2.2C22,31.3,23.3,30,25,30z" />
                 </svg>
               </div>
@@ -302,21 +218,14 @@ export default function Register() {
                     value: true,
                     message: "El campo password es requerido",
                   },
-                  validate: (value) =>
-                    value === password.current || "La contraseña no coincide",
+                  validate: (value) => value === password.current || "La contraseña no coincide",
                 })}
               />
             </div>
-            {errors.password_repeat && (
-              <span className="text-red-500">
-                {errors.password_repeat.message}
-              </span>
-            )}
+            {errors.password_repeat && <span className="text-red-500">{errors.password_repeat.message}</span>}
           </div>
           <div>
-            <label className="block  text-lg font-medium">
-              Registrarse como:
-            </label>
+            <label className="block  text-lg font-medium">Registrarse como:</label>
             <div className="flex justify-center items-center gap-[48px] pt-2">
               <div className="flex items-center">
                 <label htmlFor="default-radio-1" className="mr-2">
@@ -354,9 +263,7 @@ export default function Register() {
               </div>
             </div>
           </div>
-          {errors.radio && (
-            <p className="text-red-500">{errors.radio.message}</p>
-          )}
+          {errors.radio && <p className="text-red-500">{errors.radio.message}</p>}
           <div className="pt-[40px] sm:pt-[48px] text-center">
             <button
               type="submit"
@@ -369,10 +276,7 @@ export default function Register() {
         <div className="text-center pb-[40px] sm:pb-[48px]">
           <p>
             ¿Ya tienes cuenta?&nbsp;
-            <Link
-              href={"/accounts/signin"}
-              className="font-bold text-[#FF6868] hover:underline decoration-1"
-            >
+            <Link href={"/accounts/signin"} className="font-bold text-[#FF6868] hover:underline decoration-1">
               Ingresar
             </Link>
           </p>

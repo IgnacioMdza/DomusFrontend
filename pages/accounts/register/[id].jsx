@@ -45,7 +45,7 @@ export default function CompleteRegister() {
       router.push("/");
       return;
     }
-    if(pathId && token){
+    if (pathId && token) {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
       const pathId = router.query.id;
       if (tokenInfo.id != pathId) {
@@ -53,11 +53,11 @@ export default function CompleteRegister() {
       } else {
         setToken(token);
       }
-    } 
+    }
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
-    toast.success("Actualizando tu información de perfil...", {
+    toast.info("Actualizando tu información de perfil...", {
       autoClose: 2000,
     });
     const dataObject = {
@@ -92,13 +92,7 @@ export default function CompleteRegister() {
         console.log("response: ", response);
         if (response.success) {
           toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
-          setTimeout(
-            () =>
-              router.push(
-                `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
-              ),
-            2000
-          );
+          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error("Error al actualizar el usuario");
         }
@@ -115,18 +109,7 @@ export default function CompleteRegister() {
       </Head>
       {token && user && (
         <>
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          />
+          <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
           {/* <div className="bg-[#FF6868] py-4 text-center">
           <h1 className="text-white text-[28px] font-medium font-[Raleway]">
             Completar Registro
@@ -135,44 +118,25 @@ export default function CompleteRegister() {
           <div className="lg:flex lg:justify-center">
             <div className="mx-4 rounded-2xl lg:max-w-7xl bg-white shadow-xl">
               <div className="bg-[#FF6868] py-4 text-center rounded-t-2xl">
-                <h1 className="text-white text-[20px] md:text-[24px] lg:text-[28px] font-medium font-[Raleway]">
-                  Completar Registro
-                </h1>
+                <h1 className="text-white text-[20px] md:text-[24px] lg:text-[28px] font-medium font-[Raleway]">Completar Registro</h1>
               </div>
               <div className="p-[24px]">
                 <div className="border-b-[2px] border-[#FF6868]">
-                  <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
-                    Información General
-                  </h2>
+                  <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">Información General</h2>
                 </div>
                 <div className="lg:flex lg:items-start md:items-center lg:w-full">
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium"
-                  >
+                  <form onSubmit={handleSubmit(onSubmit)} className="px-2 pt-3  md:m-auto m-auto font-[Nunito] font-medium">
                     <div className="w-[200px] h-[200px] aspect-square rounded-full bg-[#F2F2F2] mx-auto border m-[12px] p-[12px] border-[#c1c1c1]">
                       {picture ? (
-                        <Image
-                          loader={imageLoader}
-                          alt="Pet Picture"
-                          src={URL.createObjectURL(picture)}
-                          width={200}
-                          height={200}
-                          className="h-full w-full object-cover rounded-full"
-                        />
+                        <Image loader={imageLoader} alt="Pet Picture" src={URL.createObjectURL(picture)} width={200} height={200} className="h-full w-full object-cover rounded-full" />
                       ) : (
                         <div className="h-full w-full object-cover rounded-full flex place-content-center items-center bg-white bg-opacity-40">
-                          <p className="text-center text-slate-400 font-light mt-[8px]">
-                            Aún no has cargado una imagen
-                          </p>
+                          <p className="text-center text-slate-400 font-light mt-[8px]">Aún no has cargado una imagen</p>
                         </div>
                       )}
                     </div>
                     <div className="pb-4 w-full">
-                      <label
-                        forlabel="image"
-                        className="block mb-2 text-lg font-medium"
-                      >
+                      <label forlabel="image" className="block mb-2 text-lg font-medium">
                         Subir imagen:
                       </label>
                       <div className="flex justify-center bg-[#F2F2F2] border-[1px] border-slate-300 rounded-lg">
@@ -189,11 +153,7 @@ export default function CompleteRegister() {
                           })}
                         />
                       </div>
-                      {errors.picture && (
-                        <span className="text-red-500">
-                          {errors.picture.message}
-                        </span>
-                      )}
+                      {errors.picture && <span className="text-red-500">{errors.picture.message}</span>}
                     </div>
                     {/* <div className="flex justify-center items-center hover:scale-[102%] w-fit mx-auto my-[20px] hover:shadow-lg rounded-full transition">
                     <svg
@@ -242,33 +202,14 @@ export default function CompleteRegister() {
                   </div> */}
                     <div className="sm:flex sm:justify-between sm:gap-[16px] lg:justify-start lg:gap-[56px] w-full items-center">
                       <div className="pb-4 sm:w-1/2">
-                        <label
-                          forlabel="name"
-                          className="block mb-2 text-lg font-medium"
-                        >
+                        <label forlabel="name" className="block mb-2 text-lg font-medium">
                           Nombre(s):
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg
-                              className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle
-                                cx="12"
-                                cy="6"
-                                r="4"
-                                stroke="#1C274C"
-                                strokeWidth="1.5"
-                              />
-                              <path
-                                d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
-                                stroke="#1C274C"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                              />
+                            <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="12" cy="6" r="4" stroke="#1C274C" strokeWidth="1.5" />
+                              <path d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" />
                               <path
                                 d="M12 13C14.6083 13 16.8834 13.8152 18.0877 15.024M15.5841 20.4366C14.5358 20.7944 13.3099 21 12 21C8.13401 21 5 19.2091 5 17C5 15.6407 6.18652 14.4398 8 13.717"
                                 stroke="#1C274C"
@@ -289,17 +230,10 @@ export default function CompleteRegister() {
                             })}
                           />
                         </div>
-                        {errors.name && (
-                          <span className="text-red-500">
-                            {errors.name.message}
-                          </span>
-                        )}
+                        {errors.name && <span className="text-red-500">{errors.name.message}</span>}
                       </div>
                       <div className="pb-4 sm:w-1/2">
-                        <label
-                          forlabel="lastname"
-                          className="block mb-2 text-lg font-medium"
-                        >
+                        <label forlabel="lastname" className="block mb-2 text-lg font-medium">
                           Apellido(s):
                         </label>
                         <div className="relative">
@@ -316,29 +250,17 @@ export default function CompleteRegister() {
                             })}
                           />
                         </div>
-                        {errors.lastname && (
-                          <span className="text-red-500">
-                            {errors.lastname.message}
-                          </span>
-                        )}
+                        {errors.lastname && <span className="text-red-500">{errors.lastname.message}</span>}
                       </div>
                     </div>
                     <div className="sm:flex sm:justify-center sm:gap-4 lg:flex lg:justify-start lg:gap-14 ">
                       <div className="pb-4 w-full">
-                        <label
-                          forlabel="phone"
-                          className="block mb-2 text-lg font-medium"
-                        >
+                        <label forlabel="phone" className="block mb-2 text-lg font-medium">
                           Celular:
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg
-                              className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                              fill="currentColor"
-                              viewBox="-1 0 19 19"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
+                            <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="-1 0 19 19" xmlns="http://www.w3.org/2000/svg">
                               <path d="M16.5 9.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8zm-4.778-4.845a.803.803 0 0 0-.8-.8H6.077a.803.803 0 0 0-.8.8v9.692a.802.802 0 0 0 .8.8h4.845a.802.802 0 0 0 .8-.8zM6.077 5.912h4.845v7.266H6.077zm1.103-.99a.4.4 0 0 1 .4-.4h1.84a.4.4 0 0 1 0 .8H7.58a.4.4 0 0 1-.4-.4zm1.715 9.24a.394.394 0 1 1-.394-.394.394.394 0 0 1 .394.394z" />
                             </svg>
                             <p className="pl-[4px]">+52</p>
@@ -346,7 +268,7 @@ export default function CompleteRegister() {
                           <input
                             type="number"
                             name="phone"
-                            className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] remove-arrow"
                             placeholder="xxxxxxxxxx"
                             {...register("phone", {
                               required: {
@@ -368,17 +290,10 @@ export default function CompleteRegister() {
                             })}
                           />
                         </div>
-                        {errors.phone && (
-                          <span className="text-red-500">
-                            {errors.phone.message}
-                          </span>
-                        )}
+                        {errors.phone && <span className="text-red-500">{errors.phone.message}</span>}
                       </div>
                       <div className="pb-4 w-full">
-                        <label
-                          forlabel="birthday"
-                          className="block mb-2 text-lg font-medium"
-                        >
+                        <label forlabel="birthday" className="block mb-2 text-lg font-medium">
                           Fecha de Nacimiento:
                         </label>
                         <div className="relative">
@@ -411,27 +326,16 @@ export default function CompleteRegister() {
                               validate: (value) => {
                                 const birthDate = new Date(value);
                                 const currentDate = new Date();
-                                const age =
-                                  currentDate.getFullYear() -
-                                  birthDate.getFullYear();
-                                return (
-                                  age >= 18 || "Debes de ser mayor de edad"
-                                );
+                                const age = currentDate.getFullYear() - birthDate.getFullYear();
+                                return age >= 18 || "Debes de ser mayor de edad";
                               },
                             })}
                           />
                         </div>
-                        {errors.birthday && (
-                          <span className="text-red-500">
-                            {errors.birthday.message}
-                          </span>
-                        )}
+                        {errors.birthday && <span className="text-red-500">{errors.birthday.message}</span>}
                       </div>
                       <div className="w-full sm:w-full">
-                        <label
-                          forlabel="sex"
-                          className="block mb-2 text-lg font-medium"
-                        >
+                        <label forlabel="sex" className="block mb-2 text-lg font-medium">
                           Sexo:
                         </label>
                         <select
@@ -449,25 +353,18 @@ export default function CompleteRegister() {
                           <option value="Mujer">Mujer</option>
                           <option value="Otro">Otro</option>
                         </select>
-                        {errors.sex && (
-                          <span className="text-red-500">
-                            {errors.sex.message}
-                          </span>
-                        )}
+                        {errors.sex && <span className="text-red-500">{errors.sex.message}</span>}
                       </div>
                       {/* <div className="flex justify-around item-center sm:gap-4 gap-4 bg-red-500"></div> */}
                     </div>
                     <div className="pt-4">
-                      <label
-                        htmlFor="aboutMe"
-                        className="block mb-2 text-lg font-medium"
-                      >
+                      <label htmlFor="aboutMe" className="block mb-2 text-lg font-medium">
                         Acerca de mí{" "}
                       </label>
                       <textarea
                         id="aboutMe"
                         rows="6"
-                        className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                        className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#1c1919] focus:ring-[#FF6868] bg-[#F2F2F2]"
                         placeholder={`- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n300 a 400 caracteres`}
                         {...register("aboutMe", {
                           required: {
@@ -485,49 +382,26 @@ export default function CompleteRegister() {
                         })}
                       ></textarea>
                     </div>
-                    {errors.aboutMe && (
-                      <span className="text-red-500">
-                        {errors.aboutMe.message}
-                      </span>
-                    )}
+                    {errors.aboutMe && <span className="text-red-500">{errors.aboutMe.message}</span>}
                     <div>
                       <div className="border-b-[2px] border-[#FF6868] pt-4">
-                        <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">
-                          Contacto de Emergencia
-                        </h2>
+                        <h2 className="text-[24px] pb-[4px] font-[Nunito] font-semibold text-[#2B2E4A]">Contacto de Emergencia</h2>
                       </div>
                     </div>
                     <div className="lg:flex lg:items-center pt-4 gap-[36px]">
                       <p className="text-lg lg:w-64 text-justify font-light">
-                        La información de este contacto servirá únicamente para
-                        cuando tu anfitrión/cliente intente localizarte por
-                        algún asunto relacionado a las mascotas y no sea posible
-                        lograrlo.
+                        La información de este contacto servirá únicamente para cuando tu anfitrión/cliente intente localizarte por algún asunto relacionado a las mascotas y no sea posible lograrlo.
                       </p>
                       <div>
                         <div className="sm:flex sm:justify-center sm:gap-10  mt-5 lg:flex lg:justify-start lg:gap-14">
                           <div className="pb-4  sm:w-full">
-                            <label
-                              forlabel="emergencyContactName"
-                              className="block mb-2 text-lg font-medium"
-                            >
+                            <label forlabel="emergencyContactName" className="block mb-2 text-lg font-medium">
                               Nombre:
                             </label>
                             <div className="relative">
                               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg
-                                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <circle
-                                    cx="12"
-                                    cy="6"
-                                    r="4"
-                                    stroke="#1C274C"
-                                    strokeWidth="1.5"
-                                  />
+                                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <circle cx="12" cy="6" r="4" stroke="#1C274C" strokeWidth="1.5" />
                                   <path
                                     d="M20.4141 18.5H18.9999M18.9999 18.5H17.5857M18.9999 18.5L18.9999 17.0858M18.9999 18.5L18.9999 19.9142"
                                     stroke="#1C274C"
@@ -555,17 +429,10 @@ export default function CompleteRegister() {
                                 })}
                               />
                             </div>
-                            {errors.emergencyContactName && (
-                              <span className="text-red-500">
-                                {errors.emergencyContactName.message}
-                              </span>
-                            )}
+                            {errors.emergencyContactName && <span className="text-red-500">{errors.emergencyContactName.message}</span>}
                           </div>
                           <div className="pb-4  sm:w-full">
-                            <label
-                              forlabel="emergencyContactLastname"
-                              className="block mb-2 text-lg font-medium"
-                            >
+                            <label forlabel="emergencyContactLastname" className="block mb-2 text-lg font-medium">
                               Apellido(s):
                             </label>
                             <div className="relative">
@@ -583,29 +450,17 @@ export default function CompleteRegister() {
                                 })}
                               />
                             </div>
-                            {errors.emergencyContactLastname && (
-                              <span className="text-red-500">
-                                {errors.emergencyContactLastname.message}
-                              </span>
-                            )}
+                            {errors.emergencyContactLastname && <span className="text-red-500">{errors.emergencyContactLastname.message}</span>}
                           </div>
                         </div>
                         <div className="sm:flex sm:justify-center sm:gap-10 lg:flex lg:justify-start lg:gap-14 ">
                           <div className="pb-4 sm:w-full">
-                            <label
-                              forlabel="emergencyContactPhone"
-                              className="block mb-2 text-lg font-medium"
-                            >
+                            <label forlabel="emergencyContactPhone" className="block mb-2 text-lg font-medium">
                               Celular:
                             </label>
                             <div className="relative">
                               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg
-                                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                  fill="currentColor"
-                                  viewBox="-1 0 19 19"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
+                                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="-1 0 19 19" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M16.5 9.5a8 8 0 1 1-8-8 8 8 0 0 1 8 8zm-4.778-4.845a.803.803 0 0 0-.8-.8H6.077a.803.803 0 0 0-.8.8v9.692a.802.802 0 0 0 .8.8h4.845a.802.802 0 0 0 .8-.8zM6.077 5.912h4.845v7.266H6.077zm1.103-.99a.4.4 0 0 1 .4-.4h1.84a.4.4 0 0 1 0 .8H7.58a.4.4 0 0 1-.4-.4zm1.715 9.24a.394.394 0 1 1-.394-.394.394.394 0 0 1 .394.394z" />
                                 </svg>
                                 <p className="pl-[4px]">+52</p>
@@ -613,7 +468,7 @@ export default function CompleteRegister() {
                               <input
                                 type="number"
                                 name="emergencyContactPhone"
-                                className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                                className="rounded-lg w-full pl-[68px] p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] remove-arrow"
                                 placeholder="xxxxxxxxxx"
                                 {...register("emergencyContactPhone", {
                                   required: {
@@ -635,17 +490,10 @@ export default function CompleteRegister() {
                                 })}
                               />
                             </div>
-                            {errors.emergencyContactPhone && (
-                              <span className="text-red-500">
-                                {errors.emergencyContactPhone.message}
-                              </span>
-                            )}
+                            {errors.emergencyContactPhone && <span className="text-red-500">{errors.emergencyContactPhone.message}</span>}
                           </div>
                           <div className=" w-full">
-                            <label
-                              forlabel="emergencyContactRelationship"
-                              className="block mb-2 text-lg font-medium"
-                            >
+                            <label forlabel="emergencyContactRelationship" className="block mb-2 text-lg font-medium">
                               Parentesco:
                             </label>
                             <select
@@ -659,19 +507,16 @@ export default function CompleteRegister() {
                               })}
                             >
                               <option value="">Seleccionar</option>
-                              <option value="Primo/a">Primo/a</option>
+                              <option value="Pareja">Pareja</option>
+                              <option value="Papá">Papá</option>
+                              <option value="Mamá">Mamá</option>
                               <option value="Hermano/a">Hermano/a</option>
                               <option value="Tío/a">Tío/a</option>
-                              <option value="Mamá">Mamá</option>
-                              <option value="Papá">Papá</option>
+                              <option value="Primo/a">Primo/a</option>
                               <option value="Amigo/a">Amigo/a</option>
                               <option value="Otro">Otro</option>
                             </select>
-                            {errors.emergencyContactRelationship && (
-                              <span className="text-red-500">
-                                {errors.emergencyContactRelationship.message}
-                              </span>
-                            )}
+                            {errors.emergencyContactRelationship && <span className="text-red-500">{errors.emergencyContactRelationship.message}</span>}
                           </div>
                         </div>
                       </div>
