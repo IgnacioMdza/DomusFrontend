@@ -56,6 +56,7 @@ export default function Evidence() {
               resp.data.status === "concluded")
           ) {
             setReservation(resp.data);
+            console.log(resp.data)
           } else {
             router.push("/404");
           }
@@ -86,7 +87,7 @@ export default function Evidence() {
       <section className="flex flex-col items-center">
         <div className="max-w-[1024px] mt-[90px] w-full px-[24px] lg:px-0">
           <Link
-            href="/bookingblog"
+            href={`/bookingblog/${reservation?._id}`}
             className="text-[32px] md:text-[48px] font-[raleway] text-[#E91E63] font-bold py-[12px] inline-block"
           >
             Bitácora

@@ -13,7 +13,7 @@ export default function BookingBlogReviewCard({
   review,
 }) {
   return (
-    <main className="rounded-[20px] bg-white p-[20px] flex flex-col md:flex-row w-[460px] gap-5 items-center md:min-h-[300px] md:max-h-[300px]">
+    <main className="rounded-[20px] bg-white p-[20px] flex flex-col md:flex-row w-full sm:w-[460px] gap-5 items-center md:min-h-[300px] md:max-h-[300px]">
       <div className={`rounded-lg border-2 border-[#2B2E4A]`}>
         <Image
           loader={imageLoader}

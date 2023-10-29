@@ -32,7 +32,10 @@ export default function Info({ reservation }) {
         <>
           <section className="flex flex-col items-center">
             <div className="max-w-[1024px] mt-[90px] w-full px-[24px] lg:px-0">
-              <Link href="/bookingblog" className="text-[32px] md:text-[48px] font-[raleway] text-[#E91E63] font-bold py-[12px] inline-block">
+              <Link 
+                href={`/bookingblog/${reservation.data._id}`}
+                className="text-[32px] md:text-[48px] font-[raleway] text-[#E91E63] font-bold py-[12px] inline-block"
+              >
                 Bitácora
               </Link>
             </div>
