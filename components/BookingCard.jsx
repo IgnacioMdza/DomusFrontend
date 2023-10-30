@@ -89,13 +89,23 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           fetch(`${BASE_URL}/mailNotifications/${reservationId}`, {
             method: "POST",
           })
-            .then((resp) => resp.json())
+            .then((resp) => {
+              if (!resp) {
+                throw new Error('Respuesta no exitosa');
+              }
+              return resp.json();
+            })
             .then((resp) => {
               if (resp.success) {
                 toast.success("Estatus actualizado", { autoClose: 2000 });
@@ -103,15 +113,23 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
               } else {
                 toast.error("Error al enviar las notificaciones");
               }
+            })
+            .catch((error) => {
+              console.error('Error en la solicitud:', error);
+              toast.error("Error de conexión al enviar las notificaciones");
             });
         } else {
           toast.error("Error al actualizar el estatus");
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar");
       });
   }
 
   function goToProfile(profileId) {
-    window.location.replace(`/profiles/${profileId}`);
+    window.location.replace(`/profile/${profileId}`);
   }
   return (
     <main className={`${borderStyle} block md:flex md:gap-8 p-5 rounded-[10px] w-full m-auto bg-[#F2F2F2] border transition`}>

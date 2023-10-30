@@ -35,9 +35,15 @@ export default function Chat() {
 
   useEffect(() => {
     const reservationId = router.query.id;
+    const urlBackRoute = router.asPath
     if (user && reservationId) {
       fetch(`${urlFetch}/reservations/all/${reservationId}?find=comunication`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (
             (user.id === resp.data.client._id ||
@@ -50,6 +56,15 @@ export default function Chat() {
           } else {
             router.push("/404");
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
+          router.push({ 
+            pathname: '/500', 
+            query: { 
+              back: urlBackRoute 
+            }
+          })
         });
     }
   }, [router, user, urlFetch, reload]);
@@ -67,7 +82,12 @@ export default function Chat() {
         date: new Date(),
       }),
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         if (response.success) {
           toast.success("Mensaje enviado", { autoClose: 200 });
@@ -78,8 +98,9 @@ export default function Chat() {
           toast.error("Error al enviar mensaje");
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -123,7 +144,7 @@ export default function Chat() {
                   .map((item, index) => {
                     return (
                       <>
-                        <div key="index" className="flex gap-[12px]">
+                        <div key={index} className="flex gap-[12px]">
                           {item.sender === reservation.client._id ? (
                             <>
                               <img

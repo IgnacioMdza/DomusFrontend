@@ -38,7 +38,12 @@ export default function WriteReview({
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           toast.success("Reseña creada con éxito", { autoClose: 2000 });
@@ -46,6 +51,9 @@ export default function WriteReview({
         } else {
           toast.error("Error al subir la reseña");
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
       });
   }
 

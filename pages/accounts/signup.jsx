@@ -35,7 +35,12 @@ export default function Register() {
         type: data.radio,
       }),
     })
-      .then((res) => res.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((res) => {
         if (res.success) {
           setTimeout(() => toast.success("Usuario creado con éxito", { autoClose: 5000 }), 1500);
@@ -44,6 +49,10 @@ export default function Register() {
           setTimeout(() => toast.error(res.message, { autoClose: 5000 }), 1500);
           setTimeout(() => router.push(`/accounts/signup`), 6000);
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -52,7 +61,9 @@ export default function Register() {
       <Head>
         <title>Domus - Regístrate</title>
       </Head>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
         <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[12px] sm:rounded-b-[16px]">
           <div className="flex justify-center">

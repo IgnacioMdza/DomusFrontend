@@ -18,7 +18,7 @@ export default function Login() {
     const token = localStorage.getItem("token");
     if (token) {
       window.location.replace(
-        `/profiles/${JSON.parse(atob(token.split(".")[1])).id}`
+        `/profile/${JSON.parse(atob(token.split(".")[1])).id}`
       );
     }
   }, [user]);
@@ -34,7 +34,12 @@ export default function Login() {
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           localStorage.setItem("token", resp.token);
@@ -43,6 +48,10 @@ export default function Login() {
         } else {
           toast.error(resp.message);
         }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -51,7 +60,9 @@ export default function Login() {
       <Head>
         <title>Domus - Inicia Sesión</title>
       </Head>
-      <ToastContainer />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       <div className="w-full m-auto rounded-xl max-w-[400px] sm:max-w-[580px] md:max-w-[620px] lg:max-w-[700px] sm:px-0 sm:flex sm:items-center sm:justify-center">
         <div className="sm:flex lg:w-full bg-white shadow-xl px-0 sm:py-0 rounded-xl">
           <div className="sm:bg-[#2F2E43] sm:flex sm:items-center py-5 px-5 rounded-t-xl sm:rounded-tr-none sm:rounded-tl-xl sm:rounded-bl-xl sm:w-[47%]">

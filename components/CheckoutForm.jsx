@@ -48,7 +48,7 @@ export default function CheckoutForm(props) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${BASE_URL}/profiles/${props.clientId}`,
+        return_url: `/profile/${props.clientId}`,
         payment_method_data: {
           billing_details: {
             address: {

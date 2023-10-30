@@ -27,13 +27,22 @@ export default function CompleteRegister() {
     const pathId = router.query.id;
     if (pathId && token) {
       fetch(`${urlFetch}/users/${pathId}`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (resp.data.isInfoCompleted === true) {
             router.push("/");
           } else {
             setUser(resp.data);
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
+          toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     }
   }, [router, router.query.id, token, urlFetch]);
@@ -87,18 +96,24 @@ export default function CompleteRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         console.log("response: ", response);
         if (response.success) {
           toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
-          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
+          setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error("Error al actualizar el usuario");
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -109,7 +124,9 @@ export default function CompleteRegister() {
       </Head>
       {token && user && (
         <>
-          <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+          <ToastContainer 
+            position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+          />
           {/* <div className="bg-[#FF6868] py-4 text-center">
           <h1 className="text-white text-[28px] font-medium font-[Raleway]">
             Completar Registro

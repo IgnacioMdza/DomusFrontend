@@ -65,17 +65,23 @@ export default function PetRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error('Respuesta no exitosa');
+        }
+        return resp.json();
+      })
       .then((response) => {
         if (response.success) {
           toast.success("Mascota creada con éxito", { autoClose: 2000 });
-          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
+          setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error("Error al crear mascota");
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -90,7 +96,9 @@ export default function PetRegister() {
       <Head>
         <title>Domus - Registra tu Mascota</title>
       </Head>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       <div className="bg-[#2B2E4A] py-4 text-center">
         <h1 className="text-white text-[24px] md:text-[28px] font-normal font-[Raleway]">Agregar Mascota</h1>
       </div>

@@ -52,7 +52,7 @@ export default function Bookingblog({ reservation }) {
                   relevante sobre tu reserva y seguir su curso.
                 </p>
                 <Link
-                  href={`/profiles/${user.id}`}
+                  href={`/profile/${user.id}`}
                   className="text-[16px] md:text-[20px] font-[nunito] text-[#F2F2F2] p-[8px] text-center bg-[#FF7068] rounded-[12px] border-[3px] border-[#FF7068] hover:scale-[105%] hover:bg-opacity-50 transition shadow-xl w-full md:w-4/5"
                 >
                   Da click aquí para regresar a tu perfil
@@ -74,29 +74,39 @@ export default function Bookingblog({ reservation }) {
 }
 
 export async function getServerSideProps(context) {
-  const id = context.params.id;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${BASE_URL}/reservations/${id}`);
-  if (response.status === 200) {
-    const reservation = await response.json();
-    if (
-      reservation.data.status != "paid" &&
-      reservation.data.status != "current" &&
-      reservation.data.status != "concluded"
-    ) {
+  try {
+    const id = context.params.id;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${BASE_URL}/reservations/${id}`);
+    if (response.status === 200) {
+      const reservation = await response.json();
+      if (
+        reservation.data.status != "paid" &&
+        reservation.data.status != "current" &&
+        reservation.data.status != "concluded"
+      ) {
+        return {
+          notFound: true,
+        };
+      } else {
+        return {
+          props: {
+            reservation,
+          },
+        };
+      }
+    } else {
       return {
         notFound: true,
       };
-    } else {
-      return {
-        props: {
-          reservation,
-        },
-      };
     }
-  } else {
-    return {
-      notFound: true,
+  } catch (error) {
+    console.error('Error en la solicitud:', error);
+      return {
+        redirect: {
+        destination: `/500?back=${context.resolvedUrl}`,
+        permanent: false,
+      },
     };
   }
 }
