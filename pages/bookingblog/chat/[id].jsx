@@ -35,6 +35,7 @@ export default function Chat() {
 
   useEffect(() => {
     const reservationId = router.query.id;
+    const urlBackRoute = router.asPath
     if (user && reservationId) {
       fetch(`${urlFetch}/reservations/all/${reservationId}?find=comunication`)
         .then((resp) => {
@@ -58,7 +59,12 @@ export default function Chat() {
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
-          router.push('/500')
+          router.push({ 
+            pathname: '/500', 
+            query: { 
+              back: urlBackRoute 
+            }
+          })
         });
     }
   }, [router, user, urlFetch, reload]);
@@ -77,7 +83,7 @@ export default function Chat() {
       }),
     })
       .then((resp) => {
-        if (!resp.ok) {
+        if (!resp) {
           throw new Error('Respuesta no exitosa');
         }
         return resp.json();
@@ -94,6 +100,7 @@ export default function Chat() {
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -137,7 +144,7 @@ export default function Chat() {
                   .map((item, index) => {
                     return (
                       <>
-                        <div key="index" className="flex gap-[12px]">
+                        <div key={index} className="flex gap-[12px]">
                           {item.sender === reservation.client._id ? (
                             <>
                               <img

@@ -29,7 +29,7 @@ export default function HomeRegister() {
     if (pathId && token) {
       fetch(`${urlFetch}/users/${pathId}`)
         .then((resp) => {
-          if (!resp.ok) {
+          if (!resp) {
             throw new Error('Respuesta no exitosa');
           }
           return resp.json();
@@ -38,11 +38,12 @@ export default function HomeRegister() {
           if (!resp.data.accommodation) {
             setUser(resp.data);
           } else {
-            router.push(`/profiles/${pathId}`);
+            router.push(`/profile/${pathId}`);
           }
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
+          toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     }
   }, [router, router.query.id, token, urlFetch]);
@@ -201,7 +202,7 @@ export default function HomeRegister() {
       body: formData,
     })
       .then((resp) => {
-        if (!resp.ok) {
+        if (!resp) {
           throw new Error('Respuesta no exitosa');
         }
         return resp.json();
@@ -209,13 +210,14 @@ export default function HomeRegister() {
       .then((response) => {
         if (response.success) {
           toast.success("Alojamiento creado con éxito", { autoClose: 2000 });
-          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
+          setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error(`${response.message}`);
         }
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
@@ -381,7 +383,9 @@ export default function HomeRegister() {
       <Head>
         <title>Domus - Registra tu Alojamiento</title>
       </Head>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       {token && user && (
         <>
           <div className="mt-32 mb-24">

@@ -17,12 +17,13 @@ export default function Reviews() {
 
   useEffect(() => {
     const reservationId = router.query.id;
+    const urlBackRoute = router.asPath;
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const token = localStorage.getItem("token");
     setUserInfo(JSON.parse(atob(token.split(".")[1])));
     fetch(`${BASE_URL}/reservations/all/${reservationId}?find=reviews`)
       .then((resp) => {
-        if (!resp.ok) {
+        if (!resp) {
           throw new Error('Respuesta no exitosa');
         }
         return resp.json();
@@ -32,8 +33,14 @@ export default function Reviews() {
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
+        router.push({ 
+          pathname: '/500', 
+          query: { 
+            back: urlBackRoute 
+          }
+        })
       });
-  }, [router.query.id]);
+  }, [router, router.query.id]);
 
   useEffect(() => {
     if (reservationData) {

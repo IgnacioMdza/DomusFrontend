@@ -90,7 +90,7 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
       },
     })
       .then((resp) => {
-        if (!resp.ok) {
+        if (!resp) {
           throw new Error('Respuesta no exitosa');
         }
         return resp.json();
@@ -101,7 +101,7 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
             method: "POST",
           })
             .then((resp) => {
-              if (!resp.ok) {
+              if (!resp) {
                 throw new Error('Respuesta no exitosa');
               }
               return resp.json();
@@ -116,6 +116,7 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
             })
             .catch((error) => {
               console.error('Error en la solicitud:', error);
+              toast.error("Error de conexión al enviar las notificaciones");
             });
         } else {
           toast.error("Error al actualizar el estatus");
@@ -123,11 +124,12 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar");
       });
   }
 
   function goToProfile(profileId) {
-    window.location.replace(`/profiles/${profileId}`);
+    window.location.replace(`/profile/${profileId}`);
   }
   return (
     <main className={`${borderStyle} block md:flex md:gap-8 p-5 rounded-[10px] w-full m-auto bg-[#F2F2F2] border transition`}>

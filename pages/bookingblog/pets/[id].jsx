@@ -82,9 +82,11 @@ export async function getServerSideProps(context) {
     }
   } catch (error) {
     console.error('Error en la solicitud:', error);
-    return {
-      // pendiente implementar pagina de error 500
-      notFound: true, 
+      return {
+        redirect: {
+        destination: `/500?back=${context.resolvedUrl}`,
+        permanent: false,
+      },
     };
   }
 }

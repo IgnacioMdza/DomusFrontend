@@ -52,7 +52,7 @@ export default function Bookingblog({ reservation }) {
                   relevante sobre tu reserva y seguir su curso.
                 </p>
                 <Link
-                  href={`/profiles/${user.id}`}
+                  href={`/profile/${user.id}`}
                   className="text-[16px] md:text-[20px] font-[nunito] text-[#F2F2F2] p-[8px] text-center bg-[#FF7068] rounded-[12px] border-[3px] border-[#FF7068] hover:scale-[105%] hover:bg-opacity-50 transition shadow-xl w-full md:w-4/5"
                 >
                   Da click aquí para regresar a tu perfil
@@ -102,9 +102,11 @@ export async function getServerSideProps(context) {
     }
   } catch (error) {
     console.error('Error en la solicitud:', error);
-    return {
-      // pendiente implementar pagina de error 500
-      notFound: true, 
+      return {
+        redirect: {
+        destination: `/500?back=${context.resolvedUrl}`,
+        permanent: false,
+      },
     };
   }
 }

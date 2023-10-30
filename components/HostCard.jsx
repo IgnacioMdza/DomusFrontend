@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import BookingForModal from "./BookingForModal";
 import { Stack, Rating } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function HostCard({ hostName, auth, initialDate, endDate, hostAndHouse, client, pettype, petsize }) {
   const [showModal, setShowModal] = useState(false);
@@ -14,7 +16,7 @@ export default function HostCard({ hostName, auth, initialDate, endDate, hostAnd
     if (client) {
       fetch(`${BASE_URL}/users/${client?.id}`)
         .then((resp) => {
-          if (!resp.ok) {
+          if (!resp) {
             throw new Error('Respuesta no exitosa');
           }
           return resp.json();
@@ -24,6 +26,7 @@ export default function HostCard({ hostName, auth, initialDate, endDate, hostAnd
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
+          toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     }
   }, [client?.id, client, BASE_URL]);
@@ -67,8 +70,11 @@ export default function HostCard({ hostName, auth, initialDate, endDate, hostAnd
 
   return (
     <>
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       <div className="bg-[#F2F2F2] flex flex-col sm:flex-row items-center p-[16px] xl:p-[16px] rounded-[10px] gap-[20px] max-w-[1280px] border">
-        <img src={hostAndHouse.owner.picture} alt="host_image" className="w-[140px] h-[140px] rounded-full lg:w-[220px] lg:h-[220px] object-cover aspect-square" />
+        <img src={hostAndHouse.owner.picture} alt="host_image" className="w-[140px] h-[140px] rounded-full lg:w-[220px] lg:h-[220px] object-cover aspect-square"/>
         <div className="flex flex-col gap-[6px]">
           <div className="w-full flex justify-between items-center">
             <p className="font-[Nunito] text-[#2B2E4A] text-[20px] lg:text-[24px]  font-semibold">
@@ -98,7 +104,7 @@ export default function HostCard({ hostName, auth, initialDate, endDate, hostAnd
           <p className="text-justify text-[14px font-[Nunito] text-[#2B2E4A] md:text-[16px]">{hostAndHouse.owner.aboutMe.length > 245 && hostAndHouse.owner.aboutMe.slice(0, 245)}...</p>
           <div className={`${client ? "w-full flex justify-between sm:justify-end sm:gap-[24px] lg:justify-between xl:justify-end" : "w-full flex place-content-end"}`}>
             <Link
-              href={`/profiles/${hostAndHouse.owner._id}`}
+              href={`/profile/${hostAndHouse.owner._id}`}
               target="_blank"
               className="py-[12px] w-[130px] bg-[#2B2E4A] rounded-xl text-[#F2F2F2] text-center font-[Nunito] border-[2px] hover:border-[#2B2E4A] border-[#F2F2F2] hover:shadow-lg transition"
             >

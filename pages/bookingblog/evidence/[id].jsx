@@ -40,10 +40,11 @@ export default function Evidence() {
 
   useEffect(() => {
     const reservationId = router.query.id;
+    const urlBackRoute = router.asPath
     if (user && reservationId) {
       fetch(`${urlFetch}/reservations/all/${reservationId}?find=evidence`)
         .then((resp) => {
-          if (!resp.ok) {
+          if (!resp) {
             throw new Error('Respuesta no exitosa');
           }
           return resp.json();
@@ -63,6 +64,12 @@ export default function Evidence() {
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
+          router.push({ 
+            pathname: '/500', 
+            query: { 
+              back: urlBackRoute 
+            }
+          })
         });
     }
   }, [router, user, urlFetch]);

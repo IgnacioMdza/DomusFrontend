@@ -91,7 +91,7 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
 
       fetch(`${urlFetch}/reservations`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+        headers: {"Content-Type": "application/json", Authorization: `Bearer ${authToken}`},
         body: JSON.stringify({
           client: userClient._id,
           host: hostId,
@@ -108,23 +108,41 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
           },
         }),
       })
-        .then((response) => response.json())
+        .then((resp) => {
+          if (!resp) {
+            throw new Error('Respuesta no exitosa');
+          }
+          return resp.json();
+        })
         .then((response) => {
           console.log("response: ", response);
           if (response.success) {
             fetch(`${urlFetch}/mailNotifications/${response.data._id}`, { method: "POST" })
-              .then((resp) => resp.json())
+              .then((resp) => {
+                if (!resp) {
+                  throw new Error('Respuesta no exitosa');
+                }
+                return resp.json();
+              })
               .then((resp) => {
                 if (resp.success) {
                   toast.success("Reservación creada con éxito", { autoClose: 2000 });
-                  setTimeout(() => router.push(`/profiles/${userClient._id}`), 2500);
+                  setTimeout(() => router.push(`/profile/${userClient._id}`), 2500);
                 } else {
                   toast.error("Error al enviar las notificaciones");
                 }
+              })
+              .catch((error) => {
+                console.error('Error en la solicitud:', error);
+                toast.error("Error de conexión al enviar las notificaciones");
               });
           } else {
             toast.error("Error al crear reservación");
           }
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
+          toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     } else {
       alert("No has seleccionado una mascota");
@@ -132,7 +150,9 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
   }
   return (
     <>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       <div className="p-[24px] w-[calc(100%-24px)] md:w-[calc(100%-48px)] lg:w-[780px] h-[calc(100%-24px)] md:h-fit max-h-[calc(100%-24px)] flex flex-col gap-[12px] bg-white rounded-2xl overflow-auto">
         <div className="flex w-full justify-between h-fit">
           <h1 className="text-[32px] font-[Raleway] font-semibold text-[#2B2E4A]">Reserva</h1>

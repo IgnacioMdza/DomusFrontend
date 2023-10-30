@@ -15,7 +15,7 @@ export default function Search() {
 
   useEffect(() => {
     const { state, city, pettype, petsize, initialdate, enddate } = router.query;
-    console.log(router.query);
+    // console.log(router.query);
     setSearchQuery({ state, city, pettype, petsize, initialdate, enddate });
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     fetch(`${BASE_URL}/accommodation?state=${state}&city=${city}&pettype=${pettype}&petsize=${petsize}`)
@@ -27,7 +27,7 @@ export default function Search() {
       })
       .then((response) => {
         setAccommodationsList(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
@@ -65,7 +65,7 @@ export default function Search() {
             );
           })
         ) : (
-          <p className="">Lo sentimos, no encontramos ningun anfitiron que coincidiera con tus necesidades</p>
+          <p className="mb-[32px]">Lo sentimos, no encontramos ningun anfitiron que coincidiera con tus necesidades</p>
         )}
       </section>
     </main>

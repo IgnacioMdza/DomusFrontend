@@ -3,8 +3,9 @@ import XMark from "/public/icons/xmark.svg";
 import React, { useState, useRef } from "react";
 import { BrowserView, MobileView, isBrowser, isMobile, browserName } from "react-device-detect";
 import Mobile from "/public/icons/mobile.svg";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function CameraForModal({ onClose, reservation }) {
   const router = useRouter();
@@ -70,7 +71,7 @@ export default function CameraForModal({ onClose, reservation }) {
       headers: { Authorization: `Bearer ${TOKEN}` },
     })
       .then((resp) => {
-        if (!resp.ok) {
+        if (!resp) {
           throw new Error('Respuesta no exitosa');
         }
         return resp.json();
@@ -90,7 +91,7 @@ export default function CameraForModal({ onClose, reservation }) {
             },
           })
             .then((resp) => {
-              if (!resp.ok) {
+              if (!resp) {
                 throw new Error('Respuesta no exitosa');
               }
               return resp.json();
@@ -106,6 +107,7 @@ export default function CameraForModal({ onClose, reservation }) {
             })
             .catch((error) => {
               console.error('Error en la solicitud:', error);
+              toast.error("Error de conexión, favor de volver a intentar en un momento");
             });
         } else {
           toast.error("Error al subir la evidencia");
@@ -113,11 +115,15 @@ export default function CameraForModal({ onClose, reservation }) {
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   };
 
   return (
     <>
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+      />
       <div className="p-[20px] md:p-[16px] w-[342px] h-fit flex flex-col gap-[8px] bg-white rounded-2xl overflow-auto">
         <div className="flex w-full justify-between h-fit">
           <h1 className="text-[32px] font-[Raleway] font-semibold text-[#2B2E4A]">Cámara</h1>

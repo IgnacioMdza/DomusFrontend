@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
   const [pageToken, setPageToken] = useState(false);
@@ -18,7 +20,7 @@ export default function Home() {
     if (token) setPageToken(token);
     fetch(`${BASE_URL}/reviews/forIndexPage?qty=6&minRate=4`)
       .then((resp) => {
-        if (!resp.ok) {
+        if (!resp) {
           throw new Error('Respuesta no exitosa');
         }
         return resp.json();
@@ -28,6 +30,7 @@ export default function Home() {
       })
       .catch((error) => {
         console.error('Error en la solicitud:', error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
       });
   }, []);
 
@@ -40,6 +43,9 @@ export default function Home() {
         id="hero"
         className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
       >
+        <ToastContainer 
+          position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
+        />
         <div className="text-center md:text-justify lg:text-left lg:w-[48%]">
           <h1 className="text-[#1f2937] font-[Raleway] text-[64px] font-semibold mb-[30px] mt-14">
             DOMUS
