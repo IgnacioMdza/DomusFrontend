@@ -125,7 +125,8 @@ export default function NavBar() {
                   </li>
                   <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2">
                     <button onClick={(e) => goToProfile(user._id)} className="text-dark flex items-center gap-[10px]" aria-current="page">
-                      <p>{user.name.split(" ")[0]}</p>
+                      {/* <p className='text-[12px]'>{user?.name?.split(" ")[0]}</p> */}
+                      perfil
                       <Image unoptimized loader={imageLoader} src={user.picture} width={100} height={100} alt="Domus Logo" className="w-10 h-10 object-cover rounded-full"></Image>
                     </button>
                   </li>
