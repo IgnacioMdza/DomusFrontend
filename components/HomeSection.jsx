@@ -14,28 +14,30 @@ export default function HomeSection(data) {
     return petSize;
   }
 
-  let checkInFormated = ''
-  const checkInHourNumber = parseInt(data.homeData.checkIn.split(":")[0])
-  if(checkInHourNumber === 12){
-    checkInFormated = data.homeData.checkIn + ' pm' 
-  } else if (checkInHourNumber < 12){
-    checkInFormated = data.homeData.checkIn + ' am'
-  } else if(checkInHourNumber > 12){
-    const hours = (parseInt(data.homeData.checkIn.split(":")[0]) - 12).toString()
-    const minutes = data.homeData.checkIn.split(":")[1]
-    checkInFormated = hours + ':' + minutes + ' pm'
-  }
+  if (data.homeData){
+    let checkInFormated = ''
+    const checkInHourNumber = parseInt(data.homeData.checkIn.split(":")[0])
+    if(checkInHourNumber === 12){
+      checkInFormated = data.homeData.checkIn + ' pm' 
+    } else if (checkInHourNumber < 12){
+      checkInFormated = data.homeData.checkIn + ' am'
+    } else if(checkInHourNumber > 12){
+      const hours = (parseInt(data.homeData.checkIn.split(":")[0]) - 12).toString()
+      const minutes = data.homeData.checkIn.split(":")[1]
+      checkInFormated = hours + ':' + minutes + ' pm'
+    }
 
-  let checkOutFormated = ''
-  const checkOutHourNumber = parseInt(data.homeData.checkOut.split(":")[0])
-  if(checkOutHourNumber === 12){
-    checkOutFormated = data.homeData.checkOut + ' pm' 
-  } else if (checkOutHourNumber < 12){
-    checkOutFormated = data.homeData.checkOut + ' am'
-  } else if(checkOutHourNumber > 12){
-    const hours = (parseInt(data.homeData.checkOut.split(":")[0]) -12).toString()
-    const minutes = data.homeData.checkOut.split(":")[1]
-    checkOutFormated = hours + ':' + minutes + ' pm'
+    let checkOutFormated = ''
+    const checkOutHourNumber = parseInt(data.homeData.checkOut.split(":")[0])
+    if(checkOutHourNumber === 12){
+      checkOutFormated = data.homeData.checkOut + ' pm' 
+    } else if (checkOutHourNumber < 12){
+      checkOutFormated = data.homeData.checkOut + ' am'
+    } else if(checkOutHourNumber > 12){
+      const hours = (parseInt(data.homeData.checkOut.split(":")[0]) -12).toString()
+      const minutes = data.homeData.checkOut.split(":")[1]
+      checkOutFormated = hours + ':' + minutes + ' pm'
+    }
   }
 
   return (

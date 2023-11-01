@@ -48,7 +48,7 @@ export default function CheckoutForm(props) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `/profile/${props.clientId}`,
+        return_url: `https://domus.com.mx/profile/${props.clientId}`,
         payment_method_data: {
           billing_details: {
             address: {
@@ -76,6 +76,10 @@ export default function CheckoutForm(props) {
           country: "never",
         },
       },
+    },
+    wallets: {
+      applePay: 'never',
+      googlePay: 'never'
     },
   };
 
