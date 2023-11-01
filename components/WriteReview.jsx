@@ -4,22 +4,18 @@ import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
-export default function WriteReview({
-  receiverName,
-  senderId,
-  receiverId,
-  serviceId,
-  reservationId,
-}) {
+export default function WriteReview({ receiverName, senderId, receiverId, serviceId, reservationId }) {
   const router = useRouter();
   const [rateValue, setRateValue] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function uploadComment() {
     if (!rateValue || !reviewText) {
       toast.error("Ingresa correctamente los datos");
       return false;
     }
+    setIsLoading(true);
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const token = localStorage.getItem("token");
     const dataObject = {
@@ -40,7 +36,7 @@ export default function WriteReview({
     })
       .then((resp) => {
         if (!resp.ok) {
-          throw new Error('Respuesta no exitosa');
+          throw new Error("Respuesta no exitosa");
         }
         return resp.json();
       })
@@ -50,30 +46,19 @@ export default function WriteReview({
           setTimeout(() => router.reload(), 2000);
         } else {
           toast.error("Error al subir la reseña");
+          setTimeout(() => setIsLoading(false), 2000);
         }
       })
       .catch((error) => {
-        console.error('Error en la solicitud:', error);
+        console.error("Error en la solicitud:", error);
+        setTimeout(() => setIsLoading(false), 2000);
       });
   }
 
   return (
     <main className="rounded-[20px] bg-white p-[20px] flex flex-col text-center w-full sm:w-[460px] gap-3 min-h-[300px] max-h-[300px]">
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      <p className="text-[#1F2937] text-[20px] font-medium">
-        {`Califica a ${receiverName} y escríbele una reseña!`}
-      </p>
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <p className="text-[#1F2937] text-[20px] font-medium">{`Califica a ${receiverName} y escríbele una reseña!`}</p>
       <div className="flex justify-center">
         <Rating
           name="simple-controlled"
@@ -96,8 +81,9 @@ export default function WriteReview({
         onChange={(e) => setReviewText(e.target.value)}
       ></textarea>
       <button
-        className="text-white bg-[#FF7068] rounded-[12px] h-[40px] text-[14px] font-bold hover:scale-[102%]"
+        className="text-white bg-[#FF7068] rounded-[12px] h-[40px] text-[14px] font-bold hover:scale-[102%] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
         onClick={uploadComment}
+        disabled={isLoading}
       >
         Subir Comentario
       </button>

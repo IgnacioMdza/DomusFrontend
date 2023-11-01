@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 export default function Register() {
   const { user, setUser } = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,6 +23,7 @@ export default function Register() {
   password.current = watch("password", "");
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     toast.info("Creando usuario", { autoClose: 1500 });
     fetch(`${BASE_URL}/users`, {
       method: "POST",
@@ -37,7 +39,7 @@ export default function Register() {
     })
       .then((resp) => {
         if (!resp) {
-          throw new Error('Respuesta no exitosa');
+          throw new Error("Respuesta no exitosa");
         }
         return resp.json();
       })
@@ -47,12 +49,13 @@ export default function Register() {
           setTimeout(() => router.push("/accounts/confirm"), 6000);
         } else {
           setTimeout(() => toast.error(res.message, { autoClose: 5000 }), 1500);
-          setTimeout(() => router.push(`/accounts/signup`), 6000);
+          setTimeout(() => setIsLoading(false), 5000);
         }
       })
       .catch((error) => {
-        console.error('Error en la solicitud:', error);
+        console.error("Error en la solicitud:", error);
         toast.error("Error de conexión, favor de volver a intentar en un momento");
+        setTimeout(() => setIsLoading(false), 3000);
       });
   };
 
@@ -61,9 +64,7 @@ export default function Register() {
       <Head>
         <title>Domus - Regístrate</title>
       </Head>
-      <ToastContainer 
-        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
-      />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       <div className="max-w-[400px] sm:max-w-[450px] mx-auto sm:w-[450px] sm:mx-auto bg-white shadow-xl rounded-lg sm:rounded-xl text-[#2B2E4A]">
         <div className="bg-[#FF6868] text-center text-white rounded-t-xl pt-[16px] pb-[8px] sm:pb-0 rounded-b-[12px] sm:rounded-b-[16px]">
           <div className="flex justify-center">
@@ -278,7 +279,8 @@ export default function Register() {
           <div className="pt-[40px] sm:pt-[48px] text-center">
             <button
               type="submit"
-              className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center transition border-[1px] border-[#FF6868] hover:bg-white hover:text-[#FF6868] shadow-lg active:bg-[#FF6868]"
+              className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center transition border-[1px] border-[#FF6868] hover:bg-white hover:text-[#FF6868] shadow-lg active:bg-[#FF6868] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+              disabled={isLoading}
             >
               Registrarse
             </button>

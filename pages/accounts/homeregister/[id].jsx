@@ -21,6 +21,7 @@ export default function HomeRegister() {
 
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -30,7 +31,7 @@ export default function HomeRegister() {
       fetch(`${urlFetch}/users/${pathId}`)
         .then((resp) => {
           if (!resp) {
-            throw new Error('Respuesta no exitosa');
+            throw new Error("Respuesta no exitosa");
           }
           return resp.json();
         })
@@ -42,7 +43,7 @@ export default function HomeRegister() {
           }
         })
         .catch((error) => {
-          console.error('Error en la solicitud:', error);
+          console.error("Error en la solicitud:", error);
           toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     }
@@ -100,6 +101,7 @@ export default function HomeRegister() {
   const [check5, setCheck5] = useState(false);
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     toast.info("Guardando tu alojamiento...", { autoClose: 2000 });
     const amenities = data.amenities;
     const stringAmenities = amenities.split(".");
@@ -203,7 +205,7 @@ export default function HomeRegister() {
     })
       .then((resp) => {
         if (!resp) {
-          throw new Error('Respuesta no exitosa');
+          throw new Error("Respuesta no exitosa");
         }
         return resp.json();
       })
@@ -213,11 +215,13 @@ export default function HomeRegister() {
           setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error(`${response.message}`);
+          setTimeout(() => setIsLoading(false), 2000);
         }
       })
       .catch((error) => {
-        console.error('Error en la solicitud:', error);
+        console.error("Error en la solicitud:", error);
         toast.error("Error de conexión, favor de volver a intentar en un momento");
+        setTimeout(() => setIsLoading(false), 2000);
       });
   };
 
@@ -383,9 +387,7 @@ export default function HomeRegister() {
       <Head>
         <title>Domus - Registra tu Alojamiento</title>
       </Head>
-      <ToastContainer 
-        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
-      />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
       {token && user && (
         <>
           <div className="mt-32 mb-12">
@@ -413,7 +415,9 @@ export default function HomeRegister() {
                           {/* <br></br> */}
                           {/* INPUT IMAGES */}
                           <label className="">
-                            <p className="bg-[#2F2E43] px-10 text-white rounded-full py-2 text-lg md:text-lg sm:text-sm w-full cursor-pointer border-[2px] hover:shadow-lg border-[#2A2D49] hover:text-[#2A2D49] hover:bg-[#F2F2F2] hover:scale-[102%] transition">Selecciona tus imagenes Aquí</p>
+                            <p className="bg-[#2F2E43] px-10 text-white rounded-full py-2 text-lg md:text-lg sm:text-sm w-full cursor-pointer border-[2px] hover:shadow-lg border-[#2A2D49] hover:text-[#2A2D49] hover:bg-[#F2F2F2] hover:scale-[102%] transition">
+                              Selecciona tus imagenes Aquí
+                            </p>
                             <div className="flex sm:min-w-[330px] ">
                               <input type="file" hidden name="imag" className="text-[#2A2D49]" accept=".png, .jpg, .jpeg" multiple onChange={(e) => setCurrentFiles(e.target.files)} />
                             </div>
@@ -484,13 +488,23 @@ export default function HomeRegister() {
                               <label htmlFor="" className="mr-2 ">
                                 Mediano
                               </label>
-                              <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded scale-125" onChange={hiddenCheck2} disabled={check4 && check5 ? !check4 : check4} />
+                              <input
+                                type="checkbox"
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded scale-125"
+                                onChange={hiddenCheck2}
+                                disabled={check4 && check5 ? !check4 : check4}
+                              />
                             </div>
                             <div className="flex items-center">
                               <label htmlFor="" className="mr-2 ">
                                 Grande
                               </label>
-                              <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded scale-125" onChange={hiddenCheck3} disabled={check4 && check5 ? !check4 : check4} />
+                              <input
+                                type="checkbox"
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded scale-125"
+                                onChange={hiddenCheck3}
+                                disabled={check4 && check5 ? !check4 : check4}
+                              />
                             </div>
                           </div>
                         </div>
@@ -598,7 +612,7 @@ export default function HomeRegister() {
                             </div>
                           </div>
                         </div>
-                        <p className='text-center md:text-left'>[Se permiten horas de 5:00 am a 11:00 pm]</p>
+                        <p className="text-center md:text-left">[Se permiten horas de 5:00 am a 11:00 pm]</p>
                         <div className="pt-4">
                           <div className="flex justify-start justify-items-center  items-center pb-2">
                             <label htmlFor="message" className="block mb-2 text-lg font-medium">
@@ -675,7 +689,7 @@ export default function HomeRegister() {
                         <h2 className="text-[24px] md:text-[28px] font-normal text-center md:text-left">Dirección</h2>
                       </div>
                       <div className="md:flex md:items-start">
-                        <div className="flex justify-center items-center md:pt-10 md:pt-0 md:pr-10 sm:pb-5">
+                        <div className="flex justify-center items-center md:pt-10 md:pr-10 sm:pb-5">
                           <Image src={"/images/direction.png"} width={500} height={500} alt="Dirección" />
                         </div>
                         <div className="md:pt-5">
@@ -1232,8 +1246,10 @@ export default function HomeRegister() {
                       >
                         Cancelar
                       </Link>
-                      <button type="submit" 
-                        className="px-6 py-3.5 w-full sm:w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg"
+                      <button
+                        type="submit"
+                        className="px-6 py-3.5 w-full sm:w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                        disabled={isLoading}
                       >
                         Guardar
                       </button>
