@@ -54,29 +54,39 @@ export default function Pets({ reservation }) {
 }
 
 export async function getServerSideProps(context) {
-  const id = context.params.id;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${BASE_URL}/reservations/all/${id}?find=pet`);
-  if (response.status === 200) {
-    const reservation = await response.json();
-    if (
-      reservation.data.status != "paid" &&
-      reservation.data.status != "current" &&
-      reservation.data.status != "concluded"
-    ) {
+  try {
+    const id = context.params.id;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${BASE_URL}/reservations/all/${id}?find=pet`);
+    if (response.status === 200) {
+      const reservation = await response.json();
+      if (
+        reservation.data.status != "paid" &&
+        reservation.data.status != "current" &&
+        reservation.data.status != "concluded"
+      ) {
+        return {
+          notFound: true,
+        };
+      } else {
+        return {
+          props: {
+            reservation,
+          },
+        };
+      }
+    } else {
       return {
         notFound: true,
       };
-    } else {
-      return {
-        props: {
-          reservation,
-        },
-      };
     }
-  } else {
-    return {
-      notFound: true,
+  } catch (error) {
+    console.error('Error en la solicitud:', error);
+      return {
+        redirect: {
+        destination: `/500?back=${context.resolvedUrl}`,
+        permanent: false,
+      },
     };
   }
 }

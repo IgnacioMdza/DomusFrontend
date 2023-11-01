@@ -16,6 +16,7 @@ export default function CompleteRegister() {
   const [token, setToken] = useState(null);
   const [picture, setPicture] = useState(null);
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -27,13 +28,22 @@ export default function CompleteRegister() {
     const pathId = router.query.id;
     if (pathId && token) {
       fetch(`${urlFetch}/users/${pathId}`)
-        .then((resp) => resp.json())
+        .then((resp) => {
+          if (!resp) {
+            throw new Error("Respuesta no exitosa");
+          }
+          return resp.json();
+        })
         .then((resp) => {
           if (resp.data.isInfoCompleted === true) {
             router.push("/");
           } else {
             setUser(resp.data);
           }
+        })
+        .catch((error) => {
+          console.error("Error en la solicitud:", error);
+          toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     }
   }, [router, router.query.id, token, urlFetch]);
@@ -57,6 +67,7 @@ export default function CompleteRegister() {
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     toast.info("Actualizando tu información de perfil...", {
       autoClose: 2000,
     });
@@ -87,18 +98,26 @@ export default function CompleteRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error("Respuesta no exitosa");
+        }
+        return resp.json();
+      })
       .then((response) => {
-        console.log("response: ", response);
+        //console.log("response: ", response);
         if (response.success) {
           toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
-          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
+          setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error("Error al actualizar el usuario");
+          setTimeout(() => setIsLoading(false), 2000);
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        //console.error("Error en la solicitud:", error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
+        setTimeout(() => setIsLoading(false), 2000);
       });
   };
 
@@ -531,7 +550,8 @@ export default function CompleteRegister() {
                       </Link>
                       <button
                         type="submit"
-                        className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg"
+                        className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                        disabled={isLoading}
                       >
                         Guardar
                       </button>

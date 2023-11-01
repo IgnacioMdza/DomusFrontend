@@ -15,7 +15,7 @@ const imageLoader = ({ src, width, quality }) => {
 };
 
 export default function Slider(data) {
-  console.log("Slider Data", data);
+  //console.log("Slider Data", data);
   return (
     <>
       <Swiper

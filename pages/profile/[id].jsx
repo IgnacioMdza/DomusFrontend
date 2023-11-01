@@ -35,6 +35,7 @@ export default function ClientProfile() {
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
   useEffect(() => {
     const pathId = router.query.id;
+    const urlBackRoute = router.asPath
     if (pathId) {
       const token = localStorage.getItem("token");
       let tokenInfo = {};
@@ -44,25 +45,47 @@ export default function ClientProfile() {
       setIdMatch(pathId === tokenInfo?.id);
 
       fetch(`${URL}/users/${pathId}`)
-        .then((resp) => resp.json())
         .then((resp) => {
+          if(!resp){
+            throw new Error('Respuesta no exitosa')
+          } 
+          return resp.json();
+        })
+        .then((resp) => {
+          //console.log(resp)
           if (resp.success) {
             setUserData(resp.data);
-          } else {
-            router.push("./404");
+          } else if(!resp.success){
+            router.push('/400')
           }
-          if (!resp.data?.isInfoCompleted && pathId === tokenInfo.id) router.push(`../accounts/register/${tokenInfo.id}`);
-          else if (!resp.data?.isInfoCompleted) router.push("./404");
+
+          if (!resp.data?.isInfoCompleted && pathId === tokenInfo.id){
+            router.push(`../accounts/register/${tokenInfo.id}`);
+          } 
+          else if (!resp.data?.isInfoCompleted){
+            router.push("./404");
+          } 
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
+          router.push({ 
+            pathname: '/500', 
+            query: { 
+              back: urlBackRoute 
+            }
+          })
         });
     }
-  }, [router.query.id, router, URL]);
+  }, [router.query.id, router, URL,]);
 
   return (
     <>
       <Head>
         <title>{`Domus - Perfil`}</title>
       </Head>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" 
+      />
       <main className="min-h-[calc(100vh-90px)] mt-[90px]">
         {userData && userData.isInfoCompleted && (
           <>
@@ -97,8 +120,16 @@ export default function ClientProfile() {
                       </button>
                     </div>
                     <p className="text-[16px] md:text-[18px] text-justify">{userData.aboutMe}</p>
+                    {idMatch && userData.type === "client" &&                  
+                      <Link 
+                        href={"/search"}
+                        className="w-full text-center py-[10px] hover:bg-[#F2F2F2] hover:text-[#2B2E4A] text-white text-[18px] border-[3px] border-[#2B2E4A] hover:scale-[102%] hover:shadow-lg bg-[#2B2E4A] rounded-xl transition"
+                      >
+                        Realizar una nueva reservación
+                      </Link>                 
+                    }
                     {idMatch && (
-                      <div className="bg-white w-full flex flex-col items-center rounded-xl shadow-lg border hover:shadow-xl transition">
+                      <div className="bg-white w-full flex flex-col items-center rounded-xl shadow-lg border hover:shadow-2xl transition duration-300">
                         <button onClick={() => setIsOpen((prev) => !prev)} href="Bookingblog" className="w-full py-[16px] px-[16px] flex gap-[20px] items-center place-content-center rounded-xl">
                           <p className="text-[20px] lg:text-[24px] font-[nunito] text-[#2B2E4A]">Reservaciones</p>
                           {!isOpen ? <i className="fa fa-caret-down text-[#2B2E4A] text-[24px]"></i> : <i className="fa fa-caret-up text-[#2B2E4A] text-[24px]"></i>}
@@ -125,7 +156,8 @@ export default function ClientProfile() {
                             <div className={`flex flex-col gap-[18px] w-full p-[16px] lg:p-[32px]`}>
                               {userData.reservations
                                 ?.filter((item) => bookingsFilter === "all" || item.status === bookingsFilter)
-                                .map((item, index) => {
+                                //.sort((a, b) => new Date(b.created) - new Date(a.created))
+                                .toReversed().map((item, index) => {
                                   return (
                                     <BookingCard
                                       key={index}

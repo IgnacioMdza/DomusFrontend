@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useState } from "react";
 
 const imageLoader = ({ src, width, quality }) => {
   return `${src}`;
@@ -11,6 +12,7 @@ const imageLoader = ({ src, width, quality }) => {
 export default function BookingCard2({ reservationId, usertype, cardUserName, cardUserId, startDate, finishDate, status, cost, cardUserImage }) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   let statusColor = "#1F2937";
   let statusText = status;
@@ -79,6 +81,7 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
   }
 
   function changeStatus(newStatus) {
+    setIsLoading(true);
     toast.info("Actualizando Estatus", { autoClose: 2000 });
     const token = localStorage.getItem("token");
     fetch(`${BASE_URL}/reservations/${reservationId}/status`, {
@@ -89,29 +92,53 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp) {
+          setIsLoading(false);
+          throw new Error("Respuesta no exitosa");
+        }
+        return resp.json();
+      })
       .then((resp) => {
         if (resp.success) {
           fetch(`${BASE_URL}/mailNotifications/${reservationId}`, {
             method: "POST",
           })
-            .then((resp) => resp.json())
+            .then((resp) => {
+              if (!resp) {
+                setIsLoading(false);
+                throw new Error("Respuesta no exitosa");
+              }
+              return resp.json();
+            })
             .then((resp) => {
               if (resp.success) {
                 toast.success("Estatus actualizado", { autoClose: 2000 });
                 setTimeout(() => router.reload(), 2000);
               } else {
                 toast.error("Error al enviar las notificaciones");
+                setTimeout(() => setIsLoading(false), 2000);
               }
+            })
+            .catch((error) => {
+              console.error("Error en la solicitud:", error);
+              toast.error("Error de conexión al enviar las notificaciones");
+              setTimeout(() => setIsLoading(false), 2000);
             });
         } else {
           toast.error("Error al actualizar el estatus");
+          setTimeout(() => setIsLoading(false), 2000);
         }
+      })
+      .catch((error) => {
+        console.error("Error en la solicitud:", error);
+        toast.error("Error de conexión, favor de volver a intentar");
+        setTimeout(() => setIsLoading(false), 2000);
       });
   }
 
   function goToProfile(profileId) {
-    window.location.replace(`/profiles/${profileId}`);
+    window.location.replace(`/profile/${profileId}`);
   }
   return (
     <main className={`${borderStyle} block md:flex md:gap-8 p-5 rounded-[10px] w-full m-auto bg-[#F2F2F2] border transition`}>
@@ -151,10 +178,18 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
           <button onClick={(e) => goToProfile(cardUserId)} className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]">
             Ver Cliente
           </button>
-          <button onClick={(e) => changeStatus("refused")} className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e]">
+          <button
+            onClick={(e) => changeStatus("refused")}
+            className="bg-[#2B2E4A] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#55576e] disabled:opacity-25"
+            disabled={isLoading}
+          >
             Rechazar
           </button>
-          <button onClick={(e) => changeStatus("accepted")} className="bg-[#E91E63] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#ed4a82]">
+          <button
+            onClick={(e) => changeStatus("accepted")}
+            className="bg-[#E91E63] rounded-[5px] text-white font-semibold w-[100px] h-[35px] text-[14px] hover:bg-[#ed4a82] disabled:opacity-25"
+            disabled={isLoading}
+          >
             Aceptar
           </button>
         </div>

@@ -15,6 +15,7 @@ export default function PetRegister() {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [picture, setPicture] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -42,6 +43,7 @@ export default function PetRegister() {
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     toast.info("Guardando Mascota...", { autoClose: 2000 });
     let dataObject = {
       type: data.type,
@@ -65,17 +67,25 @@ export default function PetRegister() {
       },
       body: formData,
     })
-      .then((response) => response.json())
+      .then((resp) => {
+        if (!resp) {
+          throw new Error("Respuesta no exitosa");
+        }
+        return resp.json();
+      })
       .then((response) => {
         if (response.success) {
           toast.success("Mascota creada con éxito", { autoClose: 2000 });
-          setTimeout(() => router.push(`/profiles/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
+          setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error("Error al crear mascota");
+          setTimeout(() => setIsLoading(false), 2000);
         }
       })
-      .catch(() => {
-        alert("falló el fetch");
+      .catch((error) => {
+        console.error("Error en la solicitud:", error);
+        toast.error("Error de conexión, favor de volver a intentar en un momento");
+        setTimeout(() => setIsLoading(false), 2000);
       });
   };
 
@@ -357,7 +367,8 @@ export default function PetRegister() {
                     </Link>
                     <button
                       type="submit"
-                      className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#2B2E4A] border-[1px] border-[#2B2E4A] hover:scale-[102%] active:bg-white active:text-[#2B2E4A] rounded-full text-center transition shadow-lg"
+                      className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#2B2E4A] border-[1px] border-[#2B2E4A] hover:scale-[102%] active:bg-white active:text-[#2B2E4A] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                      disabled={isLoading}
                     >
                       Guardar
                     </button>

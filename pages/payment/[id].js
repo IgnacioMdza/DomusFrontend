@@ -68,7 +68,7 @@ export default function App(props) {
             <div className="flex justify-between items-center">
               <h1 className="text-[32px] font-[Raleway] font-semibold text-[#FF7068]">Reserva</h1>
               <Link
-                href={`/profiles/${client?.id}`}
+                href={`/profile/${client?.id}`}
                 className="text-[16px] text-white bg-[#FF7068] px-[12px] py-[6px] rounded-full border border-[#FF7068] hover:shadow-md hover:scale-[102%] hover:bg-[#F2F2F2] transition hover:text-[#FF7068]"
               >
                 Regresar

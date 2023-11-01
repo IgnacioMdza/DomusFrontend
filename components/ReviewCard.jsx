@@ -18,7 +18,7 @@ export default function ReviewCard({
   return (
     <div
       href="/"
-      className={`w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex-col sm:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[240px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-[102%] lg:hover:bg-opacity-[85%] ${
+      className={`w-full bg-white rounded-[16px] bg-opacity-70 p-[16px] md:p-[24px] flex-col sm:flex-row lg:flex-col xl:flex-row gap-[16px] backdrop-blur-[8px] shadow-xl sm:h-[200px] md:h-[180px] lg:h-[310px] xl:h-[180px] justify-between align-middle items-center transition lg:hover:scale-[102%] lg:hover:bg-opacity-[85%] ${
         cardNumber >= 4 ? "hidden lg:flex" : "flex"
       }`}
     >
@@ -33,7 +33,7 @@ export default function ReviewCard({
       />
       <div className="flex flex-col w-full items-center justify-between sm:justify-normal gap-[16px]">
         <div className="flex flex-col w-full items-center place-content-center gap-[4px]">
-          <div className="w-full flex gap-[8px] items-center place-content-center sm:place-content-start">
+          <div className="w-full flex gap-[8px] items-center place-content-center sm:place-content-start lg:place-content-center xl:place-content-start">
             <p className="text-[16px] font-bold">{authorName}</p>
             {renderReceiver && (
               <>
@@ -44,12 +44,12 @@ export default function ReviewCard({
               </>
             )}
           </div>
-          <div className="w-full flex sm:justify-between justify-around items-center">
+          <div className="w-full flex sm:justify-between justify-around items-center lg:justify-around xl:justify-between">
             <p className="text-[16px] font-light font-[Nunito]">{reviewDate}</p>
             <Rating readOnly value={value} precision={0.5} size="large" />
           </div>
         </div>
-        <div className="w-full text-center sm:text-left">
+        <div className="w-full text-center sm:text-left lg:text-center xl:text-left">
           <p className="text-[16px] font-normal font-[Nunito]">
             {review.slice(0, 130)}...
           </p>
