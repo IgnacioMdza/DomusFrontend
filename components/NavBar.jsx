@@ -57,7 +57,7 @@ export default function NavBar() {
   }
 
   function goToProfile(profileId) {
-    console.log("href", window.location.href);
+    // console.log("href", window.location.href);
     window.location.href.includes(`/profile/${profileId}`) ? null : window.location.replace(`/profile/${profileId}`);
   }
 
@@ -103,12 +103,12 @@ export default function NavBar() {
                   </li>
                 </ul>
               ) : (
-                <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
+                <ul className="font-medium flex md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-6 lg:space-x-8  md:mt-0 md:border-0 dark:border-gray-700 justify-center items-center ">
                   {!user.isInfoCompleted && (
                     <li>
                       <Link
                         href={`/accounts/register/${user._id}`}
-                        className="text-[#e91e63] block py-2 px-5 border rounded-full border-[#e91e63] hover:text-white hover:bg-[#e91e63] transition duration-300"
+                        className="text-[#e91e63] block py-2 md:px-4 lg:px-5 border md:text-[14px] lg:text-[16px] rounded-full border-[#e91e63] hover:text-white hover:bg-[#e91e63] transition duration-300"
                         aria-current="page"
                       >
                         Completar Registro
@@ -162,7 +162,7 @@ export default function NavBar() {
         </div>
         <Transition show={isOpen}>
           <div className="md:hidden z-50 border-0 navbar" id="mobile-menu">
-            <div className="w-full " id="navbar-default">
+            <div className="w-full" id="navbar-default">
               {!user?._id ? (
                 <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
                   <li>
@@ -188,33 +188,36 @@ export default function NavBar() {
                   </li>
                 </ul>
               ) : (
-                <ul className="font-medium flex flex-col py-4 md:p-0 mt-4 border md:flex-row md:space-x-8 md:mt-0 md:border-0 justify-center items-center gap-5 ">
-                  <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
-                    <Link href={"/"}>Home </Link>
+                <ul className="font-medium flex flex-col py-4 md:p-0 mt-4 px-[12px] border-t md:flex-row md:space-x-8 md:mt-0 md:border-0 justify-center items-center gap-[6px]">
+                  <li className="w-full">
+                    <Link href={"/"} className="text-dark block py-3 px-5  rounded-lg border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center transition">
+                      Home 
+                    </Link>
                   </li>
-                  <li className="text-dark block py-2 px-5  rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
-                    <Link href={"/#qs"} className="">
+                  <li className="w-full">
+                    <Link href={"/#qs"} className="text-dark block py-3 px-5  rounded-lg border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center transition">
                       Nosotros{" "}
                     </Link>
                   </li>
                   {!user.isInfoCompleted && (
-                    <li className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center ">
+                    <li className="w-full">
                       <Link
                         href={`/accounts/register/${user._id}`}
                         // className="text-dark block py-2 px-5 border rounded-full border-[#2B2E4A] hover:border-white hover:bg-[#FF6868] hover:text-white w-full text-center bg-red-500"
+                        className="text-[#e91e63] block py-3 px-5 border rounded-lg border-[#e91e63] hover:border-[#e91e63] hover:bg-[#e91e63] hover:text-white w-full text-center transition"
                         aria-current="page"
                       >
                         Completar Registro
                       </Link>
                     </li>
                   )}
-                  <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
-                    <button onClick={(e) => goToProfile(user._id)} className="text-dark " aria-current="page">
+                  <li className="w-full">
+                    <button onClick={(e) => goToProfile(user._id)} className="text-dark flex px-3 border rounded-lg bg-[#F2F2F2] justify-center items-center py-[3px] gap-2 mb-4 w-full" aria-current="page">
                       {user.name ? user.name.split(" ")[0] : user.nickname.split(" ")[0]}
+                      <Image unoptimized loader={imageLoader} src={user.picture} width={100} height={100} alt="Domus Logo" className="w-10 h-10 object-cover rounded-full"></Image>
                     </button>
-                    <Image unoptimized loader={imageLoader} src={user.picture} width={100} height={100} alt="Domus Logo" className="w-10 h-10 object-cover rounded-full"></Image>
                   </li>
-                  <li className=" ml-0">
+                  <li className=" ml-0 mb-1">
                     <button type="submit" onClick={onclick} className="text-dark text-center">
                       Cerrar Sesión
                     </button>

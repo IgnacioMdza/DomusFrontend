@@ -184,7 +184,7 @@ export default function HomeRegister() {
         clabe: data.clabe,
       },
     };
-    console.log(dataObject);
+    //console.log(dataObject);
     if (images.length === 0) {
       toast.error("Tienes que cargar las imágenes!");
       return;
@@ -233,7 +233,7 @@ export default function HomeRegister() {
       // setIsOpen(aux);
     } else {
       aux = isOpen.concat(e.target.value);
-      console.log(aux);
+      //console.log(aux);
       hiddenText;
     }
     setIsOpen(aux);

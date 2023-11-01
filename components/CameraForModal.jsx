@@ -47,7 +47,7 @@ export default function CameraForModal({ onClose, reservation }) {
               lastModified: Date.now(),
             });
 
-            console.log(file);
+            //console.log(file);
             setImage(file);
           },
           "image/jpeg",

@@ -52,7 +52,7 @@ export default function ClientProfile() {
           return resp.json();
         })
         .then((resp) => {
-          console.log(resp)
+          //console.log(resp)
           if (resp.success) {
             setUserData(resp.data);
           } else if(!resp.success){
