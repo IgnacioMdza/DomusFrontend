@@ -22,7 +22,7 @@ export default function NavBar() {
 
     if (token) {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
-      if (tokenInfo.exp <= new Date()/1000) {
+      if (tokenInfo.exp <= new Date() / 1000) {
         localStorage.removeItem("token");
         setUser();
         window.location.replace(`/`);
@@ -30,7 +30,7 @@ export default function NavBar() {
         fetch(`${URL}/users/${tokenInfo.id}`)
           .then((resp) => {
             if (!resp) {
-              throw new Error('Respuesta no exitosa');
+              throw new Error("Respuesta no exitosa");
             }
             return resp.json();
           })
@@ -42,7 +42,7 @@ export default function NavBar() {
             }
           })
           .catch((error) => {
-            console.error('Error en la solicitud:', error);
+            console.error("Error en la solicitud:", error);
             // toast.warn("No pudimos cargar tu información de usuario");
           });
       }
@@ -209,7 +209,7 @@ export default function NavBar() {
                   )}
                   <li className="flex px-3 border rounded-full border-[#2B2E4A] justify-center items-center py-[1px] gap-2 mb-4">
                     <button onClick={(e) => goToProfile(user._id)} className="text-dark " aria-current="page">
-                      perfil
+                      {user.name.split(" ")[0]}
                     </button>
                     <Image unoptimized loader={imageLoader} src={user.picture} width={100} height={100} alt="Domus Logo" className="w-10 h-10 object-cover rounded-full"></Image>
                   </li>
