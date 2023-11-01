@@ -16,6 +16,7 @@ export default function CompleteRegister() {
   const [token, setToken] = useState(null);
   const [picture, setPicture] = useState(null);
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -29,7 +30,7 @@ export default function CompleteRegister() {
       fetch(`${urlFetch}/users/${pathId}`)
         .then((resp) => {
           if (!resp) {
-            throw new Error('Respuesta no exitosa');
+            throw new Error("Respuesta no exitosa");
           }
           return resp.json();
         })
@@ -41,7 +42,7 @@ export default function CompleteRegister() {
           }
         })
         .catch((error) => {
-          console.error('Error en la solicitud:', error);
+          console.error("Error en la solicitud:", error);
           toast.error("Error de conexión, favor de volver a intentar en un momento");
         });
     }
@@ -66,6 +67,7 @@ export default function CompleteRegister() {
   }, [router.query.id, router]);
 
   const onSubmit = (data) => {
+    setIsLoading(true);
     toast.info("Actualizando tu información de perfil...", {
       autoClose: 2000,
     });
@@ -98,7 +100,7 @@ export default function CompleteRegister() {
     })
       .then((resp) => {
         if (!resp) {
-          throw new Error('Respuesta no exitosa');
+          throw new Error("Respuesta no exitosa");
         }
         return resp.json();
       })
@@ -109,11 +111,13 @@ export default function CompleteRegister() {
           setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
         } else {
           toast.error("Error al actualizar el usuario");
+          setTimeout(() => setIsLoading(false), 2000);
         }
       })
       .catch((error) => {
-        console.error('Error en la solicitud:', error);
+        console.error("Error en la solicitud:", error);
         toast.error("Error de conexión, favor de volver a intentar en un momento");
+        setTimeout(() => setIsLoading(false), 2000);
       });
   };
 
@@ -124,9 +128,7 @@ export default function CompleteRegister() {
       </Head>
       {token && user && (
         <>
-          <ToastContainer 
-            position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
-          />
+          <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
           {/* <div className="bg-[#FF6868] py-4 text-center">
           <h1 className="text-white text-[28px] font-medium font-[Raleway]">
             Completar Registro
@@ -548,7 +550,8 @@ export default function CompleteRegister() {
                       </Link>
                       <button
                         type="submit"
-                        className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg"
+                        className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                        disabled={isLoading}
                       >
                         Guardar
                       </button>
