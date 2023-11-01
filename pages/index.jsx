@@ -41,7 +41,7 @@ export default function Home() {
       </Head>
       <section
         id="hero"
-        className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-right-top lg:bg-no-repeat lg:bg-[length:60%_100%] mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
+        className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-no-repeat lg:bg-[length:75%] xl:bg-[length:60%] bg-right bg-contain mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
       >
         <ToastContainer 
           position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
@@ -89,8 +89,8 @@ export default function Home() {
           disponibilidad, empatía y compromiso para cuidar de nuestros amigos de
           cuatro patas.
         </p>
-        <div className="bg-[#2B2E4A] px-6 md:px-16 text-center rounded-2xl">
-          <h3 className="text-[32px] text-white pt-6 text-center mb-8 font-[Raleway] font-bold">
+        <div className="bg-[#2B2E4A] px-6 md:px-16 text-center rounded-md md:rounded-xl">
+          <h3 className="text-[32px] text-white pt-6 text-center mb-8 font-[Raleway] font-semibold">
             Beneficios de nuestro servicio para una mejor experiencia
           </h3>
           <div className="flex gap-10 flex-col lg:flex-row items-center justify-center pb-8">
@@ -129,7 +129,7 @@ export default function Home() {
               <Link className="w-full" href={"/search"}>
                 <button
                   type="button"
-                  className="py-2.5 mt-4 mb-10 lg:mb-0 text-white text-[20px] font-bold bg-[#FF7068] rounded-full text-center w-full hover:shadow-none lg:hover:scale-105"
+                  className="py-2.5 mt-4 mb-10 lg:mb-0 text-white text-[20px] font-bold bg-[#FF7068]  border-[2px] border-[#FF7068] rounded-full text-center w-full hover:bg-opacity-50 hover:shadow-none lg:hover:scale-[104%] transition"
                 >
                   Encuentra a tu cuidador
                 </button>

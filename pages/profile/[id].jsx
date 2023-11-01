@@ -123,7 +123,7 @@ export default function ClientProfile() {
                     {idMatch && userData.type === "client" &&                  
                       <Link 
                         href={"/search"}
-                        className="w-full text-center py-[12px] hover:bg-[#F2F2F2] hover:text-[#2B2E4A] text-white text-[18px] border-[3px] border-[#2B2E4A] hover:scale-[102%] hover:shadow-lg bg-[#2B2E4A] rounded-xl transition"
+                        className="w-full text-center py-[10px] hover:bg-[#F2F2F2] hover:text-[#2B2E4A] text-white text-[18px] border-[3px] border-[#2B2E4A] hover:scale-[102%] hover:shadow-lg bg-[#2B2E4A] rounded-xl transition"
                       >
                         Realizar una nueva reservación
                       </Link>                 
