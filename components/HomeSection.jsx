@@ -14,8 +14,10 @@ export default function HomeSection(data) {
     return petSize;
   }
 
+  let checkInFormated = ''
+  let checkOutFormated = ''
+
   if (data.homeData){
-    let checkInFormated = ''
     const checkInHourNumber = parseInt(data.homeData.checkIn.split(":")[0])
     if(checkInHourNumber === 12){
       checkInFormated = data.homeData.checkIn + ' pm' 
@@ -27,7 +29,6 @@ export default function HomeSection(data) {
       checkInFormated = hours + ':' + minutes + ' pm'
     }
 
-    let checkOutFormated = ''
     const checkOutHourNumber = parseInt(data.homeData.checkOut.split(":")[0])
     if(checkOutHourNumber === 12){
       checkOutFormated = data.homeData.checkOut + ' pm' 
