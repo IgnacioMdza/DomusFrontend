@@ -31,7 +31,7 @@ export default function Evidence() {
     const token = localStorage.getItem("token") || null;
     if (token) {
       const tokenInfo = JSON.parse(atob(token.split(".")[1]));
-      console.log(tokenInfo);
+      //console.log(tokenInfo);
       setUser(tokenInfo);
     } else {
       router.push("/404");
@@ -57,7 +57,7 @@ export default function Evidence() {
               resp.data.status === "concluded")
           ) {
             setReservation(resp.data);
-            console.log(resp.data)
+            //console.log(resp.data)
           } else {
             router.push("/404");
           }

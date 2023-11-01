@@ -105,7 +105,7 @@ export default function CompleteRegister() {
         return resp.json();
       })
       .then((response) => {
-        console.log("response: ", response);
+        //console.log("response: ", response);
         if (response.success) {
           toast.success("Usuario actualizado con éxito", { autoClose: 2000 });
           setTimeout(() => router.push(`/profile/${JSON.parse(atob(token.split(".")[1])).id}`), 2000);
@@ -115,7 +115,7 @@ export default function CompleteRegister() {
         }
       })
       .catch((error) => {
-        console.error("Error en la solicitud:", error);
+        //console.error("Error en la solicitud:", error);
         toast.error("Error de conexión, favor de volver a intentar en un momento");
         setTimeout(() => setIsLoading(false), 2000);
       });

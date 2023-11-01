@@ -30,6 +30,7 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
   const priceByDays = days * nightPetPrice;
   const tarifaDomus = Math.sign(days) === 1 ? priceByDays * 0.1 + 300 : 0;
   const impuestos = (tarifaDomus + priceByDays) * 0.16;
+  // const totalPrice = +(Math.round((priceByDays + tarifaDomus + impuestos) + 'e+2') + 'e-2');
   const totalPrice = priceByDays + tarifaDomus + impuestos;
 
   let checkInFormated = "";
@@ -115,7 +116,7 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
           return resp.json();
         })
         .then((response) => {
-          console.log("response: ", response);
+          // console.log("response: ", response);
           if (response.success) {
             fetch(`${urlFetch}/mailNotifications/${response.data._id}`, { method: "POST" })
               .then((resp) => {
