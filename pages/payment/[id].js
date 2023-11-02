@@ -62,7 +62,7 @@ export default function App(props) {
       <Head>
         <title>{`Realiza tu pago`}</title>
       </Head>
-      <section className="max-w-[1024px] mx-auto px-[24px] flex flex-col gap-[24px] place-content-center items-center min-h-[calc(100vh-90px)]">
+      <section className="max-w-[1024px] mx-auto p-[16px] md:px-[24px] md:py-[24px] flex flex-col gap-[24px] place-content-center items-center min-h-[calc(100vh-90px)]">
         {clientSecret && (
           <div className="w-full lg:w-3/5 flex flex-col bg-[#F8F8F8] p-[24px] rounded-xl shadow-xl border-1 border-white">
             <div className="flex justify-between items-center">
@@ -74,7 +74,7 @@ export default function App(props) {
                 Regresar
               </Link>
             </div>
-            <p>
+            <p className='text-[14px] text-center sm:text-left border rounded-full p-[4px]  mb-[12px] mt-[4px] w-fit mx-auto sm:mx-0'>
               Del {new Date(bookingData.startDate).toDateString()} al {new Date(bookingData.finishDate).toDateString()}
             </p>
             <div className="flex flex-col gap-[4px] rounded-lg lg:p-[8px]">
