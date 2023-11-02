@@ -21,8 +21,10 @@ export default function CompleteRegister() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
   const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
+  const aboutMeText = watch("aboutMe") || "";
 
   useEffect(() => {
     const pathId = router.query.id;
@@ -383,23 +385,26 @@ export default function CompleteRegister() {
                       <textarea
                         id="aboutMe"
                         rows="6"
-                        className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#1c1919] focus:ring-[#FF6868] bg-[#F2F2F2]"
-                        placeholder={`- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n300 a 400 caracteres`}
+                        className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#1c1919] focus:ring-[#FF6868] bg-[#F2F2F2] resize-none"
+                        placeholder={`- ¿De dónde eres?\n- ¿Qué te gusta hacer?\n- ¿A qué te dedicas?\n- ¿Qué significan tus mascotas para ti?\n150 a 350 caracteres`}
                         {...register("aboutMe", {
                           required: {
                             value: true,
                             message: "El campo es requerido",
                           },
                           minLength: {
-                            value: 300,
-                            message: "Mínimo 300 caracteres",
+                            value: 150,
+                            message: "Mínimo 150 caracteres",
                           },
                           maxLength: {
-                            value: 400,
-                            message: "Máximo 500 caracteres",
+                            value: 350,
+                            message: "Máximo 350 caracteres",
                           },
                         })}
                       ></textarea>
+                      <p className={`${aboutMeText.length < 150 || aboutMeText.length > 350 ? "text-red-500" : "text-gray-500"} text-[14px]`}>
+                        {aboutMeText.length < 150 ? `Min ${aboutMeText.length}/150` : `Max ${aboutMeText.length}/350`}
+                      </p>
                     </div>
                     {errors.aboutMe && <span className="text-red-500">{errors.aboutMe.message}</span>}
                     <div>
