@@ -119,7 +119,7 @@ export default function Evidence() {
           {reservation &&
             user &&
             reservation.evidence.map((item, index) => (
-              <DayEvidence key={index} evidencePerDay={item} day={index + 1} />
+              <DayEvidence key={index} evidencePerDay={item} day={index + 1} start={reservation.startDate} end={reservation.finishDate} generalStatus={reservation.status}/>
             ))}
         </div>
       </main>
