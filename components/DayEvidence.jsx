@@ -52,7 +52,9 @@ export default function DayEvidence(props) {
             <p className="font-bold text-[20px] md:text-[28px] text-white">DÍA {props.day}</p>
             <p className="font-light text-[14px] md:text-[20px] text-white ">{new Date(props.evidencePerDay.intervalDate).toDateString()}</p>
             {
-              dayjs().isSame((new Date(props.evidencePerDay.intervalDate)), 'day') &&
+              dayjs().isSame((new Date(props.evidencePerDay.intervalDate)), 'day') && 
+              // dayjs().isAfter(dayjs(props.start)) && dayjs().isBefore(dayjs(props.end)) &&
+              props.generalStatus === 'current' &&
               <p className="font-normal text-[16px] md:text-[20px] text-white text-center bg-[#31BB00] rounded-full px-[10px] md:px-[12px]">En curso</p>
             }
           </div>

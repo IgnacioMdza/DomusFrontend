@@ -48,7 +48,7 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
   let checkOutFormated = "";
   const checkOutHourNumber = parseInt(checkOut.split(":")[0]);
   if (checkOutHourNumber === 12) {
-    checkInheckOutFormated = checkOut + " pm";
+    checkOutFormated = checkOut + " pm";
   } else if (checkOutHourNumber < 12) {
     checkOutFormated = checkOut + " am";
   } else if (checkOutHourNumber > 12) {
