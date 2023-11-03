@@ -13,7 +13,7 @@ export default function BookingBlogReviewCard({
   review,
 }) {
   return (
-    <main className="rounded-[20px] bg-white p-[20px] flex flex-col md:flex-row w-full sm:w-[460px] gap-5 items-center md:min-h-[300px] md:max-h-[300px]">
+    <main className="rounded-[20px] bg-white p-[20px] flex flex-col md:flex-row w-full sm:w-[460px] gap-5 items-center md:min-h-[320px] md:max-h-[320px]">
       <div className={`rounded-lg border-2 border-[#2B2E4A]`}>
         <Image
           loader={imageLoader}
@@ -25,14 +25,14 @@ export default function BookingBlogReviewCard({
         />
       </div>
 
-      <div className="w-full h-[190px] text-center md:text-left">
+      <div className="w-full h-[210px] text-center md:text-left overflow-y-auto overflow-x-hidden">
         <div className="flex justify-center mb-5">
           <Rating readOnly value={rate} precision={0.5} size="large" />
         </div>
         <p className="text-[24px] font-medium text-[#1F2937]">{authorName}</p>
 
         <p className="text-[14px] text-[#6B7280] mb-5">{date}</p>
-        <p className="text-[16px]">{review}</p>
+        <p className="text-[14px]">{review}</p>
       </div>
     </main>
   );
