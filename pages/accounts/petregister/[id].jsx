@@ -308,6 +308,7 @@ export default function PetRegister() {
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
+                            min={1}
                             type="number"
                             name="age"
                             className=" rounded-lg w-full p-3 border-[1px] border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
