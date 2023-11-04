@@ -138,7 +138,8 @@ export default function BookingCard2({ reservationId, usertype, cardUserName, ca
   }
 
   function goToProfile(profileId) {
-    window.location.replace(`/profile/${profileId}`);
+    // window.location.replace(`/profile/${profileId}`);
+    router.push(`/profile/${profileId}`);
   }
   return (
     <main className={`${borderStyle} block md:flex md:gap-8 p-5 rounded-[10px] w-full m-auto bg-[#F2F2F2] border transition`}>

@@ -23,6 +23,7 @@ export default function PetRegister() {
     formState: { errors },
   } = useForm();
   const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
+  const aboutMeText = watch("aboutMe") || "";
 
   useEffect(() => {
     const pathId = router.query.id;
@@ -307,6 +308,7 @@ export default function PetRegister() {
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none"></div>
                           <input
+                            min={1}
                             type="number"
                             name="age"
                             className=" rounded-lg w-full p-3 border-[1px] border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A]  bg-[#F2F2F2]"
@@ -338,8 +340,8 @@ export default function PetRegister() {
                     <textarea
                       id="aboutMe"
                       rows="6"
-                      className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A] bg-[#F2F2F2]"
-                      placeholder={`Describe:\n- ¿Cuál es su temperamento?\n- ¿Qué le gusta hacer?\n- ¿Se lleva bien con otros animales?\n- 100 a 200 caracteres`}
+                      className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#2B2E4A] focus:ring-[#2B2E4A] bg-[#F2F2F2] resize-none"
+                      placeholder={`Describe:\n- ¿Cuál es su temperamento?\n- ¿Qué le gusta hacer?\n- ¿Se lleva bien con otros animales?\n- 100 a 150 caracteres`}
                       {...register("aboutMe", {
                         required: {
                           value: true,
@@ -355,6 +357,9 @@ export default function PetRegister() {
                         },
                       })}
                     ></textarea>
+                    <p className={`${aboutMeText.length < 100 || aboutMeText.length > 150 ? "text-red-500" : "text-gray-500"} text-[14px]`}>
+                      {aboutMeText.length < 100 ? `Min ${aboutMeText.length}/100` : `Max ${aboutMeText.length}/150`}
+                    </p>
                     {errors.aboutMe && <span className="text-red-500">{errors.aboutMe.message}</span>}
                   </div>
 
