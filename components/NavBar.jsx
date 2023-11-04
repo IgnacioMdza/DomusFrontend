@@ -54,8 +54,7 @@ export default function NavBar() {
   function onclick() {
     const rem = localStorage.removeItem("token");
     setUser();
-    router.push("/");
-    // window.location.replace(`/`);
+    window.location.replace(`/`);
     // router.pathname === "/" ? router.reload() : router.push("/");
   }
 

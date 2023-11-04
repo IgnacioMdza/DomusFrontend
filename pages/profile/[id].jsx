@@ -77,9 +77,9 @@ export default function ClientProfile({ userData }) {
                       <p className="font-bold text-[14px] sm:text-[14px] lg:text-[16px]">
                         No. de reservas: <span className="font-normal">{`${userData.reservations.length}`}</span>
                       </p>
-                      <button className={`inline-block ${idMatch ? "" : "hidden"}`} href={"/"} onClick={(e) => notFeature()}>
+                      {/* <button className={`inline-block ${idMatch ? "" : "hidden"}`} href={"/"} onClick={(e) => notFeature()}>
                         <i className="fa fa-edit text-[16px] sm:text-[22px]"></i>
-                      </button>
+                      </button> */}
                     </div>
                     <p className="text-[16px] md:text-[18px] text-justify">{userData.aboutMe}</p>
                     {idMatch && userData.type === "client" && (
