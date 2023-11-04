@@ -22,32 +22,70 @@ const imageLoader = ({ src, width, quality }) => {
   return `${src}`;
 };
 
-export default function ClientProfile({ userData }) {
+export default function ClientProfile() {
   const router = useRouter();
+  const [userData, setUserData] = useState(false);
+  const [idMatch, setIdMatch] = useState(false);
   const [bookingsFilter, setBookingsFilter] = useState("all");
   const [isOpen, setIsOpen] = useState(false);
-  const [idMatch, setIdMatch] = useState(false);
-
-  useEffect(() => {
-    const pathId = router.query.id;
-    const token = localStorage.getItem("token");
-    let tokenInfo = {};
-    if (token) {
-      tokenInfo = JSON.parse(atob(token.split(".")[1]));
-    }
-    setIdMatch(pathId === tokenInfo?.id);
-  }, [router]);
 
   function notFeature() {
     toast.info("Esta característica aún no está disponible, pero lo estará pronto 😉", { autoClose: 2000 });
   }
+  const URL = process.env.NEXT_PUBLIC_BASE_URL;
+  useEffect(() => {
+    const pathId = router.query.id;
+    const urlBackRoute = router.asPath
+    if (pathId) {
+      const token = localStorage.getItem("token");
+      let tokenInfo = {};
+      if (token) {
+        tokenInfo = JSON.parse(atob(token.split(".")[1]));
+      }
+      setIdMatch(pathId === tokenInfo?.id);
+
+      fetch(`${URL}/users/${pathId}`)
+        .then((resp) => {
+          if(!resp){
+            throw new Error('Respuesta no exitosa')
+          } 
+          return resp.json();
+        })
+        .then((resp) => {
+          //console.log(resp)
+          if (resp.success) {
+            setUserData(resp.data);
+          } else if(!resp.success){
+            router.push('/400')
+          }
+
+          if (!resp.data?.isInfoCompleted && pathId === tokenInfo.id){
+            router.push(`../accounts/register/${tokenInfo.id}`);
+          } 
+          else if (!resp.data?.isInfoCompleted){
+            router.push("./404");
+          } 
+        })
+        .catch((error) => {
+          console.error('Error en la solicitud:', error);
+          router.push({ 
+            pathname: '/500', 
+            query: { 
+              back: urlBackRoute 
+            }
+          })
+        });
+    }
+  }, [router.query.id, router, URL,]);
 
   return (
     <>
       <Head>
         <title>{`Domus - Perfil`}</title>
       </Head>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastContainer 
+        position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" 
+      />
       <main className="min-h-[calc(100vh-90px)] mt-[90px]">
         {userData && userData.isInfoCompleted && (
           <>
@@ -82,14 +120,14 @@ export default function ClientProfile({ userData }) {
                       </button>
                     </div>
                     <p className="text-[16px] md:text-[18px] text-justify">{userData.aboutMe}</p>
-                    {idMatch && userData.type === "client" && (
-                      <Link
+                    {idMatch && userData.type === "client" &&                  
+                      <Link 
                         href={"/search"}
                         className="w-full text-center py-[10px] hover:bg-[#F2F2F2] hover:text-[#2B2E4A] text-white text-[18px] border-[3px] border-[#2B2E4A] hover:scale-[102%] hover:shadow-lg bg-[#2B2E4A] rounded-xl transition"
                       >
                         Realizar una nueva reservación
-                      </Link>
-                    )}
+                      </Link>                 
+                    }
                     {idMatch && (
                       <div className="bg-white w-full flex flex-col items-center rounded-xl shadow-lg border hover:shadow-2xl transition duration-300">
                         <button onClick={() => setIsOpen((prev) => !prev)} href="Bookingblog" className="w-full py-[16px] px-[16px] flex gap-[20px] items-center place-content-center rounded-xl">
@@ -119,8 +157,7 @@ export default function ClientProfile({ userData }) {
                               {userData.reservations
                                 ?.filter((item) => bookingsFilter === "all" || item.status === bookingsFilter)
                                 //.sort((a, b) => new Date(b.created) - new Date(a.created))
-                                .toReversed()
-                                .map((item, index) => {
+                                .toReversed().map((item, index) => {
                                   return (
                                     <BookingCard
                                       key={index}
@@ -210,35 +247,4 @@ export default function ClientProfile({ userData }) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  try {
-    const URL = process.env.NEXT_PUBLIC_BASE_URL;
-    const pathId = context.params.id;
-    if (pathId) {
-      // fetch
-      const response = await fetch(`${URL}/users/${pathId}`);
-      if (response.status === 200) {
-        const user = await response.json();
-        return {
-          props: {
-            userData: user.data,
-          },
-        };
-      }
-    } else {
-      return {
-        notFound: true,
-      };
-    }
-  } catch (error) {
-    console.error("Error en la solicitud:", error);
-    return {
-      redirect: {
-        destination: `/500?back=${context.resolvedUrl}`,
-        permanent: false,
-      },
-    };
-  }
 }
