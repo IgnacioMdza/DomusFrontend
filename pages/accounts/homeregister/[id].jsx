@@ -15,10 +15,10 @@ export default function HomeRegister() {
     register,
     handleSubmit,
     watch,
-
     formState: { errors },
   } = useForm();
 
+  const descriptionText = watch("description") || "";
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -626,7 +626,7 @@ export default function HomeRegister() {
                           <textarea
                             id="message"
                             rows="6"
-                            className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] resize-none"
                             placeholder={`- ¿Cómo es su temperamento?\n- ¿Qué le gusta hacer?\n- ¿Se lleva bien con otros animales?\n30 a 200 caracteres.`}
                             disabled={!textareaActive}
                             {...register("description", {
@@ -640,6 +640,11 @@ export default function HomeRegister() {
                               },
                             })}
                           ></textarea>
+                          {textareaActive && (
+                            <p className={`${descriptionText.length < 30 || descriptionText.length > 200 ? "text-red-500" : "text-gray-500"} text-[14px]`}>
+                              {descriptionText.length < 30 ? `Min ${descriptionText.length}/30` : `Max ${descriptionText.length}/200`}
+                            </p>
+                          )}
                           {errors.description && <span className="text-red-500">{errors.description.message}</span>}
                         </div>
                         <div className="pt-4">
@@ -651,7 +656,7 @@ export default function HomeRegister() {
                           <textarea
                             id="message"
                             rows="6"
-                            className=" rounded-lg w-full  p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            className=" rounded-lg w-full  p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] resize-none"
                             placeholder={`Describe las particularidades que hacen de tu alojamiento un lugar ideal para las mascotas.\n\nEjemplo:\nTengo un patio amplio. La casa tiene doble puerta por lo que estarán muy seguros. Dormirá en un colchón para mascotas. Etc.`}
                             {...register("amenities", {
                               required: {
@@ -671,7 +676,7 @@ export default function HomeRegister() {
                           <textarea
                             id="message"
                             rows="6"
-                            className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                            className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] resize-none"
                             placeholder={`Describe las limitaciones que tendrán las mascotas hospedadas en tu alojamiento.\n\nEjemplo:\nNo se pueden subir a los muebles. No podré pasearlos por la cantidad de mascotas a los alrededores. Etc.`}
                             {...register("restrictions", {
                               required: {
@@ -882,16 +887,12 @@ export default function HomeRegister() {
                             </label>
                             <textarea
                               rows="6"
-                              className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2]"
+                              className=" rounded-lg w-full p-3 border-[1px]  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#FF6868] focus:ring-[#FF6868] bg-[#F2F2F2] resize-none"
                               placeholder={"Ejemplo:\n- ¿Color de la casa?\n- ¿Color de la puerta / portón?\n- ¿Algún negocio cercano?"}
                               {...register("references", {
                                 required: {
                                   value: true,
                                   message: "El campo es requerido",
-                                },
-                                maxLength: {
-                                  value: 200,
-                                  message: "Máximo 200 caracteres",
                                 },
                               })}
                             ></textarea>

@@ -11,7 +11,7 @@ export default function WriteReview({ receiverName, senderId, receiverId, servic
   const [isLoading, setIsLoading] = useState(false);
 
   function uploadComment() {
-    if (!rateValue || !reviewText) {
+    if (!rateValue || !reviewText || reviewText.length < 100 || reviewText.length > 200) {
       toast.error("Ingresa correctamente los datos");
       return false;
     }
@@ -58,7 +58,7 @@ export default function WriteReview({ receiverName, senderId, receiverId, servic
   return (
     <main className="rounded-[20px] bg-white p-[20px] flex flex-col text-center w-full sm:w-[460px] gap-3 min-h-[300px] max-h-[300px]">
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
-      <p className="text-[#1F2937] text-[20px] font-medium">{`Califica a ${receiverName} y escríbele una reseña!`}</p>
+      <p className="text-[#1F2937] text-[20px] font-medium mt-[-10px]">{`Califica a ${receiverName} y escríbele una reseña!`}</p>
       <div className="flex justify-center">
         <Rating
           name="simple-controlled"
@@ -72,7 +72,7 @@ export default function WriteReview({ receiverName, senderId, receiverId, servic
       </div>
       <textarea
         className="bg-[#f2f2f2] px-4 py-2 mb-3 text-[14px] rounded-[12px] resize-none"
-        placeholder={`Utiliza este espacio para escribir una reseña sobre ${receiverName}...\n¿Cual fue tu experiencia con esta reserva?\n¿Existió buena comunicación?\n¿Volverías a tomar una reserva con ${receiverName}?`}
+        placeholder={`Utiliza este espacio para escribir una reseña sobre ${receiverName}...\n¿Cual fue tu experiencia con esta reserva?\n¿Volverías a tomar una reserva con ${receiverName}?`}
         name=""
         value={reviewText}
         id=""
@@ -80,6 +80,9 @@ export default function WriteReview({ receiverName, senderId, receiverId, servic
         rows="4"
         onChange={(e) => setReviewText(e.target.value)}
       ></textarea>
+      <p className={`mt-[-20px] text-left ${reviewText.length < 100 || reviewText.length > 200 ? "text-red-500" : "text-gray-500"} text-[14px]`}>
+        {reviewText.length < 100 ? `Min ${reviewText.length}/100` : `Max ${reviewText.length}/200`}
+      </p>
       <button
         className="text-white bg-[#FF7068] rounded-[12px] h-[40px] text-[14px] font-bold hover:scale-[102%] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
         onClick={uploadComment}
