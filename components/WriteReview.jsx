@@ -84,7 +84,7 @@ export default function WriteReview({ receiverName, senderId, receiverId, servic
         {reviewText.length < 100 ? `Min ${reviewText.length}/100` : `Max ${reviewText.length}/200`}
       </p>
       <button
-        className="text-white bg-[#FF7068] rounded-[12px] h-[40px] text-[14px] font-bold hover:scale-[102%] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+        className="text-white bg-[#FF7068] rounded-[12px] h-[40px] text-[14px] font-bold hover:scale-[102%] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700 disabled:border-2"
         onClick={uploadComment}
         disabled={isLoading}
       >

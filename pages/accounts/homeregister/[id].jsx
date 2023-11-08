@@ -1242,14 +1242,14 @@ export default function HomeRegister() {
                     </div>
                     <div className="pt-6 flex flex-col sm:flex-row justify-between items-center gap-[20px] sm:gap-[32px]">
                       <Link
-                        href="/"
+                        href={`/profile/${router.query.id}`}
                         className="px-6 py-3 text-center w-full sm:w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold  sm:mt-0 lg:mb-0 md:mb-0 sm:mb-0 hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
                       >
                         Cancelar
                       </Link>
                       <button
                         type="submit"
-                        className="px-6 py-3.5 w-full sm:w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                        className="px-6 py-3.5 w-full sm:w-1/2 text-base md:font-bold text-white bg-[#FF6868] border-[1px] border-[#FF6868] hover:scale-[102%] active:bg-white active:text-[#FF6868] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700 disabled:border-2"
                         disabled={isLoading}
                       >
                         Guardar

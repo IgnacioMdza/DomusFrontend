@@ -145,7 +145,7 @@ export default function Login() {
                 <div className="mt-[28px] sm:mt-[48px] text-center">
                   <button
                     type="submit"
-                    className="px-6 py-[14px] w-4/5 text-base font-medium text-white bg-[#FF6868] shadow-lg rounded-full text-center text-[16px] transition hover:bg-[#E91E63] active:text-[#E91E63] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                    className="px-6 py-[14px] w-4/5 text-base font-medium text-white bg-[#FF6868] shadow-lg rounded-full text-center text-[16px] transition hover:bg-[#E91E63] active:text-[#E91E63] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700 disabled:border-2"
                     disabled={isLoading}
                   >
                     Ingresar

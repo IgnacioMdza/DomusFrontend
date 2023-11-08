@@ -365,14 +365,14 @@ export default function PetRegister() {
 
                   <div className="pt-6 flex justify-around items-center gap-4">
                     <Link
-                      href="/"
+                      href={`/profile/${router.query.id}`}
                       className="px-6 py-3 text-center w-1/2 border-[1px] border-[#2B2E4A] rounded-full md:font-semibold hover:scale-[102%] transition active:bg-[#2B2E4A] active:text-white shadow-lg"
                     >
                       Cancelar
                     </Link>
                     <button
                       type="submit"
-                      className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#2B2E4A] border-[1px] border-[#2B2E4A] hover:scale-[102%] active:bg-white active:text-[#2B2E4A] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+                      className="px-6 py-3.5 w-1/2 text-base md:font-bold text-white bg-[#2B2E4A] border-[1px] border-[#2B2E4A] hover:scale-[102%] active:bg-white active:text-[#2B2E4A] rounded-full text-center transition shadow-lg disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700 disabled:border-2"
                       disabled={isLoading}
                     >
                       Guardar
