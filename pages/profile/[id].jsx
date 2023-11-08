@@ -36,7 +36,13 @@ export default function ClientProfile({ userData }) {
       tokenInfo = JSON.parse(atob(token.split(".")[1]));
     }
     setIdMatch(pathId === tokenInfo?.id);
-  }, [router]);
+
+    if (!userData?.isInfoCompleted && pathId === tokenInfo?.id) {
+      router.push(`../accounts/register/${tokenInfo.id}`);
+    } else if (!userData?.isInfoCompleted) {
+      router.push("./404");
+    }
+  }, [router, userData]);
 
   function notFeature() {
     toast.info("Esta característica aún no está disponible, pero lo estará pronto 😉", { autoClose: 2000 });
@@ -224,6 +230,13 @@ export async function getServerSideProps(context) {
         return {
           props: {
             userData: user.data,
+          },
+        };
+      } else {
+        return {
+          redirect: {
+            destination: `/400`,
+            permanent: false,
           },
         };
       }

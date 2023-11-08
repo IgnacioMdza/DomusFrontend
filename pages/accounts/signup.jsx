@@ -99,7 +99,7 @@ export default function Register() {
         <form onSubmit={handleSubmit(onSubmit)} className="px-4 sm:px-10 pb-[16px] pt-[40px] sm:pt-[48px] font-[Nunito] font-medium">
           <div className="pb-4">
             <label forlabel="NickName" className="block mb-2 text-lg font-medium">
-              Nickname:
+              Nickname <small>{`(max 10 caracteres)`}</small>:
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -185,7 +185,7 @@ export default function Register() {
           </div> */}
           <div>
             <label forlabel="password" className="block mb-2 text-lg font-medium">
-              Contraseña:
+              Contraseña <small>{`(min 8 caracteres)`}</small>:
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -203,8 +203,8 @@ export default function Register() {
                     message: `El campo password es requerido`,
                   },
                   minLength: {
-                    value: 6,
-                    message: "La contraseña debe tener al menos 6 caracteres",
+                    value: 8,
+                    message: "La contraseña debe tener al menos 8 caracteres",
                   },
                 })}
               />
@@ -279,7 +279,7 @@ export default function Register() {
           <div className="pt-[40px] sm:pt-[48px] text-center">
             <button
               type="submit"
-              className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center transition border-[1px] border-[#FF6868] hover:bg-white hover:text-[#FF6868] shadow-lg active:bg-[#FF6868] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700"
+              className="px-6 py-3.5 w-full text-base md:font-bold text-white bg-[#FF6868] hover:scale-[102%] rounded-full text-center transition border-[1px] border-[#FF6868] hover:bg-white hover:text-[#FF6868] shadow-lg active:bg-[#FF6868] disabled:opacity-25 disabled:bg-gray-400 disabled:border-gray-700 disabled:text-gray-700 disabled:border-2"
               disabled={isLoading}
             >
               Registrarse

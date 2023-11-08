@@ -43,10 +43,12 @@ export default function HomeSection(data) {
     <div className="bg-[#2B2E4A] sm:rounded-2xl p-[16px] sm:p-[20px] md:p-[24px] lg:p-[28px] text-[#2B2E4A]">
       <div className="flex justify-between items-end">
         <p className="text-[#F2F2F2] text-[28px] sm:text-[32px] md:text-[28px] lg:text-[32px] font-semibold sm:font-bold mb-[28px] border w-fit px-[16px] rounded-xl">Alojamiento</p>
-        <div className="flex items-center">
-          <p className="text-white text-[20px]">←</p>
-          <p className="text-white">Desliza</p>
-        </div>
+        {data.homeData && (
+          <div className="flex items-center gap-2">
+            <p className="text-white text-[20px]">←</p>
+            <p className="text-white tracking-[2px]">Desliza</p>
+          </div>
+        )}
       </div>
       {!data.homeData && data.idMatch && (
         <div className="flex flex-col-reverse lg:flex-row w-full gap-[28px] lg:gap-[48px] items-center">
