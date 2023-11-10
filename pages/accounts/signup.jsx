@@ -23,7 +23,7 @@ export default function Register() {
   // const [userValid, setUserValid] = useState(false);
   const router = useRouter();
   const password = useRef({});
-  const CAPTCHA_KEY = process.env.CAPTCHA_KEY;
+  const CAPTCHA_KEY = process.env.NEXT_PUBLIC_CAPTCHA_KEY;
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   password.current = watch("password", "");
 

@@ -16,7 +16,7 @@ export default function Login() {
   let captcha = useRef(null);
   const [captchaValid, setCaptchaValid] = useState(null);
 
-  const CAPTCHA_KEY = process.env.CAPTCHA_KEY;
+  const CAPTCHA_KEY = process.env.NEXT_PUBLIC_CAPTCHA_KEY;
   const URL = process.env.NEXT_PUBLIC_BASE_URL;
   useEffect(() => {
     setToken(localStorage.getItem("token"));
