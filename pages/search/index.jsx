@@ -65,7 +65,7 @@ export default function Search() {
             );
           })
         ) : (
-          <p className="mb-[32px]">Lo sentimos, no encontramos ningun anfitiron que coincidiera con tus necesidades</p>
+          <p className="mb-[32px]">Lo sentimos, no encontramos ningun anfitrión que coincidiera con tus necesidades</p>
         )}
       </section>
     </main>

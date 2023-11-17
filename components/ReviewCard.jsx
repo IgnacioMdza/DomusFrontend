@@ -1,5 +1,6 @@
 import { Stack, Rating } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 
 const imageLoader = ({ src, width, quality }) => {
   return `${src}`;
@@ -14,6 +15,8 @@ export default function ReviewCard({
   anfitrionName,
   renderReceiver,
   cardNumber,
+  authorId,
+  receiverId
 }) {
   return (
     <div
@@ -22,15 +25,29 @@ export default function ReviewCard({
         cardNumber >= 4 ? "hidden lg:flex" : "flex"
       }`}
     >
-      <Image
-        unoptimized
-        alt="Profile Picture"
-        loader={imageLoader}
-        src={authorImage}
-        className="rounded-full min-w-[120px] max-w-[120px] min-h-[120px] max-h-[120px] object-cover"
-        width={120}
-        height={120}
-      />
+      { authorId ?
+        <Link href={`/profile/${authorId}`}>
+          <Image
+            unoptimized
+            alt="Profile Picture"
+            loader={imageLoader}
+            src={authorImage}
+            className="rounded-full min-w-[120px] max-w-[120px] min-h-[120px] max-h-[120px] object-cover"
+            width={120}
+            height={120}
+          />
+        </Link>
+        :
+        <Image
+          unoptimized
+          alt="Profile Picture"
+          loader={imageLoader}
+          src={authorImage}
+          className="rounded-full min-w-[120px] max-w-[120px] min-h-[120px] max-h-[120px] object-cover"
+          width={120}
+          height={120}
+        />
+      }
       <div className="flex flex-col w-full items-center justify-between sm:justify-normal gap-[16px]">
         <div className="flex flex-col w-full items-center place-content-center gap-[4px]">
           <div className="w-full flex gap-[8px] items-center place-content-center sm:place-content-start lg:place-content-center xl:place-content-start">
@@ -38,9 +55,15 @@ export default function ReviewCard({
             {renderReceiver && (
               <>
                 <p className="text-[16px]">a</p>
-                <p className="text-[16px] py-[4px] px-[10px] bg-[#F2F2F2] rounded-full">
-                  {anfitrionName}
-                </p>
+                { receiverId ?
+                  <Link href={`/profile/${receiverId}`} className="text-[16px] py-[4px] px-[10px] bg-[#F2F2F2] rounded-full">
+                    {anfitrionName}
+                  </Link>
+                  :
+                  <p className="text-[16px] py-[4px] px-[10px] bg-[#F2F2F2] rounded-full">
+                    {anfitrionName}
+                  </p>
+                }
               </>
             )}
           </div>
