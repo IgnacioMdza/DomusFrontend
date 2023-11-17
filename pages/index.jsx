@@ -157,6 +157,8 @@ export default function Home() {
                   <ReviewCard
                     key={index}
                     authorImage={item.sender.picture}
+                    authorId={item.sender._id}
+                    receiverId={item.receiver._id}
                     authorName={`${item.sender.name} ${item.sender.lastname}`}
                     reviewDate={item.date
                       .split("T")[0]
