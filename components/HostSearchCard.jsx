@@ -33,7 +33,7 @@ export default function HostSearchCard({isLanding}) {
                 ?'bg-white rounded-2xl flex flex-col p-[28px] gap-[12px] md:gap-[20px] shadow-xl bg-opacity-70 backdrop-blur-md border'
                 :'bg-white rounded-xl flex flex-col p-[24px] gap-[12px] md:gap-[20px] shadow-xl'}`}>
             { isLanding 
-                ? <h1 className='text-[24px] text-[#2B2E4A] text-center font-semibold'>¡Realiza tu primer busqueda!</h1> 
+                ? <h1 className='text-[24px] text-[#2B2E4A] text-center font-semibold'>¡Realiza tu primer búsqueda!</h1> 
                 : <h1 className='text-[24px] text-[#FF7068]'>¡Encuentra a un anfitrión!</h1>}
             <div className='flex flex-col md:flex-row lg:flex-col xl:flex-row gap-[12px] md:gap-[16px] w-full'>
                 <div className='w-full md:w-1/2 lg:w-full xl:w-1/2'>
