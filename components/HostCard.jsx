@@ -101,7 +101,11 @@ export default function HostCard({ hostName, auth, initialDate, endDate, hostAnd
               Check-Out: <span className="font-normal">{checkOutFormated}</span>
             </p>
           </div>
-          <p className="text-justify text-[14px font-[Nunito] text-[#2B2E4A] md:text-[16px]">{hostAndHouse.owner.aboutMe.length > 245 && hostAndHouse.owner.aboutMe.slice(0, 245)}...</p>
+          <p className="text-justify text-[14px font-[Nunito] text-[#2B2E4A] md:text-[16px]">
+            { hostAndHouse.owner.aboutMe.length > 245 
+            ? hostAndHouse.owner.aboutMe.slice(0, 245) 
+            : hostAndHouse.owner.aboutMe  }...
+          </p>
           <div className={`${client ? "w-full flex justify-between sm:justify-end sm:gap-[24px] lg:justify-between xl:justify-end" : "w-full flex place-content-end"}`}>
             <Link
               href={`/profile/${hostAndHouse.owner._id}`}
