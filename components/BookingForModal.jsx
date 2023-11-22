@@ -26,12 +26,20 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
   const router = useRouter();
   const urlFetch = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const days = Math.round((endDate.$d.getTime() - initialDate.$d.getTime()) / 1000 / 60 / 60 / 24);
-  const priceByDays = days * nightPetPrice;
-  const tarifaDomus = Math.sign(days) === 1 ? priceByDays * 0.1 + 300 : 0;
-  const impuestos = (tarifaDomus + priceByDays) * 0.16;
-  // const totalPrice = +(Math.round((priceByDays + tarifaDomus + impuestos) + 'e+2') + 'e-2');
-  const totalPrice = priceByDays + tarifaDomus + impuestos;
+  let days = 0
+  let priceByDays = 0
+  let tarifaDomus = 0
+  let impuestos = 0
+  let totalPrice = 0
+  if(Math.round((endDate.$d.getTime() - initialDate.$d.getTime()) / 1000 / 60 / 60 / 24) > 0){
+    days = Math.round((endDate.$d.getTime() - initialDate.$d.getTime()) / 1000 / 60 / 60 / 24);
+    priceByDays = days * nightPetPrice;
+    tarifaDomus = Math.sign(days) === 1 ? priceByDays * 0.1 + 300 : 0;
+    //const impuestos = (tarifaDomus + priceByDays) * 0.16;
+    impuestos = +(Math.round(((tarifaDomus + priceByDays) * 0.16) + 'e+2') + 'e-2');
+    // const totalPrice = +(Math.round((priceByDays + tarifaDomus + impuestos) + 'e+2') + 'e-2');
+    totalPrice = priceByDays + tarifaDomus + impuestos;
+  }
 
   let checkInFormated = "";
   const checkInHourNumber = parseInt(checkIn.split(":")[0]);
@@ -59,7 +67,11 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
 
   function handleSubmit(event) {
     event.preventDefault();
-
+    
+    if(totalPrice <= 0){
+      alert("Hay un problema con el orden seleccionado para las fechas");
+      return
+    }
     if (mascota) {
       toast.info("Creando reservación", { autoClose: 2000 });
       // const checkInNumberHour = parseInt(checkIn.split(" ")[0].split(":")[0]);
