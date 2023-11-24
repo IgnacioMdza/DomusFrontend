@@ -444,7 +444,7 @@ export default function HomeRegister() {
                         <div className="flex flex-col justify-center items-center">
                           <div className="rounded-full w-[240px] h-[240px] flex justify-center items-center shadow-lg bg-[#F2F2F2] border border-[#c1c1c1] mb-[12px]">
                             <Image
-                              src="/images/seccion_home.png"
+                              src="/images/seccion_home.webp"
                               alt="camera_pic"
                               width={220}
                               height={220}
@@ -852,7 +852,7 @@ export default function HomeRegister() {
                       <div className="md:flex md:items-start">
                         <div className="flex justify-center items-center md:pt-10 md:pr-10 sm:pb-5">
                           <Image
-                            src={"/images/direction.png"}
+                            src={"/images/direction.webp"}
                             width={500}
                             height={500}
                             alt="Dirección"

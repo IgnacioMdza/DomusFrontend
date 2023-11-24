@@ -232,7 +232,7 @@ export default function BookingForModal({ hostName, location, home, nightPetPric
           </div>
           <div className="flex flex-col md:flex-row py-[16px] gap-[12px]">
             <div className="w-full md:w-2/5">
-              <Image src={"/images/seccion_modalReserva.png"} alt="calendar_image" height={2132} width={2000} className="rounded-xl"></Image>
+              <Image src={"/images/seccion_modalReserva.webp"} alt="calendar_image" height={2132} width={2000} className="rounded-xl"></Image>
             </div>
             <div className="flex flex-col gap-[20px] w-full md:w-3/5">
               <div className="w-full flex flex-col items-center font-light font-[nunito] text-[16px] gap-[8px]">

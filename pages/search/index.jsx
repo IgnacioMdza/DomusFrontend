@@ -51,7 +51,7 @@ export default function Search() {
       <section className="max-w-[1024px] mx-auto mt-[90px] p-[12px] lg:p-[20px] xl:p-[40px] w-full lg:w-[38%] bg-[#F2F2F2]">
         <div className="lg:sticky lg:top-[130px] flex flex-col gap-[48px] rounded-2xl">
           <HostSearchCard />
-          <Image src={"/images/seccion_hostSearch.png"} alt="map_image" height={340} width={340} className="hidden xl:inline-block rounded-full aspect-square mx-auto object-cover border"></Image>
+          <Image src={"/images/seccion_hostSearch.webp"} alt="map_image" height={340} width={340} className="hidden xl:inline-block rounded-full aspect-square mx-auto object-cover border"></Image>
         </div>
       </section>
       <section className="flex flex-col py-[12px] px-[16px] w-full lg:w-[62%] lg:pr-[20px] lg:ps-[10px] xl:py-[40px] xl:pr-[40px] xl:ps-[40px] lg:mt-[90px] gap-[20px] lg:gap-[32px] items-center h-full">
