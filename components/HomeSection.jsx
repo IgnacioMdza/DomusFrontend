@@ -45,8 +45,8 @@ export default function HomeSection(data) {
         <p className="text-[#F2F2F2] text-[28px] sm:text-[32px] md:text-[28px] lg:text-[32px] font-semibold sm:font-bold mb-[28px] border w-fit px-[16px] rounded-xl">Alojamiento</p>
         {data.homeData && (
           <div className="flex items-center gap-2">
-            <p className="text-white text-[20px]">←</p>
-            <p className="text-white tracking-[2px]">Desliza</p>
+            {/* <p className="text-white text-[20px]">←</p>
+            <p className="text-white tracking-[2px]">Desliza</p> */}
           </div>
         )}
       </div>

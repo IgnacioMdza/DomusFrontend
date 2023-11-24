@@ -14,7 +14,7 @@ export default function NewHouseCard() {
     <div className="px-[24px] py-[24px] bg-white rounded-[15px] w-full lg:w-1/2 gap-[24px] flex flex-col justify-between shadow-md">
       <div className="flex justify-around items-center">
         <Image
-          src={"/images/newpet.webp"}
+          src={"/images/newPet.webp"}
           width={150}
           height={150}
           alt="New Pet Image"
