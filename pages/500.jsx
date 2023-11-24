@@ -19,7 +19,7 @@ export default function Custom500() {
       </Head>
       <section className="min-h-[calc(100vh-90px)] font-[nunito] lg:max-h-[calc(100vh-90px)] bg-[#F2F2F2] flex flex-col-reverse lg:flex-row items-center w-full place-content-center mt-[90px] gap-[48px] p-[16px] md:p-[24px] lg:p-[28px]">
         <div className="rounded-full h-3/4 border-[4px]">
-          <Image src="/images/seccion_500.png" alt="not-found-image" priority width={500} height={500} className="rounded-full h-full w-fit object-cover aspect-square"></Image>
+          <Image src="/images/seccion_500.webp" alt="not-found-image" priority width={500} height={500} className="rounded-full h-full w-fit object-cover aspect-square"></Image>
         </div>
         <div className="flex flex-col gap-[12px] lg:w-1/2 xl:w-1/3">
           <h1 className="text-[#2B2E4A] text-[28px] sm:text-[38px] md:text-[40px] lg:text-[44px] font-[Raleway] text-center mb-[8px]">

@@ -101,7 +101,7 @@ export default function Login() {
               <div className="px-2">
                 <div className="flex justify-center ">
                   <Image
-                    src={"/images/huella-signin.png"}
+                    src={"/images/huella-signin.webp"}
                     alt="Huella Mobile"
                     height={200}
                     width={200}

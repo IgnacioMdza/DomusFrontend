@@ -1,7 +1,7 @@
 import SearchCard from "@/components/SearchCard";
 import HostSearchCard from "@/components/HostSearchCard";
 import ReviewCard from "@/components/ReviewCard";
-import component from "/public/images/seccion_beneficios_1.png";
+import component from "/public/images/seccion_beneficios_1.webp";
 import check from "/public/icons/check.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +41,7 @@ export default function Home() {
       </Head>
       <section
         id="hero"
-        className="flex lg:bg-[url('../public/images/seccion_principal_1.png')] lg:bg-no-repeat lg:bg-[length:75%] xl:bg-[length:60%] bg-right bg-contain mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
+        className="flex lg:bg-[url('../public/images/seccion_principal_1.webp')] lg:bg-no-repeat lg:bg-[length:75%] xl:bg-[length:60%] bg-right bg-contain mt-[70px] max-w-[1536px] mx-auto xl:h-[800px]"
       >
         <ToastContainer 
           position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"
@@ -55,7 +55,7 @@ export default function Home() {
           </h2>
           <div className="flex flex-col gap-[15px] md:gap-0 w-full md:flex-col-reverse items-center">
             <Image
-              src={"/images/seccion_principal_1.png"}
+              src={"/images/seccion_principal_1.webp"}
               alt="hero_image"
               className="w-[600px] lg:hidden"
               height={600}
@@ -144,7 +144,7 @@ export default function Home() {
         </h1>
         <div className="flex flex-col lg:flex-row justify-between w-full gap-[20px] lg:gap-[100px] xl:gap-[140px] z-10 lg:relative">
           <Image
-            src={"/images/seccion_reseñas.png"}
+            src={"/images/seccion_reseñas.webp"}
             alt="reviews_image"
             height={2000}
             width={2000}
@@ -225,7 +225,7 @@ export default function Home() {
           <div className="h-1/2 flex w-full pb-[25px] lg:py-[40px] px-[16px] md:px-[70px] lg:px-[32px] xl:p-[48px]">
             <Image
               priority
-              src={"/images/seccion_registrarse_gato.png"}
+              src={"/images/seccion_registrarse_gato.webp"}
               alt="signup_image"
               height={500}
               width={500}
@@ -233,7 +233,7 @@ export default function Home() {
             ></Image>
             <Image
               priority
-              src={"/images/seccion_registrarse_perro.png"}
+              src={"/images/seccion_registrarse_perro.webp"}
               alt="signup_image"
               height={500}
               width={500}

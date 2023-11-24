@@ -59,7 +59,7 @@ export default function Bookingblog({ reservation }) {
                 </Link>
               </div>
               <Image
-                src={"/images/seccion_bitacora.png"}
+                src={"/images/seccion_bitacora.webp"}
                 alt="reviews_image"
                 height={2000}
                 width={2000}

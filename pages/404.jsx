@@ -19,7 +19,7 @@ export default function Custom404() {
           >
             Regresar a inicio
           </Link>
-          <Image src="/images/seccion_404.png" alt="not-found-image" priority width={1000} height={1000}></Image>
+          <Image src="/images/seccion_404.webp" alt="not-found-image" priority width={1000} height={1000}></Image>
         </div>
       </section>
     </>
