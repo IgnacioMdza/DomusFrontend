@@ -14,7 +14,7 @@ export default function NewPetCard() {
     <main className="px-[24px] py-[24px] bg-white rounded-[15px] w-full gap-[24px] h-full flex flex-col justify-between shadow-md">
       <div className="flex justify-around items-center">
         <Image
-          src={"/images/newPet.png"}
+          src={"/images/newPet.webp"}
           width={150}
           height={150}
           alt="New Pet Image"
